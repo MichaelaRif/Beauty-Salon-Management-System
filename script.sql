@@ -31,6 +31,14 @@ CREATE TYPE "public"."transaction_status" AS ENUM (
 );
 ALTER TYPE "public"."transaction_status" OWNER TO "postgres";
 
+CREATE TYPE "public"."pronouns" AS ENUM (
+  'He/Him',
+  'She/Her',
+  'They/Them',
+  'Other'
+);
+ALTER TYPE "public"."pronouns" OWNER TO "postgres";
+
 ------------------------
 -- Domains
 ------------------------
