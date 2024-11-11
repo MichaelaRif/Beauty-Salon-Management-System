@@ -1,9 +1,8 @@
 using BSMS.BusinessLayer;
 using BSMS.BusinessLayer.Profiles;
 using BSMS.PostgreSQL;
+using BSMS.WebAPI.Services;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BSMS.WebAPI
 {
@@ -15,34 +14,21 @@ namespace BSMS.WebAPI
 
             builder.Services.AddControllers();
 
+            builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = builder.Configuration["Jwt:Authority"];
-                options.Audience = builder.Configuration["Jwt:Audience"];
-                options.RequireHttpsMetadata = false; // false for development, true for production mode
-                options.SaveToken = true;
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Authority"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                };
-            });
+            var authority = builder.Configuration["Keycloak:Authority"];
+            var clientid = builder.Configuration["Keycloak:ClientId"];
 
-            builder.Services.AddAuthorization(options =>
+            if (string.IsNullOrEmpty(authority) || string.IsNullOrEmpty(clientid))
             {
-                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("admin"));
-                options.AddPolicy("GuestPolicy", policy => policy.RequireRole("guest"));
-                options.AddPolicy("StaffPolicy", policy => policy.RequireRole("staff"));
-            });
+                throw new InvalidOperationException("Keycloak is not configured");
+            }
+
+            builder.Services.AddKeycloakAuth(authority, clientid);
+
+
+            builder.Services.AddAuthorization();
 
 
             builder.Services.AddMediatR(typeof(Program).Assembly); 

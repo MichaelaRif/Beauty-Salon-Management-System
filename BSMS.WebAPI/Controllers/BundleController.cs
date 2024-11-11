@@ -2,6 +2,7 @@
 using BSMS.BusinessLayer.DTOs;
 using BSMS.BusinessLayer.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BSMS.WebAPI.Controllers
@@ -32,6 +33,7 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult<BundleDto>> Create(CreateBundleCommand command)
         {
@@ -40,6 +42,7 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
@@ -48,6 +51,8 @@ namespace BSMS.WebAPI.Controllers
             return Ok(true);
         }
 
+
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<BundleDto>> Update(int id, UpdateBundleCommand command)
         {
