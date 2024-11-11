@@ -73,12 +73,41 @@ To get a local copy of the project up and running, follow these steps:
 git clone https://github.com/andrewzgheib/Beauty-Salon-Management-System.git
 ```
 
-**2. Set up a database in PostgreSQL**
+**2. Install the required NuGet packages:**
+| Id                                                | Versions | ProjectName         |
+|:-------------------------------------------------:|:--------:|:-------------------:|
+| MediatR.Extensions.Microsoft.DependencyInjection  |  11.1.0  | BSMS.BusinessLayer   |
+| Microsoft.AspNetCore.Http.Abstractions            |  2.2.0   | BSMS.BusinessLayer   |
+| AutoMapper                                        |  13.0.1  | BSMS.BusinessLayer   |
+| Microsoft.AspNetCore.Authentication.JwtBearer     |  8.0.10  | BSMS.WebAPI          |
+| Swashbuckle.AspNetCore                            |  6.9.0   | BSMS.WebAPI          |
+| Newtonsoft.Json                                   |  13.0.3  | BSMS.WebAPI          |
+| Microsoft.AspNetCore.Authentication.OpenIdConnect |  8.0.10  | BSMS.WebAPI          |
+| Microsoft.EntityFrameworkCore                     |  8.0.10  | BSMS.PostgreSQL      |
+| Npgsql.EntityFrameworkCore.PostgreSQL             |  8.0.10  | BSMS.PostgreSQL      |
+| Microsoft.EntityFrameworkCore.Tools               |  8.0.10  | BSMS.PostgreSQL      |
+| Microsoft.EntityFrameworkCore.Design              |  8.0.10  | BSMS.PostgreSQL      |
+| Microsoft.EntityFrameworkCore                     |  8.0.10  | BSMS.Domain          |
+
+
+**3. Configure the connection string:**
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Host=<host>; Port=<port>; Database=<database>; Username=<username>; Password=<password>"
+  },
+
+  "Keycloak": {
+    "Authority": "http://localhost:<port>/realms/<ClientId>",
+    "ClientId": "<ClientId>"
+  }
+```
+
+**4. Set up a database in PostgreSQL**
 ```pgsql
 CREATE DATABASE <database>;
 ```
 
-**3. Run the SQL script**
+**5. Run the SQL script**
 
 The [`script.sql`](https://github.com/andrewzgheib/Beauty-Salon-Management-System/blob/main/script.sql) file in the repository contains the SQL script necessary to set up the PostgreSQL database for BSMS.
 
