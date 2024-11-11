@@ -55,8 +55,32 @@ The **Beauty Salon Management System (BSMS)** is a comprehensive software soluti
 
 - **Database**: PostgreSQL
 
-- **Authentication**: Keycloak
+- **User Authentication**: Keycloak
 
-<br/>
+## Prerequisites
 
-The `script.sql` file in the repository contains the SQL script necessary to set up the PostgreSQL database for BSMS. Ensure PostgreSQL is installed and properly configured on your system before running the script.
+- [Angular 22.11.0](https://nodejs.org/en/download/package-manager)
+- [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [PostgreSQL 16.4](https://www.postgresql.org/download/)
+- [Keycloak 26.0.5](https://www.keycloak.org/downloads)
+
+
+## Getting Started
+To get a local copy of the project up and running, follow these steps:
+
+**1. Clone the repository:**
+```bash
+git clone https://github.com/andrewzgheib/Beauty-Salon-Management-System.git
+```
+
+**2. Set up a database in PostgreSQL**
+```pgsql
+CREATE DATABASE <database>;
+```
+
+**3. Run the SQL script**
+
+The [`script.sql`](https://github.com/andrewzgheib/Beauty-Salon-Management-System/blob/main/script.sql) file in the repository contains the SQL script necessary to set up the PostgreSQL database for BSMS.
+
+
+**6. Build and run the application.**
