@@ -2,7 +2,7 @@
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Bundle>
+    public interface ICustomerRepository : IRepository<Customer>
     {
     }
 }

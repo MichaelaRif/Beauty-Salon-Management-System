@@ -3,7 +3,7 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.PostgreSQL.Repositories
 {
-    public class CustomerRepository : BaseRepository<Bundle>, ICustomerRepository
+    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
         public CustomerRepository(BSMSDbContext context) : base(context) { }
     }
