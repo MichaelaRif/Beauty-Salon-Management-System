@@ -69,7 +69,7 @@ DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'email_domain') THEN
         CREATE DOMAIN "public"."email_domain" AS citext
-        CHECK(VALUE ~* '^.+@[A-Za-z]+\\.[A-Za-z]+$');
+        CHECK(VALUE ~* '^[A-Za-z0-9.-_]+@[A-Za-z0-9.]+\.[A-Za-z]{2,}$');
     END IF;
 END $$;
 
