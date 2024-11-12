@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/370d64ff-ba27-420d-933a-51de39d725d1)# Beauty Salon Management System (BSMS)
+# Beauty Salon Management System (BSMS)
 
 
 ## Overview
@@ -59,7 +59,7 @@ The **Beauty Salon Management System (BSMS)** is a comprehensive software soluti
 
 ## Prerequisites
 
-- [Angular 22.9.0](https://nodejs.org/dist/v22.9.0/)
+- [Node JS 22.9.0](https://nodejs.org/dist/v22.9.0/)
 - [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - [PostgreSQL 16.4](https://www.postgresql.org/download/)
 - [Keycloak 26.0.5](https://www.keycloak.org/downloads)
