@@ -166,6 +166,25 @@ CREATE SEQUENCE IF NOT EXISTS public.bundles_bundle_id_seq
 ALTER SEQUENCE public.bundles_bundle_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.bundles_bundle_id_seq OWNED BY public.bundles.bundle_id;
 
+CREATE TABLE IF NOT EXISTS public.categories (
+    category_id integer NOT NULL,
+    category_name character varying(255) NOT NULL,
+    category_description character varying(255),
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+ALTER TABLE public.categories OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.categories_category_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.categories_category_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.categories_category_id_seq OWNED BY public.categories.category_id;
+
 CREATE TABLE IF NOT EXISTS public.cities (
     city_id integer NOT NULL,
     city_name character varying(255) NOT NULL,
@@ -234,7 +253,7 @@ CREATE TABLE IF NOT EXISTS public.customers (
     customer_dob date NOT NULL,
     customer_pronoun_id integer NOT NULL,
     customer_city_id integer NOT NULL,
-    preferences jsonb,
+    customer_preference_id integer NOT NULL,
     promotions boolean DEFAULT false NOT NULL,
     customer_pfp character varying(255),
     is_google boolean DEFAULT false NOT NULL,
@@ -258,6 +277,25 @@ CREATE SEQUENCE IF NOT EXISTS public.customers_customer_id_seq
     CACHE 1;
 ALTER SEQUENCE public.customers_customer_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.customer_id;
+
+CREATE TABLE IF NOT EXISTS public.customer_preferences (
+    customer_preference_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    preference_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+ALTER TABLE public.customer_preferences OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.customer_preferences_customer_preference_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.customer_preferences_customer_preference_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.customer_preferences_customer_preference_id_seq OWNED BY public.customer_preferences.customer_preference_id;
 
 CREATE TABLE IF NOT EXISTS public.customer_pronouns (
     customer_pronoun_id integer NOT NULL,
@@ -450,6 +488,26 @@ CREATE SEQUENCE IF NOT EXISTS public.inventory_inventory_id_seq
     CACHE 1;
 ALTER SEQUENCE public.inventory_inventory_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.inventory_inventory_id_seq OWNED BY public.inventory.inventory_id;
+
+CREATE TABLE IF NOT EXISTS public.preferences (
+    preference_id integer NOT NULL,
+    preference_name character varying(255) NOT NULL,
+    preference_description character varying(255) NOT NULL,
+    category_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+ALTER TABLE public.preferences OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.preferences_preference_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.preferences_preference_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.preferences_preference_id_seq OWNED BY public.preferences.preference_id;
 
 CREATE TABLE IF NOT EXISTS public.product_brands (
     product_brand_id integer NOT NULL,
@@ -738,11 +796,13 @@ ALTER TABLE ONLY public.appointments ALTER COLUMN appointment_id SET DEFAULT nex
 ALTER TABLE ONLY public.attendances ALTER COLUMN attendance_id SET DEFAULT nextval('public.attendances_attendance_id_seq'::regclass);
 ALTER TABLE ONLY public.bundle_items ALTER COLUMN bundle_item_id SET DEFAULT nextval('public.bundle_items_bundle_item_id_seq'::regclass);
 ALTER TABLE ONLY public.bundles ALTER COLUMN bundle_id SET DEFAULT nextval('public.bundles_bundle_id_seq'::regclass);
+ALTER TABLE ONLY public.categories ALTER COLUMN category_id SET DEFAULT nextval('public.categories_category_id_seq'::regclass);
 ALTER TABLE ONLY public.cities ALTER COLUMN city_id SET DEFAULT nextval('public.cities_city_id_seq'::regclass);
 ALTER TABLE ONLY public.countries ALTER COLUMN country_id SET DEFAULT nextval('public.countries_country_id_seq'::regclass);
 ALTER TABLE ONLY public.customer_forms ALTER COLUMN customer_form_id SET DEFAULT nextval('public.customer_forms_customer_form_id_seq'::regclass);
-ALTER TABLE ONLY public.customer_pronouns ALTER COLUMN customer_pronoun_id SET DEFAULT nextval('public.customer_pronouns_customer_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.customers ALTER COLUMN customer_id SET DEFAULT nextval('public.customers_customer_id_seq'::regclass);
+ALTER TABLE ONLY public.customer_pronouns ALTER COLUMN customer_pronoun_id SET DEFAULT nextval('public.customer_pronouns_customer_pronoun_id_seq'::regclass);
+ALTER TABLE ONLY public.customer_preferences ALTER COLUMN customer_preference_id SET DEFAULT nextval('public.customer_preferences_customer_preference_id_seq'::regclass);
 ALTER TABLE ONLY public.discounts ALTER COLUMN discount_id SET DEFAULT nextval('public.discounts_discount_id_seq'::regclass);
 ALTER TABLE ONLY public.employee_pronouns ALTER COLUMN employee_pronoun_id SET DEFAULT nextval('public.employee_pronouns_employee_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.employee_reviews ALTER COLUMN employee_review_id SET DEFAULT nextval('public.employee_reviews_employee_review_id_seq'::regclass);
@@ -751,6 +811,7 @@ ALTER TABLE ONLY public.employees ALTER COLUMN employee_id SET DEFAULT nextval('
 ALTER TABLE ONLY public.form_types ALTER COLUMN form_type_id SET DEFAULT nextval('public.form_types_form_type_id_seq'::regclass);
 ALTER TABLE ONLY public.forms ALTER COLUMN form_id SET DEFAULT nextval('public.forms_form_id_seq'::regclass);
 ALTER TABLE ONLY public.inventory ALTER COLUMN inventory_id SET DEFAULT nextval('public.inventory_inventory_id_seq'::regclass);
+ALTER TABLE ONLY public.preferences ALTER COLUMN preference_id SET DEFAULT nextval('public.preferences_preference_id_seq'::regclass);
 ALTER TABLE ONLY public.product_brands ALTER COLUMN product_brand_id SET DEFAULT nextval('public.product_brands_product_brand_id_seq'::regclass);
 ALTER TABLE ONLY public.product_categories ALTER COLUMN product_category_id SET DEFAULT nextval('public.product_categories_product_category_id_seq'::regclass);
 ALTER TABLE ONLY public.product_favorites ALTER COLUMN product_favorite_id SET DEFAULT nextval('public.product_favorites_product_favorite_id_seq'::regclass);
@@ -770,11 +831,13 @@ SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 1, false);
 SELECT pg_catalog.setval('public.attendances_attendance_id_seq', 1, false);
 SELECT pg_catalog.setval('public.bundle_items_bundle_item_id_seq', 1, false);
 SELECT pg_catalog.setval('public.bundles_bundle_id_seq', 1, false);
+SELECT pg_catalog.setval('public.categories_category_id_seq', 1, false);
 SELECT pg_catalog.setval('public.cities_city_id_seq', 1, false);
 SELECT pg_catalog.setval('public.countries_country_id_seq', 1, false);
 SELECT pg_catalog.setval('public.customer_forms_customer_form_id_seq', 1, false);
-SELECT pg_catalog.setval('public.customer_pronouns_customer_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, false);
+SELECT pg_catalog.setval('public.customer_preferences_customer_preference_id_seq', 1, false);
+SELECT pg_catalog.setval('public.customer_pronouns_customer_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.discounts_discount_id_seq', 1, false);
 SELECT pg_catalog.setval('public.employee_pronouns_employee_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.employee_reviews_employee_review_id_seq', 1, false);
@@ -783,6 +846,7 @@ SELECT pg_catalog.setval('public.employees_employee_id_seq', 1, false);
 SELECT pg_catalog.setval('public.form_types_form_type_id_seq', 1, false);
 SELECT pg_catalog.setval('public.forms_form_id_seq', 1, false);
 SELECT pg_catalog.setval('public.inventory_inventory_id_seq', 1, false);
+SELECT pg_catalog.setval('public.preferences_preference_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_brands_product_brand_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_categories_product_category_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_favorites_product_favorite_id_seq', 1, false);
@@ -809,16 +873,20 @@ ALTER TABLE ONLY public.bundle_items
     ADD CONSTRAINT bundle_items_pkey PRIMARY KEY (bundle_item_id);
 ALTER TABLE ONLY public.bundles
     ADD CONSTRAINT bundles_pkey PRIMARY KEY (bundle_id);
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
 ALTER TABLE ONLY public.cities
     ADD CONSTRAINT cities_pkey PRIMARY KEY (city_id);
 ALTER TABLE ONLY public.countries
     ADD CONSTRAINT countries_pkey PRIMARY KEY (country_id);
 ALTER TABLE ONLY public.customer_forms
     ADD CONSTRAINT customer_forms_pkey PRIMARY KEY (customer_form_id);
-ALTER TABLE ONLY public.customer_pronouns
-    ADD CONSTRAINT customer_pronouns_pkey PRIMARY KEY (customer_pronoun_id);
+ALTER TABLE ONLY public.customer_preferences
+    ADD CONSTRAINT customer_preferences_pkey PRIMARY KEY (customer_preference_id);
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
+ALTER TABLE ONLY public.customer_pronouns
+    ADD CONSTRAINT customer_pronouns_pkey PRIMARY KEY (customer_pronoun_id);
 ALTER TABLE ONLY public.discounts
     ADD CONSTRAINT discounts_pkey PRIMARY KEY (discount_id);
 ALTER TABLE ONLY public.employee_pronouns
@@ -835,6 +903,8 @@ ALTER TABLE ONLY public.forms
     ADD CONSTRAINT forms_pkey PRIMARY KEY (form_id);
 ALTER TABLE ONLY public.inventory
     ADD CONSTRAINT inventory_pkey PRIMARY KEY (inventory_id);
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT preferences_pkey PRIMARY KEY (preference_id);
 ALTER TABLE ONLY public.product_brands
     ADD CONSTRAINT product_brands_pkey PRIMARY KEY (product_brand_id);
 ALTER TABLE ONLY public.product_categories
@@ -869,6 +939,8 @@ ALTER TABLE ONLY public.transactions
 ------------------------
 ALTER TABLE ONLY public.bundles
     ADD CONSTRAINT uq_bundles_bundle_name UNIQUE (bundle_name);
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT uq_categories_category_name UNIQUE (category_name);
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT uq_customers_customer_email UNIQUE (customer_email);
 ALTER TABLE ONLY public.forms
@@ -883,28 +955,26 @@ ALTER TABLE ONLY public.services
 ------------------------
 -- Indexes
 ------------------------
-CREATE INDEX idx_employees_employee_role_id ON public.employees USING btree (employee_role_id);
-CREATE INDEX idx_customers_address ON public.customers USING btree (customer_city_id);
+CREATE INDEX idx_cities_country_id ON public.cities USING btree (country_id);
+
+CREATE INDEX idx_customers_customer_city_id ON public.customers USING btree (customer_city_id);
 CREATE INDEX idx_customers_customer_dob ON public.customers USING btree (customer_dob);
 CREATE INDEX idx_customers_customer_pronoun_id ON public.customers USING btree (customer_pronoun_id);
-CREATE INDEX idx_customers_preferences ON public.customers USING btree (preferences);
+
+CREATE INDEX idx_customer_pronouns_customer_id ON public.customer_pronouns USING btree (customer_id);
+CREATE INDEX idx_customer_pronouns_pronoun_id ON public.customer_pronouns USING btree (pronoun_id);
+
 CREATE INDEX idx_employee_reviews_employee_id ON public.employee_reviews USING btree (employee_id);
 CREATE INDEX idx_employee_reviews_employee_stars_count ON public.employee_reviews USING btree (employee_stars_count);
-CREATE INDEX idx_employee_roles_employee_id ON public.employee_roles USING btree (employee_id);
-CREATE INDEX idx_employee_roles_role_id ON public.employee_roles USING btree (role_id);
-CREATE INDEX idx_employees_employee_address_id ON public.employees USING btree (employee_city_id);
-CREATE INDEX idx_employees_role_id ON public.employees USING btree (employee_role_id);
-CREATE INDEX idx_inventory_inventory_id ON public.inventory USING btree (inventory_id);
-CREATE INDEX idx_inventory_is_restocked ON public.inventory USING btree (is_restocked);
-CREATE INDEX idx_inventory_product_id ON public.inventory USING btree (product_id);
-CREATE INDEX idx_inventory_stock_out_date ON public.inventory USING btree (stock_out_date);
-CREATE INDEX idx_product_reviews_product_id ON public.product_reviews USING btree (product_id);
-CREATE INDEX idx_product_reviews_product_stars_count ON public.product_reviews USING btree (product_stars_count);
-CREATE INDEX idx_products_product_price ON public.products USING btree (product_price);
+
+CREATE INDEX idx_employees_employee_city_id ON public.employees USING btree (employee_city_id);
+
+CREATE INDEX idx_product_favorites_product_id ON public.product_favorites USING btree (product_id);
+
+CREATE INDEX idx_service_favorites_service_id ON public.service_favorites USING btree (service_id);
+
 CREATE INDEX idx_service_reviews_service_id ON public.service_reviews USING btree (service_id);
 CREATE INDEX idx_service_reviews_service_stars_count ON public.service_reviews USING btree (service_stars_count);
-CREATE INDEX idx_services_service_category_id ON public.services USING btree (service_category_id);
-CREATE INDEX idx_services_service_price ON public.services USING btree (service_price);
 
 ------------------------
 -- Foreign Keys
@@ -915,72 +985,102 @@ ALTER TABLE ONLY public.appointments
     ADD CONSTRAINT fk_appointments_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
 ALTER TABLE ONLY public.appointments
     ADD CONSTRAINT fk_appointments_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+
 ALTER TABLE ONLY public.attendances
     ADD CONSTRAINT fk_attendances_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+
 ALTER TABLE ONLY public.bundle_items
     ADD CONSTRAINT fk_bundle_items_bundle_id FOREIGN KEY (bundle_id) REFERENCES public.bundles(bundle_id);
 ALTER TABLE ONLY public.bundle_items
     ADD CONSTRAINT fk_bundle_items_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+
 ALTER TABLE ONLY public.cities
     ADD CONSTRAINT fk_cities_country_id FOREIGN KEY (country_id) REFERENCES public.countries(country_id);
+
 ALTER TABLE ONLY public.customer_forms
     ADD CONSTRAINT fk_customer_forms_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.customer_forms
     ADD CONSTRAINT fk_customer_forms_form_id FOREIGN KEY (form_id) REFERENCES public.forms(form_id);
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT fk_customers_customer_city_id FOREIGN KEY (customer_city_id) REFERENCES public.cities(city_id);
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT fk_customers_customer_preference_id FOREIGN KEY (customer_preference_id) REFERENCES public.customer_preferences(customer_preference_id);
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.customer_pronouns(customer_pronoun_id);
+
+ALTER TABLE ONLY public.customer_preferences
+    ADD CONSTRAINT fk_customer_preferences_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+ALTER TABLE ONLY public.customer_preferences
+    ADD CONSTRAINT fk_customer_preferences_preference_id FOREIGN KEY (preference_id) REFERENCES public.preferences(preference_id);
+
 ALTER TABLE ONLY public.customer_pronouns
     ADD CONSTRAINT fk_customer_pronouns_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.customer_pronouns
     ADD CONSTRAINT fk_customer_pronouns_pronoun_id FOREIGN KEY (pronoun_id) REFERENCES public.pronouns(pronoun_id);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_city_id FOREIGN KEY (customer_city_id) REFERENCES public.cities(city_id);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.customer_pronouns(customer_pronoun_id);
+
 ALTER TABLE ONLY public.discounts
     ADD CONSTRAINT fk_discounts_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+
 ALTER TABLE ONLY public.employee_pronouns
     ADD CONSTRAINT fk_employee_pronouns_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
 ALTER TABLE ONLY public.employee_pronouns
     ADD CONSTRAINT fk_employee_pronouns_pronoun_id FOREIGN KEY (pronoun_id) REFERENCES public.pronouns(pronoun_id);
+
 ALTER TABLE ONLY public.employee_reviews
     ADD CONSTRAINT fk_employee_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.employee_reviews
     ADD CONSTRAINT fk_employee_reviews_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+
 ALTER TABLE ONLY public.employee_roles
     ADD CONSTRAINT fk_employee_roles_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
 ALTER TABLE ONLY public.employee_roles
     ADD CONSTRAINT fk_employee_roles_role_id FOREIGN KEY (role_id) REFERENCES public.roles(role_id);
+
 ALTER TABLE ONLY public.employees
     ADD CONSTRAINT fk_employees_employee_city_id FOREIGN KEY (employee_city_id) REFERENCES public.cities(city_id);
 ALTER TABLE ONLY public.employees
     ADD CONSTRAINT fk_employees_employee_pronoun_id FOREIGN KEY (employee_pronoun_id) REFERENCES public.employee_pronouns(employee_pronoun_id);
 ALTER TABLE ONLY public.employees
     ADD CONSTRAINT fk_employees_employee_role_id FOREIGN KEY (employee_role_id) REFERENCES public.employee_roles(employee_role_id);
+
 ALTER TABLE ONLY public.forms
     ADD CONSTRAINT fk_forms_form_type_id FOREIGN KEY (form_type_id) REFERENCES public.form_types(form_type_id);
+
 ALTER TABLE ONLY public.inventory
-    ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+
+ALTER TABLE ONLY public.preferences
+    ADD CONSTRAINT fk_preferences_category_id FOREIGN KEY (category_id) REFERENCES public.categories(category_id);
+
 ALTER TABLE ONLY public.product_favorites
     ADD CONSTRAINT fk_product_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.product_favorites
     ADD CONSTRAINT fk_product_favorites_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+
 ALTER TABLE ONLY public.product_reviews
     ADD CONSTRAINT fk_product_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.product_reviews
     ADD CONSTRAINT fk_product_reviews_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT fk_products_product_brand_id FOREIGN KEY (product_brand_id) REFERENCES public.product_brands(product_brand_id);
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT fk_products_product_category_id FOREIGN KEY (product_category_id) REFERENCES public.product_categories(product_category_id);
+
 ALTER TABLE ONLY public.service_favorites
     ADD CONSTRAINT fk_service_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.service_favorites
     ADD CONSTRAINT fk_service_favorites_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+
 ALTER TABLE ONLY public.service_reviews
     ADD CONSTRAINT fk_service_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.service_reviews
     ADD CONSTRAINT fk_service_reviews_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+
 ALTER TABLE ONLY public.services
     ADD CONSTRAINT fk_services_service_category_id FOREIGN KEY (service_category_id) REFERENCES public.service_categories(service_category_id);
+
 ALTER TABLE ONLY public.transactions
     ADD CONSTRAINT fk_transactions_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.transactions
