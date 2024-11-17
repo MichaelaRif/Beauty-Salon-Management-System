@@ -1,9 +1,4 @@
 ------------------------
--- Database
-------------------------
-CREATE DATABASE IF NOT EXISTS "BSMS";
-
-------------------------
 -- Extensions
 ------------------------
 CREATE EXTENSION IF NOT EXISTS citext;
