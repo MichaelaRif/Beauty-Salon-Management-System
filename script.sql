@@ -72,6 +72,14 @@ BEGIN
     END IF;
 END $$;
 
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'keycloak_domain') THEN
+        CREATE DOMAIN "public"."keycloak_domain" AS citext
+        CHECK(VALUE ~* '^[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}$');
+    END IF;
+END $$;
+
 ------------------------
 -- Tables & Sequences
 ------------------------
@@ -97,7 +105,6 @@ CREATE SEQUENCE IF NOT EXISTS public.appointments_appointment_id_seq
     CACHE 1;
 ALTER SEQUENCE public.appointments_appointment_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.appointments_appointment_id_seq OWNED BY public.appointments.appointment_id;
-
 
 CREATE TABLE IF NOT EXISTS public.attendances (
     attendance_id integer NOT NULL,
@@ -219,6 +226,7 @@ ALTER SEQUENCE public.customer_forms_customer_form_id_seq OWNED BY public.custom
 
 CREATE TABLE IF NOT EXISTS public.customers (
     customer_id integer NOT NULL,
+    customer_keycloak_id public.keycloak_domain NOT NULL,
     customer_fn public.name_domain NOT NULL,
     customer_ln public.name_domain NOT NULL,
     customer_email public.email_domain,
@@ -236,6 +244,7 @@ CREATE TABLE IF NOT EXISTS public.customers (
     customer_last_login timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+
     CONSTRAINT check_customers_auth CHECK ((NOT (is_google AND is_apple)))
 );
 ALTER TABLE public.customers OWNER TO postgres;
@@ -352,6 +361,7 @@ ALTER SEQUENCE public.employee_roles_employee_role_id_seq OWNED BY public.employ
 
 CREATE TABLE IF NOT EXISTS public.employees (
     employee_id integer NOT NULL,
+    employee_keycloak_id public.keycloak_domain NOT NULL,
     employee_fn public.name_domain,
     employee_ln public.name_domain NOT NULL,
     employee_email public.email_domain,
