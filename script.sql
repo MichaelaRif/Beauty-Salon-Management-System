@@ -1,13 +1,17 @@
 ------------------------
--- pgAdmin SQL dump file
+-- Database
 ------------------------
+CREATE DATABASE IF NOT EXISTS "BSMS";
 
+------------------------
+-- Extensions
+------------------------
 CREATE EXTENSION IF NOT EXISTS citext;
 
 ------------------------
 -- ENUMs
 ------------------------
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'appointment_status') THEN
         CREATE TYPE "public"."appointment_status" AS ENUM (
@@ -21,7 +25,7 @@ BEGIN
 END $$;
 ALTER TYPE "public"."appointment_status" OWNER TO "postgres";
 
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'form_type') THEN
         CREATE TYPE "public"."form_type" AS ENUM (
@@ -34,7 +38,7 @@ BEGIN
 END $$;
 ALTER TYPE "public"."form_type" OWNER TO "postgres";
 
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'transaction_status') THEN
         CREATE TYPE "public"."transaction_status" AS ENUM (
@@ -49,7 +53,7 @@ ALTER TYPE "public"."transaction_status" OWNER TO "postgres";
 ------------------------
 -- Domains
 ------------------------
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'name_domain') THEN
         CREATE DOMAIN "public"."name_domain" AS citext
@@ -57,7 +61,7 @@ BEGIN
     END IF;
 END $$;
 
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'pn_domain') THEN
         CREATE DOMAIN "public"."pn_domain" AS citext
@@ -65,7 +69,7 @@ BEGIN
     END IF;
 END $$;
 
-DO $$ 
+DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'email_domain') THEN
         CREATE DOMAIN "public"."email_domain" AS citext
