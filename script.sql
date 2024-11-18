@@ -297,25 +297,6 @@ CREATE SEQUENCE IF NOT EXISTS public.customer_preferences_customer_preference_id
 ALTER SEQUENCE public.customer_preferences_customer_preference_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.customer_preferences_customer_preference_id_seq OWNED BY public.customer_preferences.customer_preference_id;
 
-CREATE TABLE IF NOT EXISTS public.customer_pronouns (
-    customer_pronoun_id integer NOT NULL,
-    customer_id integer NOT NULL,
-    pronoun_id integer NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-ALTER TABLE public.customer_pronouns OWNER TO postgres;
-
-CREATE SEQUENCE IF NOT EXISTS public.customer_pronouns_customer_pronoun_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-ALTER SEQUENCE public.customer_pronouns_customer_pronoun_id_seq OWNER TO postgres;
-ALTER SEQUENCE public.customer_pronouns_customer_pronoun_id_seq OWNED BY public.customer_pronouns.customer_pronoun_id;
-
 CREATE TABLE IF NOT EXISTS public.discounts (
     discount_id integer NOT NULL,
     product_id integer NOT NULL,
@@ -336,25 +317,6 @@ CREATE SEQUENCE IF NOT EXISTS public.discounts_discount_id_seq
     CACHE 1;
 ALTER SEQUENCE public.discounts_discount_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.discounts_discount_id_seq OWNED BY public.discounts.discount_id;
-
-CREATE TABLE IF NOT EXISTS public.employee_pronouns (
-    employee_pronoun_id integer NOT NULL,
-    employee_id integer NOT NULL,
-    pronoun_id integer NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-ALTER TABLE public.employee_pronouns OWNER TO postgres;
-
-CREATE SEQUENCE IF NOT EXISTS public.employee_pronouns_employee_pronoun_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-ALTER SEQUENCE public.employee_pronouns_employee_pronoun_id_seq OWNER TO postgres;
-ALTER SEQUENCE public.employee_pronouns_employee_pronoun_id_seq OWNED BY public.employee_pronouns.employee_pronoun_id;
 
 CREATE TABLE IF NOT EXISTS public.employee_reviews (
     employee_review_id integer NOT NULL,
@@ -801,10 +763,8 @@ ALTER TABLE ONLY public.cities ALTER COLUMN city_id SET DEFAULT nextval('public.
 ALTER TABLE ONLY public.countries ALTER COLUMN country_id SET DEFAULT nextval('public.countries_country_id_seq'::regclass);
 ALTER TABLE ONLY public.customer_forms ALTER COLUMN customer_form_id SET DEFAULT nextval('public.customer_forms_customer_form_id_seq'::regclass);
 ALTER TABLE ONLY public.customers ALTER COLUMN customer_id SET DEFAULT nextval('public.customers_customer_id_seq'::regclass);
-ALTER TABLE ONLY public.customer_pronouns ALTER COLUMN customer_pronoun_id SET DEFAULT nextval('public.customer_pronouns_customer_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.customer_preferences ALTER COLUMN customer_preference_id SET DEFAULT nextval('public.customer_preferences_customer_preference_id_seq'::regclass);
 ALTER TABLE ONLY public.discounts ALTER COLUMN discount_id SET DEFAULT nextval('public.discounts_discount_id_seq'::regclass);
-ALTER TABLE ONLY public.employee_pronouns ALTER COLUMN employee_pronoun_id SET DEFAULT nextval('public.employee_pronouns_employee_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.employee_reviews ALTER COLUMN employee_review_id SET DEFAULT nextval('public.employee_reviews_employee_review_id_seq'::regclass);
 ALTER TABLE ONLY public.employee_roles ALTER COLUMN employee_role_id SET DEFAULT nextval('public.employee_roles_employee_role_id_seq'::regclass);
 ALTER TABLE ONLY public.employees ALTER COLUMN employee_id SET DEFAULT nextval('public.employees_employee_id_seq'::regclass);
@@ -837,9 +797,7 @@ SELECT pg_catalog.setval('public.countries_country_id_seq', 1, false);
 SELECT pg_catalog.setval('public.customer_forms_customer_form_id_seq', 1, false);
 SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, false);
 SELECT pg_catalog.setval('public.customer_preferences_customer_preference_id_seq', 1, false);
-SELECT pg_catalog.setval('public.customer_pronouns_customer_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.discounts_discount_id_seq', 1, false);
-SELECT pg_catalog.setval('public.employee_pronouns_employee_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.employee_reviews_employee_review_id_seq', 1, false);
 SELECT pg_catalog.setval('public.employee_roles_employee_role_id_seq', 1, false);
 SELECT pg_catalog.setval('public.employees_employee_id_seq', 1, false);
@@ -885,12 +843,8 @@ ALTER TABLE ONLY public.customer_preferences
     ADD CONSTRAINT customer_preferences_pkey PRIMARY KEY (customer_preference_id);
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
-ALTER TABLE ONLY public.customer_pronouns
-    ADD CONSTRAINT customer_pronouns_pkey PRIMARY KEY (customer_pronoun_id);
 ALTER TABLE ONLY public.discounts
     ADD CONSTRAINT discounts_pkey PRIMARY KEY (discount_id);
-ALTER TABLE ONLY public.employee_pronouns
-    ADD CONSTRAINT employee_pronouns_pkey PRIMARY KEY (employee_pronoun_id);
 ALTER TABLE ONLY public.employee_reviews
     ADD CONSTRAINT employee_reviews_pkey PRIMARY KEY (employee_review_id);
 ALTER TABLE ONLY public.employee_roles
@@ -961,9 +915,6 @@ CREATE INDEX idx_customers_customer_city_id ON public.customers USING btree (cus
 CREATE INDEX idx_customers_customer_dob ON public.customers USING btree (customer_dob);
 CREATE INDEX idx_customers_customer_pronoun_id ON public.customers USING btree (customer_pronoun_id);
 
-CREATE INDEX idx_customer_pronouns_customer_id ON public.customer_pronouns USING btree (customer_id);
-CREATE INDEX idx_customer_pronouns_pronoun_id ON public.customer_pronouns USING btree (pronoun_id);
-
 CREATE INDEX idx_employee_reviews_employee_id ON public.employee_reviews USING btree (employee_id);
 CREATE INDEX idx_employee_reviews_employee_stars_count ON public.employee_reviews USING btree (employee_stars_count);
 
@@ -1007,25 +958,15 @@ ALTER TABLE ONLY public.customers
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT fk_customers_customer_preference_id FOREIGN KEY (customer_preference_id) REFERENCES public.customer_preferences(customer_preference_id);
 ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.customer_pronouns(customer_pronoun_id);
+    ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.pronouns(pronoun_id);
 
 ALTER TABLE ONLY public.customer_preferences
     ADD CONSTRAINT fk_customer_preferences_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
 ALTER TABLE ONLY public.customer_preferences
     ADD CONSTRAINT fk_customer_preferences_preference_id FOREIGN KEY (preference_id) REFERENCES public.preferences(preference_id);
 
-ALTER TABLE ONLY public.customer_pronouns
-    ADD CONSTRAINT fk_customer_pronouns_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.customer_pronouns
-    ADD CONSTRAINT fk_customer_pronouns_pronoun_id FOREIGN KEY (pronoun_id) REFERENCES public.pronouns(pronoun_id);
-
 ALTER TABLE ONLY public.discounts
     ADD CONSTRAINT fk_discounts_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
-
-ALTER TABLE ONLY public.employee_pronouns
-    ADD CONSTRAINT fk_employee_pronouns_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
-ALTER TABLE ONLY public.employee_pronouns
-    ADD CONSTRAINT fk_employee_pronouns_pronoun_id FOREIGN KEY (pronoun_id) REFERENCES public.pronouns(pronoun_id);
 
 ALTER TABLE ONLY public.employee_reviews
     ADD CONSTRAINT fk_employee_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
@@ -1040,7 +981,7 @@ ALTER TABLE ONLY public.employee_roles
 ALTER TABLE ONLY public.employees
     ADD CONSTRAINT fk_employees_employee_city_id FOREIGN KEY (employee_city_id) REFERENCES public.cities(city_id);
 ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT fk_employees_employee_pronoun_id FOREIGN KEY (employee_pronoun_id) REFERENCES public.employee_pronouns(employee_pronoun_id);
+    ADD CONSTRAINT fk_employees_employee_pronoun_id FOREIGN KEY (employee_pronoun_id) REFERENCES public.pronouns(pronoun_id);
 ALTER TABLE ONLY public.employees
     ADD CONSTRAINT fk_employees_employee_role_id FOREIGN KEY (employee_role_id) REFERENCES public.employee_roles(employee_role_id);
 
