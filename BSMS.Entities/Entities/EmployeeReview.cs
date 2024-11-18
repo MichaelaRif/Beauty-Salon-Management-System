@@ -27,13 +27,13 @@ public partial class EmployeeReview
     [Column("customer_product_review")]
     public string? CustomerProductReview { get; set; }
 
-    [Column("customer_product_review_date", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_product_review_date", TypeName = "timestamp without time zone")]
     public DateTime CustomerProductReviewDate { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

@@ -6,21 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.Domain.Entities;
 
-[Table("attendances")]
-public partial class Attendance
+[Table("employee_addresses")]
+[Index("AddressId", Name = "idx_employee_addresses_address_id")]
+[Index("EmployeeId", Name = "idx_employee_addresses_employee_id")]
+public partial class EmployeeAddress
 {
     [Key]
-    [Column("attendance_id")]
-    public int AttendanceId { get; set; }
+    [Column("employee_address_id")]
+    public int EmployeeAddressId { get; set; }
 
     [Column("employee_id")]
     public int EmployeeId { get; set; }
 
-    [Column("employee_check_in", TypeName = "timestamp without time zone")]
-    public DateTime EmployeeCheckIn { get; set; }
-
-    [Column("employee_check_out", TypeName = "timestamp without time zone")]
-    public DateTime EmployeeCheckOut { get; set; }
+    [Column("address_id")]
+    public int AddressId { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
@@ -28,7 +27,11 @@ public partial class Attendance
     [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
+    [ForeignKey("AddressId")]
+    [InverseProperty("EmployeeAddresses")]
+    public virtual Address Address { get; set; } = null!;
+
     [ForeignKey("EmployeeId")]
-    [InverseProperty("Attendances")]
+    [InverseProperty("EmployeeAddresses")]
     public virtual Employee Employee { get; set; } = null!;
 }

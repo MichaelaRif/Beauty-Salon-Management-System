@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("services")]
-[Index("ServiceCategoryId", Name = "idx_services_service_category_id")]
-[Index("ServicePrice", Name = "idx_services_service_price")]
 [Index("ServiceName", Name = "uq_services_service_name", IsUnique = true)]
 public partial class Service
 {
@@ -30,10 +28,10 @@ public partial class Service
     [Column("service_category_id")]
     public int ServiceCategoryId { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [InverseProperty("Service")]

@@ -17,10 +17,10 @@ public partial class TransactionType
     [StringLength(255)]
     public string TransactionType1 { get; set; } = null!;
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [InverseProperty("TransactionType")]

@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.Domain.Entities;
 
@@ -19,16 +22,16 @@ public partial class Appointment
     [Column("employee_id")]
     public int? EmployeeId { get; set; }
 
-    [Column("appointment_date", TypeName = "timestamp(6) without time zone")]
+    [Column("appointment_date", TypeName = "timestamp without time zone")]
     public DateTime AppointmentDate { get; set; }
 
     [Column("is_walk_in")]
     public bool IsWalkIn { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

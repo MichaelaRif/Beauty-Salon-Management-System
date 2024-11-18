@@ -20,16 +20,16 @@ public partial class Discount
     [Precision(10, 2)]
     public decimal DiscountValue { get; set; }
 
-    [Column("discount_start_date", TypeName = "timestamp(6) without time zone")]
+    [Column("discount_start_date", TypeName = "timestamp without time zone")]
     public DateTime DiscountStartDate { get; set; }
 
-    [Column("discount_end_date", TypeName = "timestamp(6) without time zone")]
+    [Column("discount_end_date", TypeName = "timestamp without time zone")]
     public DateTime DiscountEndDate { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("ProductId")]

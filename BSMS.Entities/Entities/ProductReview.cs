@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("product_reviews")]
-[Index("ProductId", Name = "idx_product_reviews_product_id")]
-[Index("ProductStarsCount", Name = "idx_product_reviews_product_stars_count")]
 public partial class ProductReview
 {
     [Key]
@@ -27,13 +25,13 @@ public partial class ProductReview
     [Column("customer_product_review")]
     public string? CustomerProductReview { get; set; }
 
-    [Column("customer_product_review_date", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_product_review_date", TypeName = "timestamp without time zone")]
     public DateTime CustomerProductReviewDate { get; set; }
 
     [Column("created_at", TypeName = "timestamp(6) without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]
