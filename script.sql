@@ -888,236 +888,1230 @@ SELECT pg_catalog.setval('public.transactions_transaction_id_seq', 1, false);
 ------------------------
 -- Primary Keys
 ------------------------
-ALTER TABLE ONLY public.addresses
-    ADD CONSTRAINT addresses_pkey PRIMARY KEY (address_id);
-ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT appointments_pkey PRIMARY KEY (appointment_id);
-ALTER TABLE ONLY public.attendances
-    ADD CONSTRAINT attendances_pkey PRIMARY KEY (attendance_id);
-ALTER TABLE ONLY public.bundle_items
-    ADD CONSTRAINT bundle_items_pkey PRIMARY KEY (bundle_item_id);
-ALTER TABLE ONLY public.bundles
-    ADD CONSTRAINT bundles_pkey PRIMARY KEY (bundle_id);
-ALTER TABLE ONLY public.categories
-    ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
-ALTER TABLE ONLY public.cities
-    ADD CONSTRAINT cities_pkey PRIMARY KEY (city_id);
-ALTER TABLE ONLY public.countries
-    ADD CONSTRAINT countries_pkey PRIMARY KEY (country_id);
-ALTER TABLE ONLY public.customer_addresses
-    ADD CONSTRAINT customer_addresses_pkey PRIMARY KEY (customer_address_id);
-ALTER TABLE ONLY public.customer_forms
-    ADD CONSTRAINT customer_forms_pkey PRIMARY KEY (customer_form_id);
-ALTER TABLE ONLY public.customer_preferences
-    ADD CONSTRAINT customer_preferences_pkey PRIMARY KEY (customer_preference_id);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
-ALTER TABLE ONLY public.discounts
-    ADD CONSTRAINT discounts_pkey PRIMARY KEY (discount_id);
-ALTER TABLE ONLY public.employee_addresses
-    ADD CONSTRAINT employee_addresses_pkey PRIMARY KEY (employee_address_id);
-ALTER TABLE ONLY public.employee_reviews
-    ADD CONSTRAINT employee_reviews_pkey PRIMARY KEY (employee_review_id);
-ALTER TABLE ONLY public.employee_roles
-    ADD CONSTRAINT employee_roles_pkey PRIMARY KEY (employee_role_id);
-ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT employees_pkey PRIMARY KEY (employee_id);
-ALTER TABLE ONLY public.form_types
-    ADD CONSTRAINT form_types_pkey PRIMARY KEY (form_type_id);
-ALTER TABLE ONLY public.forms
-    ADD CONSTRAINT forms_pkey PRIMARY KEY (form_id);
-ALTER TABLE ONLY public.inventory
-    ADD CONSTRAINT inventory_pkey PRIMARY KEY (inventory_id);
-ALTER TABLE ONLY public.preferences
-    ADD CONSTRAINT preferences_pkey PRIMARY KEY (preference_id);
-ALTER TABLE ONLY public.product_brands
-    ADD CONSTRAINT product_brands_pkey PRIMARY KEY (product_brand_id);
-ALTER TABLE ONLY public.product_categories
-    ADD CONSTRAINT product_categories_pkey PRIMARY KEY (product_category_id);
-ALTER TABLE ONLY public.product_favorites
-    ADD CONSTRAINT product_favorites_pkey PRIMARY KEY (product_favorite_id);
-ALTER TABLE ONLY public.product_reviews
-    ADD CONSTRAINT product_reviews_pkey PRIMARY KEY (product_review_id);
-ALTER TABLE ONLY public.products
-    ADD CONSTRAINT products_pkey PRIMARY KEY (product_id);
-ALTER TABLE ONLY public.pronouns
-    ADD CONSTRAINT pronouns_pkey PRIMARY KEY (pronoun_id);
-ALTER TABLE ONLY public.roles
-    ADD CONSTRAINT roles_pkey PRIMARY KEY (role_id);
-ALTER TABLE ONLY public.service_categories
-    ADD CONSTRAINT service_categories_pkey PRIMARY KEY (service_category_id);
-ALTER TABLE ONLY public.service_favorites
-    ADD CONSTRAINT service_favorites_pkey PRIMARY KEY (service_favorite_id);
-ALTER TABLE ONLY public.services
-    ADD CONSTRAINT service_pkey PRIMARY KEY (service_id);
-ALTER TABLE ONLY public.service_reviews
-    ADD CONSTRAINT service_reviews_pkey PRIMARY KEY (service_review_id);
-ALTER TABLE ONLY public.transaction_categories
-    ADD CONSTRAINT transaction_categories_pkey PRIMARY KEY (transaction_category_id);
-ALTER TABLE ONLY public.transaction_types
-    ADD CONSTRAINT transaction_types_pkey PRIMARY KEY (transaction_type_id);
-ALTER TABLE ONLY public.transactions
-    ADD CONSTRAINT transactions_pkey PRIMARY KEY (transaction_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'addresses_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.addresses
+        ADD CONSTRAINT addresses_pkey PRIMARY KEY (address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'appointments_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.appointments
+        ADD CONSTRAINT appointments_pkey PRIMARY KEY (appointment_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'attendances_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.attendances
+        ADD CONSTRAINT attendances_pkey PRIMARY KEY (attendance_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'bundle_items_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.bundle_items
+        ADD CONSTRAINT bundle_items_pkey PRIMARY KEY (bundle_item_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'bundles_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.bundles
+        ADD CONSTRAINT bundles_pkey PRIMARY KEY (bundle_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'categories_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.categories
+        ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'cities_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.cities
+        ADD CONSTRAINT cities_pkey PRIMARY KEY (city_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'countries_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.countries
+        ADD CONSTRAINT countries_pkey PRIMARY KEY (country_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'customer_addresses_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.customer_addresses
+        ADD CONSTRAINT customer_addresses_pkey PRIMARY KEY (customer_address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'customer_forms_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.customer_forms
+        ADD CONSTRAINT customer_forms_pkey PRIMARY KEY (customer_form_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'customer_preferences_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.customer_preferences
+        ADD CONSTRAINT customer_preferences_pkey PRIMARY KEY (customer_preference_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'customers_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.customers
+        ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'discounts_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.discounts
+        ADD CONSTRAINT discounts_pkey PRIMARY KEY (discount_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'employee_addresses_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.employee_addresses
+        ADD CONSTRAINT employee_addresses_pkey PRIMARY KEY (employee_address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'employee_reviews_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.employee_reviews
+        ADD CONSTRAINT employee_reviews_pkey PRIMARY KEY (employee_review_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'employee_roles_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.employee_roles
+        ADD CONSTRAINT employee_roles_pkey PRIMARY KEY (employee_role_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'employees_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.employees
+        ADD CONSTRAINT employees_pkey PRIMARY KEY (employee_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'form_types_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.form_types
+        ADD CONSTRAINT form_types_pkey PRIMARY KEY (form_type_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'forms_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.forms
+        ADD CONSTRAINT forms_pkey PRIMARY KEY (form_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'inventory_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.inventory
+        ADD CONSTRAINT inventory_pkey PRIMARY KEY (inventory_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'preferences_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.preferences
+        ADD CONSTRAINT preferences_pkey PRIMARY KEY (preference_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'product_brands_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.product_brands
+        ADD CONSTRAINT product_brands_pkey PRIMARY KEY (product_brand_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'product_categories_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.product_categories
+        ADD CONSTRAINT product_categories_pkey PRIMARY KEY (product_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'product_favorites_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.product_favorites
+        ADD CONSTRAINT product_favorites_pkey PRIMARY KEY (product_favorite_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'product_reviews_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.product_reviews
+        ADD CONSTRAINT product_reviews_pkey PRIMARY KEY (product_review_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'products_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.products
+        ADD CONSTRAINT products_pkey PRIMARY KEY (product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'pronouns_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.pronouns
+        ADD CONSTRAINT pronouns_pkey PRIMARY KEY (pronoun_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'roles_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.roles
+        ADD CONSTRAINT roles_pkey PRIMARY KEY (role_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'service_categories_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.service_categories
+        ADD CONSTRAINT service_categories_pkey PRIMARY KEY (service_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'service_favorites_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.service_favorites
+        ADD CONSTRAINT service_favorites_pkey PRIMARY KEY (service_favorite_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'services_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.services
+        ADD CONSTRAINT services_pkey PRIMARY KEY (service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'service_reviews_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.service_reviews
+        ADD CONSTRAINT service_reviews_pkey PRIMARY KEY (service_review_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'transaction_categories_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.transaction_categories
+        ADD CONSTRAINT transaction_categories_pkey PRIMARY KEY (transaction_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'transaction_types_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.transaction_types
+        ADD CONSTRAINT transaction_types_pkey PRIMARY KEY (transaction_type_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'transactions_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.transactions
+        ADD CONSTRAINT transactions_pkey PRIMARY KEY (transaction_id);
+    END IF;
+END $$;
 
 ------------------------
 -- Uniques
 ------------------------
-ALTER TABLE ONLY public.bundles
-    ADD CONSTRAINT uq_bundles_bundle_name UNIQUE (bundle_name);
-ALTER TABLE ONLY public.categories
-    ADD CONSTRAINT uq_categories_category_name UNIQUE (category_name);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT uq_customers_customer_email UNIQUE (customer_email);
-ALTER TABLE ONLY public.forms
-    ADD CONSTRAINT uq_forms_form_name UNIQUE (form_name);
-ALTER TABLE ONLY public.pronouns
-    ADD CONSTRAINT uq_pronouns_pronoun UNIQUE (pronoun);
-ALTER TABLE ONLY public.roles
-    ADD CONSTRAINT uq_roles_role_name UNIQUE (role_name);
-ALTER TABLE ONLY public.services
-    ADD CONSTRAINT uq_services_service_name UNIQUE (service_name);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_bundles_bundle_name'
+    ) THEN
+        ALTER TABLE ONLY public.bundles
+        ADD CONSTRAINT uq_bundles_bundle_name UNIQUE (bundle_name);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_categories_category_name'
+    ) THEN
+        ALTER TABLE ONLY public.categories
+        ADD CONSTRAINT uq_categories_category_name UNIQUE (category_name);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_customers_customer_email'
+    ) THEN
+        ALTER TABLE ONLY public.customers
+        ADD CONSTRAINT uq_customers_customer_email UNIQUE (customer_email);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_forms_form_name'
+    ) THEN
+        ALTER TABLE ONLY public.forms
+        ADD CONSTRAINT uq_forms_form_name UNIQUE (form_name);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_pronouns_pronoun'
+    ) THEN
+        ALTER TABLE ONLY public.pronouns
+        ADD CONSTRAINT uq_pronouns_pronoun UNIQUE (pronoun);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_roles_role_name'
+    ) THEN
+        ALTER TABLE ONLY public.roles
+        ADD CONSTRAINT uq_roles_role_name UNIQUE (role_name);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'uq_services_service_name'
+    ) THEN
+        ALTER TABLE ONLY public.services
+        ADD CONSTRAINT uq_services_service_name UNIQUE (service_name);
+    END IF;
+END $$;
 
 ------------------------
 -- Indexes
 ------------------------
-CREATE INDEX idx_addresses_address_id ON public.addresses USING btree (address_id);
-CREATE INDEX idx_addresses_city_id ON public.addresses USING btree (address_city_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_addresses_address_id'
+    ) THEN
+        CREATE INDEX idx_addresses_address_id ON public.addresses USING btree (address_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_cities_city_id ON public.cities USING btree (city_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_addresses_city_id'
+    ) THEN
+        CREATE INDEX idx_addresses_city_id ON public.addresses USING btree (address_city_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_customer_addresses_customer_id ON public.customer_addresses USING btree (customer_id);
-CREATE INDEX idx_customer_addresses_address_id ON public.customer_addresses USING btree (address_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_cities_city_id'
+    ) THEN
+        CREATE INDEX idx_cities_city_id ON public.cities USING btree (city_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_customers_customer_address_id ON public.customers USING btree (customer_address_id);
-CREATE INDEX idx_customers_customer_dob ON public.customers USING btree (customer_dob);
-CREATE INDEX idx_customers_customer_pronoun_id ON public.customers USING btree (customer_pronoun_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_customer_addresses_customer_id'
+    ) THEN
+        CREATE INDEX idx_customer_addresses_customer_id ON public.customer_addresses USING btree (customer_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_employee_addresses_employee_id ON public.employee_addresses USING btree (employee_id);
-CREATE INDEX idx_employee_addresses_address_id ON public.employee_addresses USING btree (address_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_customer_addresses_address_id'
+    ) THEN
+        CREATE INDEX idx_customer_addresses_address_id ON public.customer_addresses USING btree (address_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_employee_reviews_employee_id ON public.employee_reviews USING btree (employee_id);
-CREATE INDEX idx_employee_reviews_employee_stars_count ON public.employee_reviews USING btree (employee_stars_count);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_customers_customer_address_id'
+    ) THEN
+        CREATE INDEX idx_customers_customer_address_id ON public.customers USING btree (customer_address_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_employees_employee_address_id ON public.employees USING btree (employee_address_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_customers_customer_dob'
+    ) THEN
+        CREATE INDEX idx_customers_customer_dob ON public.customers USING btree (customer_dob);
+    END IF;
+END $$;
 
-CREATE INDEX idx_product_favorites_product_id ON public.product_favorites USING btree (product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_customers_customer_pronoun_id'
+    ) THEN
+        CREATE INDEX idx_customers_customer_pronoun_id ON public.customers USING btree (customer_pronoun_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_service_favorites_service_id ON public.service_favorites USING btree (service_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_employee_addresses_employee_id'
+    ) THEN
+        CREATE INDEX idx_employee_addresses_employee_id ON public.employee_addresses USING btree (employee_id);
+    END IF;
+END $$;
 
-CREATE INDEX idx_service_reviews_service_id ON public.service_reviews USING btree (service_id);
-CREATE INDEX idx_service_reviews_service_stars_count ON public.service_reviews USING btree (service_stars_count);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_employee_addresses_address_id'
+    ) THEN
+        CREATE INDEX idx_employee_addresses_address_id ON public.employee_addresses USING btree (address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_employee_reviews_employee_id'
+    ) THEN
+        CREATE INDEX idx_employee_reviews_employee_id ON public.employee_reviews USING btree (employee_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_employee_reviews_employee_stars_count'
+    ) THEN
+        CREATE INDEX idx_employee_reviews_employee_stars_count ON public.employee_reviews USING btree (employee_stars_count);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_employees_employee_address_id'
+    ) THEN
+        CREATE INDEX idx_employees_employee_address_id ON public.employees USING btree (employee_address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_product_favorites_product_id'
+    ) THEN
+        CREATE INDEX idx_product_favorites_product_id ON public.product_favorites USING btree (product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_service_favorites_service_id'
+    ) THEN
+        CREATE INDEX idx_service_favorites_service_id ON public.service_favorites USING btree (service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_service_reviews_service_id'
+    ) THEN
+        CREATE INDEX idx_service_reviews_service_id ON public.service_reviews USING btree (service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_indexes
+        WHERE indexname = 'idx_service_reviews_service_stars_count'
+    ) THEN
+        CREATE INDEX idx_service_reviews_service_stars_count ON public.service_reviews USING btree (service_stars_count);
+    END IF;
+END $$;
 
 ------------------------
 -- Foreign Keys
 ------------------------
-ALTER TABLE ONLY public.addresses
-    ADD CONSTRAINT fk_addresses_address_city_id FOREIGN KEY (address_city_id) REFERENCES public.cities(city_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_addresses_address_city_id'
+    ) THEN
+        ALTER TABLE ONLY public.addresses
+        ADD CONSTRAINT fk_addresses_address_city_id FOREIGN KEY (address_city_id) REFERENCES public.cities(city_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT fk_appointments_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT fk_appointments_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
-ALTER TABLE ONLY public.appointments
-    ADD CONSTRAINT fk_appointments_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_appointments_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.appointments
+        ADD CONSTRAINT fk_appointments_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.attendances
-    ADD CONSTRAINT fk_attendances_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_appointments_employee_id'
+    ) THEN
+        ALTER TABLE ONLY public.appointments
+        ADD CONSTRAINT fk_appointments_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.bundle_items
-    ADD CONSTRAINT fk_bundle_items_bundle_id FOREIGN KEY (bundle_id) REFERENCES public.bundles(bundle_id);
-ALTER TABLE ONLY public.bundle_items
-    ADD CONSTRAINT fk_bundle_items_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_appointments_service_id'
+    ) THEN
+        ALTER TABLE ONLY public.appointments
+        ADD CONSTRAINT fk_appointments_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.cities
-    ADD CONSTRAINT fk_cities_country_id FOREIGN KEY (country_id) REFERENCES public.countries(country_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_attendances_employee_id'
+    ) THEN
+        ALTER TABLE ONLY public.attendances
+        ADD CONSTRAINT fk_attendances_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.customer_addresses
-    ADD CONSTRAINT fk_customer_addresses_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.customer_addresses
-    ADD CONSTRAINT fk_customer_addresses_address_id FOREIGN KEY (address_id) REFERENCES public.addresses(address_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_bundle_items_bundle_id'
+    ) THEN
+        ALTER TABLE ONLY public.bundle_items
+        ADD CONSTRAINT fk_bundle_items_bundle_id FOREIGN KEY (bundle_id) REFERENCES public.bundles(bundle_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.customer_forms
-    ADD CONSTRAINT fk_customer_forms_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.customer_forms
-    ADD CONSTRAINT fk_customer_forms_form_id FOREIGN KEY (form_id) REFERENCES public.forms(form_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_bundle_items_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.bundle_items
+        ADD CONSTRAINT fk_bundle_items_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_address_id FOREIGN KEY (customer_address_id) REFERENCES public.addresses(address_id);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_preference_id FOREIGN KEY (customer_preference_id) REFERENCES public.customer_preferences(customer_preference_id);
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.pronouns(pronoun_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_cities_country_id'
+    ) THEN
+        ALTER TABLE ONLY public.cities
+        ADD CONSTRAINT fk_cities_country_id FOREIGN KEY (country_id) REFERENCES public.countries(country_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.customer_preferences
-    ADD CONSTRAINT fk_customer_preferences_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.customer_preferences
-    ADD CONSTRAINT fk_customer_preferences_preference_id FOREIGN KEY (preference_id) REFERENCES public.preferences(preference_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_addresses_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_addresses
+        ADD CONSTRAINT fk_customer_addresses_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.discounts
-    ADD CONSTRAINT fk_discounts_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_addresses_address_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_addresses
+        ADD CONSTRAINT fk_customer_addresses_address_id FOREIGN KEY (address_id) REFERENCES public.addresses(address_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.employee_addresses
-    ADD CONSTRAINT fk_employee_addresses_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
-ALTER TABLE ONLY public.employee_addresses
-    ADD CONSTRAINT fk_employee_addresses_address_id FOREIGN KEY (address_id) REFERENCES public.addresses(address_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_forms_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_forms
+        ADD CONSTRAINT fk_customer_forms_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.employee_reviews
-    ADD CONSTRAINT fk_employee_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.employee_reviews
-    ADD CONSTRAINT fk_employee_reviews_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_forms_form_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_forms
+        ADD CONSTRAINT fk_customer_forms_form_id FOREIGN KEY (form_id) REFERENCES public.forms(form_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.employee_roles
-    ADD CONSTRAINT fk_employee_roles_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
-ALTER TABLE ONLY public.employee_roles
-    ADD CONSTRAINT fk_employee_roles_role_id FOREIGN KEY (role_id) REFERENCES public.roles(role_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customers_customer_address_id'
+    ) THEN
+        ALTER TABLE ONLY public.customers
+        ADD CONSTRAINT fk_customers_customer_address_id FOREIGN KEY (customer_address_id) REFERENCES public.addresses(address_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT fk_employees_employee_address_id FOREIGN KEY (employee_address_id) REFERENCES public.addresses(address_id);
-ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT fk_employees_employee_pronoun_id FOREIGN KEY (employee_pronoun_id) REFERENCES public.pronouns(pronoun_id);
-ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT fk_employees_employee_role_id FOREIGN KEY (employee_role_id) REFERENCES public.employee_roles(employee_role_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customers_customer_preference_id'
+    ) THEN
+        ALTER TABLE ONLY public.customers
+        ADD CONSTRAINT fk_customers_customer_preference_id FOREIGN KEY (customer_preference_id) REFERENCES public.customer_preferences(customer_preference_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.forms
-    ADD CONSTRAINT fk_forms_form_type_id FOREIGN KEY (form_type_id) REFERENCES public.form_types(form_type_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customers_customer_pronoun_id'
+    ) THEN
+        ALTER TABLE ONLY public.customers
+        ADD CONSTRAINT fk_customers_customer_pronoun_id FOREIGN KEY (customer_pronoun_id) REFERENCES public.pronouns(pronoun_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.inventory
-    ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_preferences_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_preferences
+        ADD CONSTRAINT fk_customer_preferences_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.preferences
-    ADD CONSTRAINT fk_preferences_category_id FOREIGN KEY (category_id) REFERENCES public.categories(category_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_customer_preferences_preference_id'
+    ) THEN
+        ALTER TABLE ONLY public.customer_preferences
+        ADD CONSTRAINT fk_customer_preferences_preference_id FOREIGN KEY (preference_id) REFERENCES public.preferences(preference_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.product_favorites
-    ADD CONSTRAINT fk_product_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.product_favorites
-    ADD CONSTRAINT fk_product_favorites_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_discounts_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.discounts
+        ADD CONSTRAINT fk_discounts_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.product_reviews
-    ADD CONSTRAINT fk_product_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.product_reviews
-    ADD CONSTRAINT fk_product_reviews_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_addresses_employee_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_addresses
+        ADD CONSTRAINT fk_employee_addresses_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.products
-    ADD CONSTRAINT fk_products_product_brand_id FOREIGN KEY (product_brand_id) REFERENCES public.product_brands(product_brand_id);
-ALTER TABLE ONLY public.products
-    ADD CONSTRAINT fk_products_product_category_id FOREIGN KEY (product_category_id) REFERENCES public.product_categories(product_category_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_addresses_address_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_addresses
+        ADD CONSTRAINT fk_employee_addresses_address_id FOREIGN KEY (address_id) REFERENCES public.addresses(address_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.service_favorites
-    ADD CONSTRAINT fk_service_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.service_favorites
-    ADD CONSTRAINT fk_service_favorites_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_reviews_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_reviews
+        ADD CONSTRAINT fk_employee_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.service_reviews
-    ADD CONSTRAINT fk_service_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.service_reviews
-    ADD CONSTRAINT fk_service_reviews_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_reviews_employee_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_reviews
+        ADD CONSTRAINT fk_employee_reviews_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.services
-    ADD CONSTRAINT fk_services_service_category_id FOREIGN KEY (service_category_id) REFERENCES public.service_categories(service_category_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_roles_employee_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_roles
+        ADD CONSTRAINT fk_employee_roles_employee_id FOREIGN KEY (employee_id) REFERENCES public.employees(employee_id);
+    END IF;
+END $$;
 
-ALTER TABLE ONLY public.transactions
-    ADD CONSTRAINT fk_transactions_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
-ALTER TABLE ONLY public.transactions
-    ADD CONSTRAINT fk_transactions_transaction_category_id_id FOREIGN KEY (transaction_category_id) REFERENCES public.transaction_categories(transaction_category_id);
-ALTER TABLE ONLY public.transactions
-    ADD CONSTRAINT fk_transactions_transaction_type_id FOREIGN KEY (transaction_type_id) REFERENCES public.transaction_types(transaction_type_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employee_roles_role_id'
+    ) THEN
+        ALTER TABLE ONLY public.employee_roles
+        ADD CONSTRAINT fk_employee_roles_role_id FOREIGN KEY (role_id) REFERENCES public.roles(role_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employees_employee_address_id'
+    ) THEN
+        ALTER TABLE ONLY public.employees
+        ADD CONSTRAINT fk_employees_employee_address_id FOREIGN KEY (employee_address_id) REFERENCES public.addresses(address_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employees_employee_pronoun_id'
+    ) THEN
+        ALTER TABLE ONLY public.employees
+        ADD CONSTRAINT fk_employees_employee_pronoun_id FOREIGN KEY (employee_pronoun_id) REFERENCES public.pronouns(pronoun_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_employees_employee_role_id'
+    ) THEN
+        ALTER TABLE ONLY public.employees
+        ADD CONSTRAINT fk_employees_employee_role_id FOREIGN KEY (employee_role_id) REFERENCES public.employee_roles(employee_role_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_forms_form_type_id'
+    ) THEN
+        ALTER TABLE ONLY public.forms
+        ADD CONSTRAINT fk_forms_form_type_id FOREIGN KEY (form_type_id) REFERENCES public.form_types(form_type_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_inventory_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.inventory
+        ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_preferences_category_id'
+    ) THEN
+        ALTER TABLE ONLY public.preferences
+        ADD CONSTRAINT fk_preferences_category_id FOREIGN KEY (category_id) REFERENCES public.categories(category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_favorites_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_favorites
+        ADD CONSTRAINT fk_product_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_favorites_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_favorites
+        ADD CONSTRAINT fk_product_favorites_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_reviews_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_reviews
+        ADD CONSTRAINT fk_product_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_reviews_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_reviews
+        ADD CONSTRAINT fk_product_reviews_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_products_product_brand_id'
+    ) THEN
+        ALTER TABLE ONLY public.products
+        ADD CONSTRAINT fk_products_product_brand_id FOREIGN KEY (product_brand_id) REFERENCES public.product_brands(product_brand_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_products_product_category_id'
+    ) THEN
+        ALTER TABLE ONLY public.products
+        ADD CONSTRAINT fk_products_product_category_id FOREIGN KEY (product_category_id) REFERENCES public.product_categories(product_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_favorites_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.service_favorites
+        ADD CONSTRAINT fk_service_favorites_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_favorites_service_id'
+    ) THEN
+        ALTER TABLE ONLY public.service_favorites
+        ADD CONSTRAINT fk_service_favorites_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_reviews_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.service_reviews
+        ADD CONSTRAINT fk_service_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_reviews_service_id'
+    ) THEN
+        ALTER TABLE ONLY public.service_reviews
+        ADD CONSTRAINT fk_service_reviews_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_services_service_category_id'
+    ) THEN
+        ALTER TABLE ONLY public.services
+        ADD CONSTRAINT fk_services_service_category_id FOREIGN KEY (service_category_id) REFERENCES public.service_categories(service_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_transactions_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.transactions
+        ADD CONSTRAINT fk_transactions_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_transactions_transaction_category_id_id'
+    ) THEN
+        ALTER TABLE ONLY public.transactions
+        ADD CONSTRAINT fk_transactions_transaction_category_id_id FOREIGN KEY (transaction_category_id) REFERENCES public.transaction_categories(transaction_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_transactions_transaction_type_id'
+    ) THEN
+        ALTER TABLE ONLY public.transactions
+        ADD CONSTRAINT fk_transactions_transaction_type_id FOREIGN KEY (transaction_type_id) REFERENCES public.transaction_types(transaction_type_id);
+    END IF;
+END $$;
