@@ -6,21 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.Domain.Entities;
 
-[Table("attendances")]
-public partial class Attendance
+[Table("employee_pronouns")]
+public partial class EmployeePronoun
 {
     [Key]
-    [Column("attendance_id")]
-    public int AttendanceId { get; set; }
+    [Column("employee_pronoun_id")]
+    public int EmployeePronounId { get; set; }
 
     [Column("employee_id")]
     public int EmployeeId { get; set; }
 
-    [Column("employee_check_in", TypeName = "timestamp without time zone")]
-    public DateTime EmployeeCheckIn { get; set; }
-
-    [Column("employee_check_out", TypeName = "timestamp without time zone")]
-    public DateTime EmployeeCheckOut { get; set; }
+    [Column("pronoun_id")]
+    public int PronounId { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
@@ -29,6 +26,13 @@ public partial class Attendance
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("EmployeeId")]
-    [InverseProperty("Attendances")]
+    [InverseProperty("EmployeePronouns")]
     public virtual Employee Employee { get; set; } = null!;
+
+    [InverseProperty("EmployeePronoun")]
+    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+
+    [ForeignKey("PronounId")]
+    [InverseProperty("EmployeePronouns")]
+    public virtual Pronoun Pronoun { get; set; } = null!;
 }

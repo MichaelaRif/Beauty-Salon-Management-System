@@ -6,20 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.Domain.Entities;
 
-[Table("service_categories")]
-public partial class ServiceCategory
+[Table("categories")]
+[Index("CategoryName", Name = "uq_categories_category_name", IsUnique = true)]
+public partial class Category
 {
     [Key]
-    [Column("service_category_id")]
-    public int ServiceCategoryId { get; set; }
+    [Column("category_id")]
+    public int CategoryId { get; set; }
 
-    [Column("service_category_name")]
+    [Column("category_name")]
     [StringLength(255)]
-    public string ServiceCategoryName { get; set; } = null!;
+    public string CategoryName { get; set; } = null!;
 
-    [Column("service_category_description")]
+    [Column("category_description")]
     [StringLength(255)]
-    public string ServiceCategoryDescription { get; set; } = null!;
+    public string? CategoryDescription { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
@@ -27,6 +28,6 @@ public partial class ServiceCategory
     [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
-    [InverseProperty("ServiceCategory")]
-    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
+    [InverseProperty("Category")]
+    public virtual ICollection<Preference> Preferences { get; set; } = new List<Preference>();
 }

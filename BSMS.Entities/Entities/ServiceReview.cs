@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.Domain.Entities;
 
@@ -25,13 +27,13 @@ public partial class ServiceReview
     [Column("customer_service_review")]
     public string? CustomerServiceReview { get; set; }
 
-    [Column("customer_service_review_date", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_service_review_date", TypeName = "timestamp without time zone")]
     public DateTime CustomerServiceReviewDate { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

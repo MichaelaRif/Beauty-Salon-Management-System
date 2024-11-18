@@ -25,16 +25,16 @@ public partial class Transaction
     [Column("transaction_type_id")]
     public int TransactionTypeId { get; set; }
 
-    [Column("transaction_time", TypeName = "timestamp(6) without time zone")]
+    [Column("transaction_time", TypeName = "timestamp without time zone")]
     public DateTime TransactionTime { get; set; }
 
     [Column("is_deposit")]
     public bool IsDeposit { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

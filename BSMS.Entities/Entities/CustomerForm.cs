@@ -19,16 +19,16 @@ public partial class CustomerForm
     [Column("form_id")]
     public int FormId { get; set; }
 
-    [Column("customer_form_time_started", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_form_time_started", TypeName = "timestamp without time zone")]
     public DateTime CustomerFormTimeStarted { get; set; }
 
-    [Column("customer_form_time_completed", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_form_time_completed", TypeName = "timestamp without time zone")]
     public DateTime CustomerFormTimeCompleted { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

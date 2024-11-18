@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("service_favorites")]
+[Index("ServiceId", Name = "idx_service_favorites_service_id")]
 public partial class ServiceFavorite
 {
     [Key]
@@ -19,16 +20,16 @@ public partial class ServiceFavorite
     [Column("service_id")]
     public int ServiceId { get; set; }
 
-    [Column("favorited_at", TypeName = "timestamp(6) without time zone")]
+    [Column("favorited_at", TypeName = "timestamp without time zone")]
     public DateTime FavoritedAt { get; set; }
 
-    [Column("unfavorited_at", TypeName = "timestamp(6) without time zone")]
+    [Column("unfavorited_at", TypeName = "timestamp without time zone")]
     public DateTime? UnfavoritedAt { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("CustomerId")]

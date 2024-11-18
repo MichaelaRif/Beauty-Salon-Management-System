@@ -7,10 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("inventory")]
-[Index("InventoryId", Name = "idx_inventory_inventory_id")]
-[Index("IsRestocked", Name = "idx_inventory_is_restocked")]
-[Index("ProductId", Name = "idx_inventory_product_id")]
-[Index("StockOutDate", Name = "idx_inventory_stock_out_date")]
 public partial class Inventory
 {
     [Key]
@@ -35,10 +31,10 @@ public partial class Inventory
     [Column("is_restocked")]
     public bool IsRestocked { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [ForeignKey("ProductId")]

@@ -7,16 +7,18 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("customers")]
-[Index("CustomerCityId", Name = "idx_customers_address")]
+[Index("CustomerAddressId", Name = "idx_customers_customer_address_id")]
 [Index("CustomerDob", Name = "idx_customers_customer_dob")]
-[Index("CustomerPronouns", Name = "idx_customers_customer_pronouns")]
-[Index("Preferences", Name = "idx_customers_preferences")]
+[Index("CustomerPronounId", Name = "idx_customers_customer_pronoun_id")]
 [Index("CustomerEmail", Name = "uq_customers_customer_email", IsUnique = true)]
 public partial class Customer
 {
     [Key]
     [Column("customer_id")]
     public int CustomerId { get; set; }
+
+    [Column("customer_keycloak_id", TypeName = "citext")]
+    public string CustomerKeycloakId { get; set; } = null!;
 
     [Column("customer_fn", TypeName = "citext")]
     public string CustomerFn { get; set; } = null!;
@@ -30,22 +32,17 @@ public partial class Customer
     [Column("customer_pn", TypeName = "citext")]
     public string? CustomerPn { get; set; }
 
-    [Column("customer_passhash")]
-    [StringLength(255)]
-    public string CustomerPasshash { get; set; } = null!;
-
     [Column("customer_dob")]
     public DateOnly CustomerDob { get; set; }
 
-    [Column("customer_pronouns")]
-    [StringLength(255)]
-    public string CustomerPronouns { get; set; } = null!;
+    [Column("customer_pronoun_id")]
+    public int CustomerPronounId { get; set; }
 
-    [Column("customer_city_id")]
-    public int CustomerCityId { get; set; }
+    [Column("customer_address_id")]
+    public int CustomerAddressId { get; set; }
 
-    [Column("preferences", TypeName = "jsonb")]
-    public string? Preferences { get; set; }
+    [Column("customer_preference_id")]
+    public int CustomerPreferenceId { get; set; }
 
     [Column("promotions")]
     public bool Promotions { get; set; }
@@ -63,27 +60,41 @@ public partial class Customer
     [Column("is_2fa")]
     public bool Is2fa { get; set; }
 
-    [Column("customer_registration_date", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_registration_date", TypeName = "timestamp without time zone")]
     public DateTime CustomerRegistrationDate { get; set; }
 
-    [Column("customer_last_login", TypeName = "timestamp(6) without time zone")]
+    [Column("customer_last_login", TypeName = "timestamp without time zone")]
     public DateTime CustomerLastLogin { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [InverseProperty("Customer")]
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-    [ForeignKey("CustomerCityId")]
+    [ForeignKey("CustomerAddressId")]
     [InverseProperty("Customers")]
-    public virtual City CustomerCity { get; set; } = null!;
+    public virtual Address CustomerAddress { get; set; } = null!;
+
+    [InverseProperty("Customer")]
+    public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
 
     [InverseProperty("Customer")]
     public virtual ICollection<CustomerForm> CustomerForms { get; set; } = new List<CustomerForm>();
+
+    [ForeignKey("CustomerPreferenceId")]
+    [InverseProperty("Customers")]
+    public virtual CustomerPreference CustomerPreference { get; set; } = null!;
+
+    [InverseProperty("Customer")]
+    public virtual ICollection<CustomerPreference> CustomerPreferences { get; set; } = new List<CustomerPreference>();
+
+    [ForeignKey("CustomerPronounId")]
+    [InverseProperty("Customers")]
+    public virtual Pronoun CustomerPronoun { get; set; } = null!;
 
     [InverseProperty("Customer")]
     public virtual ICollection<EmployeeReview> EmployeeReviews { get; set; } = new List<EmployeeReview>();

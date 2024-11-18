@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("employee_roles")]
-[Index("EmployeeId", Name = "idx_employee_roles_employee_id")]
-[Index("RoleId", Name = "idx_employee_roles_role_id")]
 public partial class EmployeeRole
 {
     [Key]

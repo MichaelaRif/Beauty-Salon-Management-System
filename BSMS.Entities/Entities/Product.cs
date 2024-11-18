@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("products")]
-[Index("ProductPrice", Name = "idx_products_product_price")]
 public partial class Product
 {
     [Key]
@@ -31,10 +30,10 @@ public partial class Product
     [Column("product_category_id")]
     public int ProductCategoryId { get; set; }
 
-    [Column("created_at", TypeName = "timestamp(6) without time zone")]
+    [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }
 
-    [Column("last_update", TypeName = "timestamp(6) without time zone")]
+    [Column("last_update", TypeName = "timestamp without time zone")]
     public DateTime LastUpdate { get; set; }
 
     [InverseProperty("Product")]

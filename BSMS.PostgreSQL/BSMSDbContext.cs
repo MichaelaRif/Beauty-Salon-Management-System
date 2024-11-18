@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BSMS.Domain.Entities;
+﻿using BSMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.PostgreSQL;
@@ -16,6 +14,8 @@ public partial class BSMSDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Address> Addresses { get; set; }
+
     public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<Attendance> Attendances { get; set; }
@@ -24,17 +24,25 @@ public partial class BSMSDbContext : DbContext
 
     public virtual DbSet<BundleItem> BundleItems { get; set; }
 
+    public virtual DbSet<Category> Categories { get; set; }
+
     public virtual DbSet<City> Cities { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<CustomerAddress> CustomerAddresses { get; set; }
+
     public virtual DbSet<CustomerForm> CustomerForms { get; set; }
+
+    public virtual DbSet<CustomerPreference> CustomerPreferences { get; set; }
 
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Employee> Employees { get; set; }
+
+    public virtual DbSet<EmployeeAddress> EmployeeAddresses { get; set; }
 
     public virtual DbSet<EmployeeReview> EmployeeReviews { get; set; }
 
@@ -46,6 +54,8 @@ public partial class BSMSDbContext : DbContext
 
     public virtual DbSet<Inventory> Inventories { get; set; }
 
+    public virtual DbSet<Preference> Preferences { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<ProductBrand> ProductBrands { get; set; }
@@ -55,6 +65,8 @@ public partial class BSMSDbContext : DbContext
     public virtual DbSet<ProductFavorite> ProductFavorites { get; set; }
 
     public virtual DbSet<ProductReview> ProductReviews { get; set; }
+
+    public virtual DbSet<Pronoun> Pronouns { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -83,6 +95,18 @@ public partial class BSMSDbContext : DbContext
             .HasPostgresEnum("form_type", new[] { "Test", "Quiz", "Survey", "Other" })
             .HasPostgresEnum("transaction_status", new[] { "Pending", "Completed", "Failed" })
             .HasPostgresExtension("citext");
+
+        modelBuilder.Entity<Address>(entity =>
+        {
+            entity.HasKey(e => e.AddressId).HasName("addresses_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.AddressCity).WithMany(p => p.Addresses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_addresses_address_city_id");
+        });
 
         modelBuilder.Entity<Appointment>(entity =>
         {
@@ -141,6 +165,14 @@ public partial class BSMSDbContext : DbContext
                 .HasConstraintName("fk_bundle_items_product_id");
         });
 
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("categories_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
+
         modelBuilder.Entity<City>(entity =>
         {
             entity.HasKey(e => e.CityId).HasName("cities_pkey");
@@ -174,9 +206,33 @@ public partial class BSMSDbContext : DbContext
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Promotions).HasDefaultValue(false);
 
-            entity.HasOne(d => d.CustomerCity).WithMany(p => p.Customers)
+            entity.HasOne(d => d.CustomerAddress).WithMany(p => p.Customers)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_customers_customer_city_id");
+                .HasConstraintName("fk_customers_customer_address_id");
+
+            entity.HasOne(d => d.CustomerPreference).WithMany(p => p.Customers)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customers_customer_preference_id");
+
+            entity.HasOne(d => d.CustomerPronoun).WithMany(p => p.Customers)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customers_customer_pronoun_id");
+        });
+
+        modelBuilder.Entity<CustomerAddress>(entity =>
+        {
+            entity.HasKey(e => e.CustomerAddressId).HasName("customer_addresses_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Address).WithMany(p => p.CustomerAddresses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customer_addresses_address_id");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerAddresses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customer_addresses_customer_id");
         });
 
         modelBuilder.Entity<CustomerForm>(entity =>
@@ -197,6 +253,22 @@ public partial class BSMSDbContext : DbContext
                 .HasConstraintName("fk_customer_forms_form_id");
         });
 
+        modelBuilder.Entity<CustomerPreference>(entity =>
+        {
+            entity.HasKey(e => e.CustomerPreferenceId).HasName("customer_preferences_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.CustomerPreferences)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customer_preferences_customer_id");
+
+            entity.HasOne(d => d.Preference).WithMany(p => p.CustomerPreferences)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_customer_preferences_preference_id");
+        });
+
         modelBuilder.Entity<Discount>(entity =>
         {
             entity.HasKey(e => e.DiscountId).HasName("discounts_pkey");
@@ -213,18 +285,37 @@ public partial class BSMSDbContext : DbContext
         {
             entity.HasKey(e => e.EmployeeId).HasName("employees_pkey");
 
-            entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.EmployeeRegistrationDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            entity.HasOne(d => d.EmployeeCity).WithMany(p => p.Employees)
+            entity.HasOne(d => d.EmployeeAddress).WithMany(p => p.Employees)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees_employee_city_id");
+                .HasConstraintName("fk_employees_employee_address_id");
+
+            entity.HasOne(d => d.EmployeePronoun).WithMany(p => p.Employees)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_employees_employee_pronoun_id");
 
             entity.HasOne(d => d.EmployeeRole).WithMany(p => p.Employees)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_employees_employee_role_id");
+        });
+
+        modelBuilder.Entity<EmployeeAddress>(entity =>
+        {
+            entity.HasKey(e => e.EmployeeAddressId).HasName("employee_addresses_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Address).WithMany(p => p.EmployeeAddresses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_employee_addresses_address_id");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmployeeAddresses)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_employee_addresses_employee_id");
         });
 
         modelBuilder.Entity<EmployeeReview>(entity =>
@@ -289,7 +380,21 @@ public partial class BSMSDbContext : DbContext
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.StockInDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.Inventories).HasConstraintName("fk_inventory_product_id");
+            entity.HasOne(d => d.Product).WithMany(p => p.Inventories)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_inventory_product_id");
+        });
+
+        modelBuilder.Entity<Preference>(entity =>
+        {
+            entity.HasKey(e => e.PreferenceId).HasName("preferences_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Preferences)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_preferences_category_id");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -357,6 +462,14 @@ public partial class BSMSDbContext : DbContext
                 .HasConstraintName("fk_product_reviews_product_id");
         });
 
+        modelBuilder.Entity<Pronoun>(entity =>
+        {
+            entity.HasKey(e => e.PronounId).HasName("pronouns_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("roles_pkey");
@@ -366,7 +479,7 @@ public partial class BSMSDbContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("service_pkey");
+            entity.HasKey(e => e.ServiceId).HasName("services_pkey");
 
             entity.Property(e => e.ServiceId).HasDefaultValueSql("nextval('service_service_id_seq'::regclass)");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
