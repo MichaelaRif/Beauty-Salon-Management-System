@@ -293,8 +293,6 @@ CREATE TABLE IF NOT EXISTS public.customers (
     customer_pn public.pn_domain,
     customer_dob date NOT NULL,
     customer_pronoun_id integer NOT NULL,
-    customer_address_id integer NOT NULL,
-    customer_preference_id integer NOT NULL,
     promotions boolean DEFAULT false NOT NULL,
     customer_pfp character varying(255),
     is_google boolean DEFAULT false NOT NULL,
@@ -428,7 +426,6 @@ CREATE TABLE IF NOT EXISTS public.employees (
     employee_pn public.pn_domain,
     employee_dob date NOT NULL,
     employee_pronoun_id integer NOT NULL,
-    employee_address_id integer NOT NULL,
     employee_pfp character varying(255),
     employee_role_id integer NOT NULL,
     hire_date date NOT NULL,
@@ -1458,17 +1455,6 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1
         FROM pg_indexes
-        WHERE indexname = 'idx_customers_customer_address_id'
-    ) THEN
-        CREATE INDEX idx_customers_customer_address_id ON public.customers USING btree (customer_address_id);
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_indexes
         WHERE indexname = 'idx_customers_customer_dob'
     ) THEN
         CREATE INDEX idx_customers_customer_dob ON public.customers USING btree (customer_dob);
@@ -1527,17 +1513,6 @@ BEGIN
         WHERE indexname = 'idx_employee_reviews_employee_stars_count'
     ) THEN
         CREATE INDEX idx_employee_reviews_employee_stars_count ON public.employee_reviews USING btree (employee_stars_count);
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_indexes
-        WHERE indexname = 'idx_employees_employee_address_id'
-    ) THEN
-        CREATE INDEX idx_employees_employee_address_id ON public.employees USING btree (employee_address_id);
     END IF;
 END $$;
 
@@ -1737,30 +1712,6 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1
         FROM pg_constraint
-        WHERE conname = 'fk_customers_customer_address_id'
-    ) THEN
-        ALTER TABLE ONLY public.customers
-        ADD CONSTRAINT fk_customers_customer_address_id FOREIGN KEY (customer_address_id) REFERENCES public.addresses(address_id);
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'fk_customers_customer_preference_id'
-    ) THEN
-        ALTER TABLE ONLY public.customers
-        ADD CONSTRAINT fk_customers_customer_preference_id FOREIGN KEY (customer_preference_id) REFERENCES public.customer_preferences(customer_preference_id);
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
         WHERE conname = 'fk_customers_customer_pronoun_id'
     ) THEN
         ALTER TABLE ONLY public.customers
@@ -1873,18 +1824,6 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.employee_roles
         ADD CONSTRAINT fk_employee_roles_role_id FOREIGN KEY (role_id) REFERENCES public.roles(role_id);
-    END IF;
-END $$;
-
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'fk_employees_employee_address_id'
-    ) THEN
-        ALTER TABLE ONLY public.employees
-        ADD CONSTRAINT fk_employees_employee_address_id FOREIGN KEY (employee_address_id) REFERENCES public.addresses(address_id);
     END IF;
 END $$;
 
