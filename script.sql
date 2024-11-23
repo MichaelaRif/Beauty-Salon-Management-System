@@ -790,7 +790,7 @@ CREATE TABLE IF NOT EXISTS public.transactions (
     transaction_id integer NOT NULL,
     customer_id integer NOT NULL,
     transaction_category_id integer NOT NULL,
-    transaction_price money NOT NULL,
+    transaction_charge money NOT NULL,
     transaction_type_id integer NOT NULL,
     transaction_time timestamp without time zone NOT NULL,
     transaction_status public.transaction_status NOT NULL,
