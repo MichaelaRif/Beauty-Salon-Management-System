@@ -35,6 +35,19 @@ ALTER TYPE "public"."form_type" OWNER TO "postgres";
 
 DO $$
 BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'pronoun') THEN
+        CREATE TYPE "public"."pronoun" AS ENUM (
+            'he/him',
+            'she/her',
+            'they/them',
+            'other'
+        );
+    END IF;
+END $$;
+ALTER TYPE "public"."pronoun" OWNER TO "postgres";
+
+DO $$
+BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'transaction_status') THEN
         CREATE TYPE "public"."transaction_status" AS ENUM (
             'Pending',
@@ -631,7 +644,7 @@ ALTER SEQUENCE public.products_product_id_seq OWNED BY public.products.product_i
 
 CREATE TABLE IF NOT EXISTS public.pronouns(
     pronoun_id integer NOT NULL,
-    pronoun character varying(255) NOT NULL,
+    pronoun pblic.pronoun,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
