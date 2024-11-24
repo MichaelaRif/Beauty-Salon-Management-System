@@ -524,7 +524,7 @@ ALTER SEQUENCE public.inventory_inventory_id_seq OWNED BY public.inventory.inven
 CREATE TABLE IF NOT EXISTS public.preferences (
     preference_id INT NOT NULL,
     preference_name VARCHAR(255) NOT NULL,
-    preference_description VARCHAR(255) NOT NULL,
+    preference_description VARCHAR(255),
     category_id INT NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
