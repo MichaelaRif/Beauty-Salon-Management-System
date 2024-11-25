@@ -89,7 +89,7 @@ DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'keycloak_domain') THEN
         CREATE DOMAIN "public"."keycloak_domain" AS citext
-        CHECK(VALUE ~* '^[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}$');
+        CHECK(VALUE ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
     END IF;
 END $$;
 
