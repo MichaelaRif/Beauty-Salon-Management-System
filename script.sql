@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS public.appointments (
     service_id INT NOT NULL,
     employee_id INT,
     appointment_date timestamp without time zone NOT NULL,
-    appointment_status VARCHAR(255) NOT NULL,
+    appointment_status public.appointment_status_domain NOT NULL,
     is_walk_in boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -493,7 +493,7 @@ ALTER SEQUENCE public.employees_employee_id_seq OWNED BY public.employees.employ
 
 CREATE TABLE IF NOT EXISTS public.form_types (
     form_type_id INT NOT NULL,
-    form_type public.form_type,
+    form_type public.form_type_domain NOT NULL,
     form_type_description text,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -676,7 +676,7 @@ ALTER SEQUENCE public.products_product_id_seq OWNED BY public.products.product_i
 
 CREATE TABLE IF NOT EXISTS public.pronouns(
     pronoun_id INT NOT NULL,
-    pronoun public.pronoun,
+    pronoun public.pronoun_domain NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -819,7 +819,7 @@ CREATE TABLE IF NOT EXISTS public.transactions (
     transaction_type_id INT NOT NULL,
     transaction_charge money NOT NULL,
     transaction_time timestamp without time zone NOT NULL,
-    transaction_status public.transaction_status NOT NULL,
+    transaction_status public.transaction_status_domain NOT NULL,
     is_deposit boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
