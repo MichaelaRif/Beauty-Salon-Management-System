@@ -6,61 +6,93 @@ CREATE EXTENSION IF NOT EXISTS citext;
 ------------------------
 -- ENUMs
 ------------------------
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'appointment_status') THEN
-        CREATE TYPE "public"."appointment_status" AS ENUM (
-            'Booked',
-            'Completed',
-            'Cancelled',
-            'Postponed',
-            'Other'
-        );
-    END IF;
-END $$;
-ALTER TYPE "public"."appointment_status" OWNER TO "postgres";
-
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'form_type') THEN
-        CREATE TYPE "public"."form_type" AS ENUM (
-            'Test',
-            'Quiz',
-            'Survey',
-            'Other'
-        );
-    END IF;
-END $$;
-ALTER TYPE "public"."form_type" OWNER TO "postgres";
-
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'pronoun') THEN
-        CREATE TYPE "public"."pronoun" AS ENUM (
-            'he/him',
-            'she/her',
-            'they/them',
-            'other'
-        );
-    END IF;
-END $$;
-ALTER TYPE "public"."pronoun" OWNER TO "postgres";
-
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'transaction_status') THEN
-        CREATE TYPE "public"."transaction_status" AS ENUM (
-            'Pending',
-            'Completed',
-            'Failed'
-        );
-    END IF;
-END $$;
-ALTER TYPE "public"."transaction_status" OWNER TO "postgres";
+--DO $$
+--BEGIN
+--    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'appointment_status') THEN
+--        CREATE TYPE "public"."appointment_status" AS ENUM (
+--            'Booked',
+--            'Completed',
+--            'Cancelled',
+--            'Postponed',
+--            'Other'
+--        );
+--    END IF;
+--END $$;
+--ALTER TYPE "public"."appointment_status" OWNER TO "postgres";
+--
+--DO $$
+--BEGIN
+--    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'form_type') THEN
+--        CREATE TYPE "public"."form_type" AS ENUM (
+--            'Test',
+--            'Quiz',
+--            'Survey',
+--            'Other'
+--        );
+--    END IF;
+--END $$;
+--ALTER TYPE "public"."form_type" OWNER TO "postgres";
+--
+--DO $$
+--BEGIN
+--    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'pronoun') THEN
+--        CREATE TYPE "public"."pronoun" AS ENUM (
+--            'He/Him',
+--            'She/Her',
+--            'They/Them',
+--            'Other'
+--        );
+--    END IF;
+--END $$;
+--ALTER TYPE "public"."pronoun" OWNER TO "postgres";
+--
+--DO $$
+--BEGIN
+--    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'transaction_status') THEN
+--        CREATE TYPE "public"."transaction_status" AS ENUM (
+--            'Pending',
+--            'Completed',
+--            'Failed'
+--        );
+--    END IF;
+--END $$;
+--ALTER TYPE "public"."transaction_status" OWNER TO "postgres";
 
 ------------------------
 -- Domains
 ------------------------
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'appointment_status_domain') THEN
+        CREATE DOMAIN "public"."appointment_status_domain" AS citext
+        CHECK(VALUE ~* '^(Booked|Completed|Cancelled|Postponed|Other)$');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'email_domain') THEN
+        CREATE DOMAIN "public"."email_domain" AS citext
+        CHECK(VALUE ~* '^[A-Za-z0-9.-_]+@[A-Za-z0-9.]+\.[A-Za-z]{2,}$');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'form_type_domain') THEN
+        CREATE DOMAIN "public"."form_type_domain" AS citext
+        CHECK(VALUE ~* '^(Test|Quiz|Survey|Other)$');
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'keycloak_domain') THEN
+        CREATE DOMAIN "public"."keycloak_domain" AS citext
+        CHECK(VALUE ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
+    END IF;
+END $$;
+
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'name_domain') THEN
@@ -79,17 +111,17 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'email_domain') THEN
-        CREATE DOMAIN "public"."email_domain" AS citext
-        CHECK(VALUE ~* '^[A-Za-z0-9.-_]+@[A-Za-z0-9.]+\.[A-Za-z]{2,}$');
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'pronoun_domain') THEN
+        CREATE DOMAIN "public"."pronoun_domain" AS citext
+        CHECK(VALUE ~* '^(He/Him|She/Her|They/Them|Other)$');
     END IF;
 END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'keycloak_domain') THEN
-        CREATE DOMAIN "public"."keycloak_domain" AS citext
-        CHECK(VALUE ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
+    IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'transaction_status_domain') THEN
+        CREATE DOMAIN "public"."transaction_status_domain" AS citext
+        CHECK(VALUE ~* '^(Pending|Completed|Failed)$');
     END IF;
 END $$;
 
@@ -124,7 +156,7 @@ CREATE TABLE IF NOT EXISTS public.appointments (
     service_id INT NOT NULL,
     employee_id INT,
     appointment_date timestamp without time zone NOT NULL,
-    appointment_status public.appointment_status NOT NULL,
+    appointment_status VARCHAR(255) NOT NULL,
     is_walk_in boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
