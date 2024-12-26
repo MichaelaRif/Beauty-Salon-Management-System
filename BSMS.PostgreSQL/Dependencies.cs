@@ -16,6 +16,7 @@ namespace BSMS.PostgreSQL
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IBundleRepository, BundleRepository>();
 
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
             return services;
         }
