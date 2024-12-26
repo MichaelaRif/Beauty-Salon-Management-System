@@ -1,4 +1,4 @@
-﻿namespace BSMS.Data.Common.Interfaces
+﻿namespace BSMS.Data.Common.Interfaces.Common
 {
     public interface IRepository<T> where T : class
     {
@@ -6,7 +6,7 @@
         Task<T?> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task<bool> DeleteAsync(int id);
+        Task DeleteAsync(int id);
     }
 
 }
