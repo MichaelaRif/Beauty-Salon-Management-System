@@ -1,7 +1,7 @@
 ﻿namespace BSMS.BusinessLayer.DTOs;
 
-public partial class CityDto
+public class CityDto
 {
     public string CityName { get; set; } = null!;
-    public string? CountryName { get; set; } = null!;
+    public CountryDto Country { get; set; } = null!;
 }

@@ -9,8 +9,9 @@ namespace BSMS.BusinessLayer.Profiles
         public MappingProfile()
         {
             CreateMap<City, CityDto>()
-                           .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.CityName))
-                           .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country != null ? src.Country.CountryName : null));
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Country.CountryName))
+                .ReverseMap();
+
 
             CreateMap<Bundle, BundleDto>()
                            .ReverseMap();

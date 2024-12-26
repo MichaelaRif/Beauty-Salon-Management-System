@@ -1,5 +1,4 @@
-﻿using BSMS.BusinessLayer.DTOs;
-using BSMS.BusinessLayer.Queries;
+﻿using BSMS.BusinessLayer.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,19 +16,15 @@ namespace BSMS.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityDto>>> Get()
+        public async Task<IActionResult> GetAllCities()
         {
-            var result = await _mediator.Send(new GetAllCitiesQuery());
-
-            return Ok(result);
+            return Ok(await _mediator.Send(new GetAllCitiesQuery()));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CityDto>> GetById(int id)
+        public async Task<IActionResult> GetCityById(int id)
         {
-            var result = await _mediator.Send(new GetCityByIdQuery { CityId = id });
-
-            return Ok(result);
+            return Ok(await _mediator.Send(new GetCityByIdQuery { CityId = id }));
         }
     }
 }
