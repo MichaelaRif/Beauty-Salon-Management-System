@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BSMS.BusinessLayer.DTOs;
 using BSMS.Domain.Entities;
-using MediatR;
 
 namespace BSMS.BusinessLayer.Profiles
 {
@@ -15,6 +14,8 @@ namespace BSMS.BusinessLayer.Profiles
 
             CreateMap<Bundle, BundleDto>()
                            .ReverseMap();
+
+            CreateMap<Country, CountryDto>().ReverseMap();
 
         }
     }
