@@ -1,9 +1,8 @@
-﻿using BSMS.BusinessLayer.DTOs;
-using MediatR;
+﻿using MediatR;
 
 namespace BSMS.BusinessLayer.Commands
 {
-    public class CreateBundleCommand : IRequest<BundleDto>
+    public class CreateBundleCommand : IRequest<int>
     {
         public string BundleName { get; set; } = null!;
         public string? BundleDescription { get; set; }

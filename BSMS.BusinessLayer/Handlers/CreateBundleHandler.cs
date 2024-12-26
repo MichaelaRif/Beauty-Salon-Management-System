@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using BSMS.BusinessLayer.Commands;
-using BSMS.BusinessLayer.DTOs;
 using BSMS.Data.Common.Interfaces;
 using BSMS.Domain.Entities;
 using MediatR;
 
 namespace BSMS.BusinessLayer.Handlers
 {
-    public class CreateBundleHandler : IRequestHandler<CreateBundleCommand, BundleDto>
+    public class CreateBundleHandler : IRequestHandler<CreateBundleCommand, int>
     {
         private readonly IBundleRepository _bundleRepository;
         private readonly IMapper _mapper;
@@ -18,7 +17,7 @@ namespace BSMS.BusinessLayer.Handlers
             _mapper = mapper;
         }
 
-        public async Task<BundleDto> Handle(CreateBundleCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateBundleCommand request, CancellationToken cancellationToken)
         {
             var bundle = new Bundle
             {
@@ -29,9 +28,9 @@ namespace BSMS.BusinessLayer.Handlers
                 LastUpdate = DateTime.Now
             };
 
-            await _bundleRepository.AddAsync(bundle);
+            var entity = await _bundleRepository.AddAsync(bundle);
 
-            return _mapper.Map<BundleDto>(bundle);
+            return entity.BundleId;
         }
     }
 }

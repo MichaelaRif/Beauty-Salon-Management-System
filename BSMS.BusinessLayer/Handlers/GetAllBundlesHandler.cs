@@ -19,8 +19,9 @@ namespace BSMS.BusinessLayer.Handlers
 
         public async Task<IEnumerable<BundleDto>> Handle(GetAllBundlesQuery request, CancellationToken cancellationToken)
         {
-            var cities = await _bundleRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<BundleDto>>(cities);
+            var bundles = await _bundleRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<BundleDto>>(bundles);
         }
     }
 }

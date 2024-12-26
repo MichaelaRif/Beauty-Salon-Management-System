@@ -4,7 +4,7 @@ using MediatR;
 
 namespace BSMS.BusinessLayer.Handlers
 {
-    public class DeleteBundleHandler : IRequestHandler<DeleteBundleCommand, bool>
+    public class DeleteBundleHandler : IRequestHandler<DeleteBundleCommand, Unit>
     {
         private readonly IBundleRepository _bundleRepository;
 
@@ -13,11 +13,11 @@ namespace BSMS.BusinessLayer.Handlers
             _bundleRepository = bundleRepository;
         }
 
-        public async Task<bool> Handle(DeleteBundleCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteBundleCommand request, CancellationToken cancellationToken)
         {
-            var deleted = await _bundleRepository.DeleteAsync(request.BundleId);
+            await _bundleRepository.DeleteAsync(request.BundleId);
 
-            return deleted; 
+            return Unit.Value;
         }
     }
 }

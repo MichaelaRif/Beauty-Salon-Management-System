@@ -1,11 +1,10 @@
 ﻿using BSMS.BusinessLayer.Commands;
-using BSMS.BusinessLayer.DTOs;
 using BSMS.Data.Common.Interfaces;
 using MediatR;
 
 namespace BSMS.BusinessLayer.Handlers
 {
-    public class UpdateBundleHandler : IRequestHandler<UpdateBundleWithIdCommand, BundleDto>
+    public class UpdateBundleHandler : IRequestHandler<UpdateBundleCommand, Unit>
     {
         private readonly IBundleRepository _bundleRepository;
 
@@ -14,25 +13,18 @@ namespace BSMS.BusinessLayer.Handlers
             _bundleRepository = bundleRepository;
         }
 
-        public async Task<BundleDto> Handle(UpdateBundleWithIdCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateBundleCommand request, CancellationToken cancellationToken)
         {
             var existingBundle = await _bundleRepository.GetByIdAsync(request.BundleId);
 
-            existingBundle.BundleName = request.Command.BundleName;
-            existingBundle.BundleDescription = request.Command.BundleDescription;
-            existingBundle.BundlePrice = request.Command.BundlePrice;
+            existingBundle.BundleName = request.BundleName;
+            existingBundle.BundleDescription = request.BundleDescription;
+            existingBundle.BundlePrice = request.BundlePrice;
             existingBundle.LastUpdate = DateTime.Now;
 
             await _bundleRepository.UpdateAsync(existingBundle);
 
-            var updatedBundleDto = new BundleDto
-            {
-                BundleName = existingBundle.BundleName,
-                BundleDescription = existingBundle.BundleDescription,
-                BundlePrice = existingBundle.BundlePrice
-            };
-
-            return updatedBundleDto;
+            return Unit.Value;
         }
     }
 }

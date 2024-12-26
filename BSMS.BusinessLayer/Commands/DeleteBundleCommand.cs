@@ -2,7 +2,7 @@
 
 namespace BSMS.BusinessLayer.Commands
 {
-    public class DeleteBundleCommand : IRequest<bool>
+    public class DeleteBundleCommand : IRequest<Unit>
     {
         public int BundleId { get; set; }
     }

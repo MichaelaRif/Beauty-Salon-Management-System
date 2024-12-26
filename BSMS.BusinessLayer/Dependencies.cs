@@ -18,9 +18,9 @@ namespace BSMS.BusinessLayer
             // register MediatR handlers for bundles
             services.AddScoped<IRequestHandler<GetBundleByIdQuery, BundleDto>, GetBundleByIdHandler>();
             services.AddScoped<IRequestHandler<GetAllBundlesQuery, IEnumerable<BundleDto>>, GetAllBundlesHandler>();
-            services.AddScoped<IRequestHandler<CreateBundleCommand, BundleDto>, CreateBundleHandler>();
-            services.AddScoped<IRequestHandler<DeleteBundleCommand, bool>, DeleteBundleHandler>();
-            services.AddScoped<IRequestHandler<UpdateBundleWithIdCommand, BundleDto>, UpdateBundleHandler>();
+            services.AddScoped<IRequestHandler<CreateBundleCommand, int>, CreateBundleHandler>();
+            services.AddScoped<IRequestHandler<DeleteBundleCommand, Unit>, DeleteBundleHandler>();
+            services.AddScoped<IRequestHandler<UpdateBundleCommand, Unit>, UpdateBundleHandler>();
 
         }
     }
