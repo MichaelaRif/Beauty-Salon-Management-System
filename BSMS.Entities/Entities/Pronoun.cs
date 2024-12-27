@@ -14,8 +14,7 @@ public partial class Pronoun
     [Column("pronoun_id")]
     public int PronounId { get; set; }
 
-    [Column("pronoun")]
-    [StringLength(255)]
+    [Column("pronoun", TypeName = "citext")]
     public string Pronoun1 { get; set; } = null!;
 
     [Column("created_at", TypeName = "timestamp without time zone")]
