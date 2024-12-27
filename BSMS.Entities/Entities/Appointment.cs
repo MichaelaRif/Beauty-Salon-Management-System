@@ -25,6 +25,9 @@ public partial class Appointment
     [Column("appointment_date", TypeName = "timestamp without time zone")]
     public DateTime AppointmentDate { get; set; }
 
+    [Column("appointment_status", TypeName = "citext")]
+    public string AppointmentStatus { get; set; } = null!;
+
     [Column("is_walk_in")]
     public bool IsWalkIn { get; set; }
 

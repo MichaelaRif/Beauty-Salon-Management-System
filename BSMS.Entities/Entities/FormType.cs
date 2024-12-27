@@ -13,8 +13,11 @@ public partial class FormType
     [Column("form_type_id")]
     public int FormTypeId { get; set; }
 
+    [Column("form_type", TypeName = "citext")]
+    public string FormType1 { get; set; } = null!;
+
     [Column("form_type_description")]
-    public string FormTypeDescription { get; set; } = null!;
+    public string? FormTypeDescription { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
     public DateTime CreatedAt { get; set; }

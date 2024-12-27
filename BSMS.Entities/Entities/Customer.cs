@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("customers")]
-[Index("CustomerAddressId", Name = "idx_customers_customer_address_id")]
 [Index("CustomerDob", Name = "idx_customers_customer_dob")]
 [Index("CustomerPronounId", Name = "idx_customers_customer_pronoun_id")]
 [Index("CustomerEmail", Name = "uq_customers_customer_email", IsUnique = true)]
@@ -37,12 +36,6 @@ public partial class Customer
 
     [Column("customer_pronoun_id")]
     public int CustomerPronounId { get; set; }
-
-    [Column("customer_address_id")]
-    public int CustomerAddressId { get; set; }
-
-    [Column("customer_preference_id")]
-    public int CustomerPreferenceId { get; set; }
 
     [Column("promotions")]
     public bool Promotions { get; set; }
@@ -75,19 +68,11 @@ public partial class Customer
     [InverseProperty("Customer")]
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-    [ForeignKey("CustomerAddressId")]
-    [InverseProperty("Customers")]
-    public virtual Address CustomerAddress { get; set; } = null!;
-
     [InverseProperty("Customer")]
     public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
 
     [InverseProperty("Customer")]
     public virtual ICollection<CustomerForm> CustomerForms { get; set; } = new List<CustomerForm>();
-
-    [ForeignKey("CustomerPreferenceId")]
-    [InverseProperty("Customers")]
-    public virtual CustomerPreference CustomerPreference { get; set; } = null!;
 
     [InverseProperty("Customer")]
     public virtual ICollection<CustomerPreference> CustomerPreferences { get; set; } = new List<CustomerPreference>();

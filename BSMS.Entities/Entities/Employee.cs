@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BSMS.Domain.Entities;
 
 [Table("employees")]
-[Index("EmployeeAddressId", Name = "idx_employees_employee_address_id")]
 public partial class Employee
 {
     [Key]
@@ -34,9 +33,6 @@ public partial class Employee
 
     [Column("employee_pronoun_id")]
     public int EmployeePronounId { get; set; }
-
-    [Column("employee_address_id")]
-    public int EmployeeAddressId { get; set; }
 
     [Column("employee_pfp")]
     [StringLength(255)]
@@ -65,10 +61,6 @@ public partial class Employee
 
     [InverseProperty("Employee")]
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
-
-    [ForeignKey("EmployeeAddressId")]
-    [InverseProperty("Employees")]
-    public virtual Address EmployeeAddress { get; set; } = null!;
 
     [InverseProperty("Employee")]
     public virtual ICollection<EmployeeAddress> EmployeeAddresses { get; set; } = new List<EmployeeAddress>();

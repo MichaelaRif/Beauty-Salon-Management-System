@@ -1,4 +1,6 @@
-﻿using BSMS.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using BSMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.PostgreSQL;
@@ -80,8 +82,6 @@ public partial class BSMSDbContext : DbContext
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
-    public virtual DbSet<TransactionCategory> TransactionCategories { get; set; }
-
     public virtual DbSet<TransactionType> TransactionTypes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -90,11 +90,7 @@ public partial class BSMSDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .HasPostgresEnum("appointment_status", new[] { "Booked", "Completed", "Cancelled", "Postponed", "Other" })
-            .HasPostgresEnum("form_type", new[] { "Test", "Quiz", "Survey", "Other" })
-            .HasPostgresEnum("transaction_status", new[] { "Pending", "Completed", "Failed" })
-            .HasPostgresExtension("citext");
+        modelBuilder.HasPostgresExtension("citext");
 
         modelBuilder.Entity<Address>(entity =>
         {
@@ -206,14 +202,6 @@ public partial class BSMSDbContext : DbContext
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.Promotions).HasDefaultValue(false);
 
-            entity.HasOne(d => d.CustomerAddress).WithMany(p => p.Customers)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_customers_customer_address_id");
-
-            entity.HasOne(d => d.CustomerPreference).WithMany(p => p.Customers)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_customers_customer_preference_id");
-
             entity.HasOne(d => d.CustomerPronoun).WithMany(p => p.Customers)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_customers_customer_pronoun_id");
@@ -288,10 +276,6 @@ public partial class BSMSDbContext : DbContext
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.EmployeeRegistrationDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            entity.HasOne(d => d.EmployeeAddress).WithMany(p => p.Employees)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees_employee_address_id");
 
             entity.HasOne(d => d.EmployeePronoun).WithMany(p => p.Employees)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -543,21 +527,9 @@ public partial class BSMSDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_transactions_customer_id");
 
-            entity.HasOne(d => d.TransactionCategory).WithMany(p => p.Transactions)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_transactions_transaction_category_id_id");
-
             entity.HasOne(d => d.TransactionType).WithMany(p => p.Transactions)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_transactions_transaction_type_id");
-        });
-
-        modelBuilder.Entity<TransactionCategory>(entity =>
-        {
-            entity.HasKey(e => e.TransactionCategoryId).HasName("transaction_categories_pkey");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         modelBuilder.Entity<TransactionType>(entity =>

@@ -47,12 +47,6 @@ public partial class Address
     [InverseProperty("Address")]
     public virtual ICollection<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
 
-    [InverseProperty("CustomerAddress")]
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
-
     [InverseProperty("Address")]
     public virtual ICollection<EmployeeAddress> EmployeeAddresses { get; set; } = new List<EmployeeAddress>();
-
-    [InverseProperty("EmployeeAddress")]
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

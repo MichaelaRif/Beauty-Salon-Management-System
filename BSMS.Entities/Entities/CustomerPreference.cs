@@ -29,9 +29,6 @@ public partial class CustomerPreference
     [InverseProperty("CustomerPreferences")]
     public virtual Customer Customer { get; set; } = null!;
 
-    [InverseProperty("CustomerPreference")]
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
-
     [ForeignKey("PreferenceId")]
     [InverseProperty("CustomerPreferences")]
     public virtual Preference Preference { get; set; } = null!;
