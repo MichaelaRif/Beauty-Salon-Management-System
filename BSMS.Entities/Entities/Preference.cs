@@ -19,7 +19,7 @@ public partial class Preference
 
     [Column("preference_description")]
     [StringLength(255)]
-    public string PreferenceDescription { get; set; } = null!;
+    public string? PreferenceDescription { get; set; }
 
     [Column("category_id")]
     public int CategoryId { get; set; }
