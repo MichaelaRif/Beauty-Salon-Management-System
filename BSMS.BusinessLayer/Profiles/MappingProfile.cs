@@ -20,6 +20,10 @@ namespace BSMS.BusinessLayer.Profiles
             CreateMap<Address, AddressDto>()
                 .ReverseMap();
 
+
+            CreateMap<Customer, CustomerDto>()
+                .ReverseMap();
+
         }
     }
 
