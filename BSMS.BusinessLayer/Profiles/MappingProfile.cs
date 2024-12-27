@@ -18,7 +18,6 @@ namespace BSMS.BusinessLayer.Profiles
             CreateMap<Country, CountryDto>().ReverseMap();
 
             CreateMap<Address, AddressDto>()
-                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.AddressCity.CityName))
                 .ReverseMap();
 
         }
