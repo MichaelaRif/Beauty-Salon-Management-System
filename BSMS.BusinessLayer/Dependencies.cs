@@ -22,6 +22,14 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<DeleteBundleCommand, Unit>, DeleteBundleHandler>();
             services.AddScoped<IRequestHandler<UpdateBundleCommand, Unit>, UpdateBundleHandler>();
 
+            // register MediatR handlers for addresses
+            services.AddScoped<IRequestHandler<GetAddressByIdQuery, AddressDto>, GetAddressByIdHandler>();
+            services.AddScoped<IRequestHandler<GetAllAddressesQuery, IEnumerable<AddressDto>>, GetAllAddressesHandler>();
+            services.AddScoped<IRequestHandler<CreateAddressCommand, int>, CreateAddressHandler>();
+            services.AddScoped<IRequestHandler<DeleteAddressCommand, Unit>, DeleteAddressHandler>();
+            services.AddScoped<IRequestHandler<UpdateAddressCommand, Unit>, UpdateAddressHandler>();
+
+
         }
     }
 }
