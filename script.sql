@@ -2923,7 +2923,7 @@ END;
 $$;
 */
 
-CREATE OR REPLACE FUNCTION get_city_by_id(ci_city_id INTEGER)
+CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INTEGER)
 RETURNS TABLE (city_id INTEGER, city_name VARCHAR, country_id INTEGER, country_name VARCHAR)
 LANGUAGE plpgsql
 AS $$
@@ -2932,7 +2932,7 @@ BEGIN
         SELECT ci.city_id, ci.city_name, co.country_id, co.country_name
         FROM cities ci
         INNER JOIN countries co ON co.country_id = ci.country_id
-        WHERE ci.city_id = ci_city_id;
+        WHERE ci.city_id = p_city_id;
 END;
 $$;
 
