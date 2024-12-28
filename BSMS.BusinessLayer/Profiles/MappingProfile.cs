@@ -26,6 +26,9 @@ namespace BSMS.BusinessLayer.Profiles
 
             CreateMap<Pronoun, PronounDto>()
                 .ReverseMap();
+
+            CreateMap<Category, CategoryDto>()
+                .ReverseMap();
         }
     }
 
