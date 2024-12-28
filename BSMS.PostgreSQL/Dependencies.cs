@@ -24,6 +24,8 @@ namespace BSMS.PostgreSQL
 
             services.AddScoped<IPreferenceRepository, PreferenceRepository>();
 
+            services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+
             return services;
         }
     }
