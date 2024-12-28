@@ -22,6 +22,8 @@ namespace BSMS.PostgreSQL
 
             services.AddScoped<IPronounRepository, PronounRepository>();
 
+            services.AddScoped<IPreferenceRepository, PreferenceRepository>();
+
             return services;
         }
     }
