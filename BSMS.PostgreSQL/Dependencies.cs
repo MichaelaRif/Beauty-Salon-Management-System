@@ -18,6 +18,8 @@ namespace BSMS.PostgreSQL
 
             services.AddScoped<IAddressRepository, AddressRepository>();
 
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+
             return services;
         }
     }
