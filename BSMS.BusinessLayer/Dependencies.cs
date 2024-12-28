@@ -29,6 +29,10 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<DeleteAddressCommand, Unit>, DeleteAddressHandler>();
             services.AddScoped<IRequestHandler<UpdateAddressCommand, Unit>, UpdateAddressHandler>();
 
+            // register MediatR handlers for customers
+            services.AddScoped<IRequestHandler<CreateCustomerCommand, int>, CreateCustomerHandler>();
+
+
 
         }
     }
