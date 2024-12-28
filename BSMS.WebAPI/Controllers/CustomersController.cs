@@ -23,5 +23,12 @@ namespace BSMS.WebAPI.Controllers
             return Ok(await _mediator.Send(command));
         }
 
+        [HttpPost("address")]
+        public async Task<IActionResult> AddCustomerAddress(CreateCustomerAddressCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+
+        }
+
     }
 }
