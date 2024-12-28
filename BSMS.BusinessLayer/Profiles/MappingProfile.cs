@@ -24,6 +24,8 @@ namespace BSMS.BusinessLayer.Profiles
             CreateMap<Customer, CustomerDto>()
                 .ReverseMap();
 
+            CreateMap<Pronoun, PronounDto>()
+                .ReverseMap();
         }
     }
 
