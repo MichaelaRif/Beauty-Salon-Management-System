@@ -10,8 +10,10 @@ namespace BSMS.PostgreSQL
     {
         public static IServiceCollection AddPostgreSQLDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<BSMSDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(connectionString));
 
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IBundleRepository, BundleRepository>();
