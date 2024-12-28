@@ -2,7 +2,7 @@
 using BSMS.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
-public abstract class BaseRepository<T> : IRepository<T> where T : class
+public abstract class BaseRepository<T> : IRepositoryCommand<T>, IRepositoryQuery<T> where T : class
 {
     protected readonly BSMSDbContext _context;
     protected readonly DbSet<T> _dbSet;
@@ -13,7 +13,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<T>?> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
     }
@@ -23,7 +23,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : class
         return await _dbSet.FindAsync(id);
     }
 
-    public virtual async Task<T> AddAsync(T entity)
+    public virtual async Task<T?> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();

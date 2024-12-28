@@ -3,7 +3,7 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface ICustomerPreferenceRepository : IRepository<CustomerPreference>
+    public interface ICustomerPreferenceRepository : IRepositoryQuery<CustomerPreference>, IRepositoryCommand<CustomerPreference>
     {
     }
 }

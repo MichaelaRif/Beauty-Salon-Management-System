@@ -3,7 +3,7 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface IBundleRepository : IRepository<Bundle>
+    public interface IBundleRepository : IRepositoryQuery<Bundle>, IRepositoryCommand<Bundle>
     {
     }
 }

@@ -3,7 +3,7 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface ICustomerRepository : IRepositoryQuery<Customer>, IRepositoryCommand<Customer>
     {
         Task<Customer> GetByKeycloakIdAsync(string keycloakId);
     }

@@ -3,7 +3,7 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface IAddressRepository : IRepository<Address>
+    public interface IAddressRepository : IRepositoryQuery<Address>, IRepositoryCommand<Address>
     {
     }
 }
