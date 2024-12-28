@@ -2903,3 +2903,35 @@ INSERT INTO public.transaction_types(transaction_type) VALUES ('WeChatPay') ON C
 INSERT INTO public.transaction_types(transaction_type) VALUES ('WebMoney') ON CONFLICT (transaction_type_id) DO NOTHING;
 INSERT INTO public.transaction_types(transaction_type) VALUES ('YandexMoney') ON CONFLICT (transaction_type_id) DO NOTHING;
 INSERT INTO public.transaction_types(transaction_type) VALUES ('Zelle') ON CONFLICT (transaction_type_id) DO NOTHING;
+
+------------------------
+-- Functions
+------------------------
+
+/*
+CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INTEGER)
+RETURNS TABLE (customer_fn name_domain, pronoun pronoun_domain)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT c.customer_fn, p.pronoun
+        FROM customers c
+        INNER JOIN pronouns p ON p.pronoun_id = c.customer_pronoun_id
+        WHERE c.customer_id = p_customer_id;
+END;
+$$;
+*/
+
+CREATE OR REPLACE FUNCTION get_city_by_id(ci_city_id INTEGER)
+RETURNS TABLE (city_id INTEGER, city_name VARCHAR, country_id INTEGER, country_name VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT ci.city_id, ci.city_name, co.country_id, co.country_name
+        FROM cities ci
+        INNER JOIN countries co ON co.country_id = ci.country_id
+        WHERE ci.city_id = ci_city_id;
+END;
+$$;
