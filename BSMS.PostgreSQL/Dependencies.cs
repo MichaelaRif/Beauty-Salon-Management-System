@@ -15,7 +15,9 @@ namespace BSMS.PostgreSQL
             services.AddDbContext<BSMSDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICityRepository>(sp =>
+                        new CityRepository(connectionString));
+
             services.AddScoped<IBundleRepository, BundleRepository>();
 
             services.AddScoped<IAddressRepository, AddressRepository>();

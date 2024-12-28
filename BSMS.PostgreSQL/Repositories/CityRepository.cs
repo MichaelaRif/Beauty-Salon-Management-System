@@ -1,26 +1,79 @@
 ﻿using BSMS.Data.Common.Interfaces;
 using BSMS.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace BSMS.PostgreSQL.Repositories
 {
-    public class CityRepository : BaseRepository<City>, ICityRepository
+    public class CityRepository : ICityRepository
     {
-        public CityRepository(BSMSDbContext context) : base(context) { }
+        private readonly string _connectionString;
 
-        public override async Task<City?> GetByIdAsync(int id)
+        public CityRepository(string connectionString)
         {
-            return await _context.Cities
-                .Where(city => city.CityId == id)
-                .Include(city => city.Country)
-                .FirstOrDefaultAsync(x => x.CityId == id);
+            _connectionString = connectionString;
         }
 
-        public override async Task<IEnumerable<City>> GetAllAsync()
+        public async Task<City?> GetByIdAsync(int cityId)
         {
-            return await _context.Cities
-                .Include(city => city.Country)
-                .ToListAsync();
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var cmd = new NpgsqlCommand("SELECT * FROM get_city_by_id(@cityId)", connection))
+                {
+                    cmd.Parameters.AddWithValue("cityId", cityId);
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new City
+                            {
+                                CityId = reader.GetInt32(reader.GetOrdinal("city_id")),
+                                CityName = reader.GetString(reader.GetOrdinal("city_name")),
+                                Country = new Country
+                                {
+                                    CountryId = reader.GetInt32(reader.GetOrdinal("country_id")),
+                                    CountryName = reader.GetString(reader.GetOrdinal("country_name"))
+                                }
+                            };
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+
+        public async Task<IEnumerable<City>?> GetAllAsync()
+        {
+            var cities = new List<City>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var cmd = new NpgsqlCommand("SELECT * FROM get_cities()", connection))
+                {
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            cities.Add(new City
+                            {
+                                CityId = reader.GetInt32(reader.GetOrdinal("city_id")),
+                                CityName = reader.GetString(reader.GetOrdinal("city_name")),
+                                Country = new Country
+                                {
+                                    CountryId = reader.GetInt32(reader.GetOrdinal("country_id")),
+                                    CountryName = reader.GetString(reader.GetOrdinal("country_name"))
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            return cities;
         }
     }
 }
