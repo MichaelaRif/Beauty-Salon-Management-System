@@ -1,8 +1,11 @@
 using BSMS.BusinessLayer;
 using BSMS.BusinessLayer.Profiles;
+using BSMS.BusinessLayer.Services;
 using BSMS.PostgreSQL;
 using BSMS.WebAPI.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace BSMS.WebAPI
 {
@@ -11,11 +14,13 @@ namespace BSMS.WebAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+     
 
             builder.Services.AddControllers();
 
             builder.Services.AddHttpContextAccessor();
 
+            builder.Services.AddHttpClient<IUserInfoService, UserInfoService>();
 
             var authority = builder.Configuration["Keycloak:Authority"];
             var clientid = builder.Configuration["Keycloak:ClientId"];
