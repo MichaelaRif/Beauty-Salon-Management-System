@@ -2935,3 +2935,15 @@ BEGIN
         WHERE ci.city_id = ci_city_id;
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION get_cities()
+RETURNS TABLE (city_id INTEGER, city_name VARCHAR, country_id INTEGER, country_name VARCHAR)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT ci.city_id, ci.city_name, co.country_id, co.country_name
+        FROM cities ci
+        INNER JOIN countries co ON co.country_id = ci.country_id;
+END;
+$$;
