@@ -29,6 +29,10 @@ namespace BSMS.BusinessLayer.Profiles
 
             CreateMap<Category, CategoryDto>()
                 .ReverseMap();
+
+            CreateMap<Preference, PreferenceDto>()
+                .ReverseMap();
+
         }
     }
 
