@@ -20,6 +20,8 @@ namespace BSMS.PostgreSQL
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
+            services.AddScoped<IPronounRepository, PronounRepository>();
+
             return services;
         }
     }
