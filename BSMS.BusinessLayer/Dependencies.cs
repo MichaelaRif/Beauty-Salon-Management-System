@@ -39,6 +39,10 @@ namespace BSMS.BusinessLayer
             // register MediatR handlers for customer addresses
             services.AddScoped<IRequestHandler<CreateCustomerAddressCommand, int>, CreateCustomerAddressHandler>();
 
+            // register MediatR handlers for customer preferences
+            services.AddScoped<IRequestHandler<CreateCustomerPreferenceCommand, Unit>, CreateCustomerPreferenceHandler>();
+
+
 
         }
     }

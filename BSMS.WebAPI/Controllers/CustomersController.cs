@@ -30,5 +30,12 @@ namespace BSMS.WebAPI.Controllers
 
         }
 
+        [HttpPost("preferences")]
+        public async Task<IActionResult> CreateCustomerPreferences(CreateCustomerPreferenceCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+
+        }
+
     }
 }
