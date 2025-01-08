@@ -2909,7 +2909,7 @@ INSERT INTO public.transaction_types(transaction_type) VALUES ('Zelle') ON CONFL
 ------------------------
 
 /*
-CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INTEGER)
+CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (customer_fn name_domain, pronoun pronoun_domain)
 LANGUAGE plpgsql
 AS $$
@@ -2923,8 +2923,8 @@ END;
 $$;
 */
 
-CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INTEGER)
-RETURNS TABLE (city_id INTEGER, city_name VARCHAR, country_id INTEGER, country_name VARCHAR)
+CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INT)
+RETURNS TABLE (city_id INT, city_name VARCHAR, country_id INT, country_name VARCHAR)
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -2937,7 +2937,7 @@ END;
 $$;
 
 CREATE OR REPLACE FUNCTION get_cities()
-RETURNS TABLE (city_id INTEGER, city_name VARCHAR, country_id INTEGER, country_name VARCHAR)
+RETURNS TABLE (city_id INT, city_name VARCHAR, country_id INT, country_name VARCHAR)
 LANGUAGE plpgsql
 AS $$
 BEGIN
