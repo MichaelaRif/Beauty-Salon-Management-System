@@ -426,8 +426,8 @@ CREATE TABLE IF NOT EXISTS public.employee_reviews (
     employee_id INT NOT NULL,
     customer_id INT NOT NULL,
     employee_stars_count INT NOT NULL,
-    customer_product_review text,
-    customer_product_review_date timestamp without time zone NOT NULL,
+    customer_employee_review VARCHAR(255),
+    customer_employee_review_date timestamp without time zone NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -494,7 +494,7 @@ ALTER SEQUENCE public.employees_employee_id_seq OWNED BY public.employees.employ
 CREATE TABLE IF NOT EXISTS public.form_types (
     form_type_id INT NOT NULL,
     form_type public.form_type_domain NOT NULL,
-    form_type_description text,
+    form_type_description VARCHAR(255),
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -635,7 +635,7 @@ CREATE TABLE IF NOT EXISTS public.product_reviews (
     product_id INT NOT NULL,
     customer_id INT NOT NULL,
     product_stars_count INT NOT NULL,
-    customer_product_review text,
+    customer_product_review VARCHAR(255),
     customer_product_review_date timestamp without time zone NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -757,7 +757,7 @@ CREATE TABLE IF NOT EXISTS public.service_reviews (
     service_id INT NOT NULL,
     customer_id INT NOT NULL,
     service_stars_count INT NOT NULL,
-    customer_service_review text,
+    customer_service_review VARCHAR(255),
     customer_service_review_date timestamp without time zone NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
