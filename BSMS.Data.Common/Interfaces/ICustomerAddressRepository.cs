@@ -3,7 +3,11 @@ using BSMS.Domain.Entities;
 
 namespace BSMS.Data.Common.Interfaces
 {
-    public interface ICustomerAddressRepository : IRepositoryQuery<CustomerAddress>, IRepositoryCommand<CustomerAddress>
+    public interface ICustomerAddressRepository : 
+        IRepositoryQuery<CustomerAddress>,
+        IRepositoryPost<CustomerAddress>,
+        IRepositoryUpdate<CustomerAddress>,
+        IRepositoryDelete<CustomerAddress>
     {
     }
 }
