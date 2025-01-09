@@ -2970,7 +2970,7 @@ END;
 $$;
 */
 
-CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INT)
+/*CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INT)
 RETURNS TABLE (
     city_id INT,
     city_name VARCHAR,
@@ -2990,9 +2990,9 @@ BEGIN
         INNER JOIN countries co ON co.country_id = ci.country_id
         WHERE ci.city_id = p_city_id;
 END;
-$$;
+$$;*/
 
-CREATE OR REPLACE FUNCTION get_cities()
+/*CREATE OR REPLACE FUNCTION get_cities()
 RETURNS TABLE (
     city_id INT,
     city_name VARCHAR,
@@ -3010,5 +3010,34 @@ BEGIN
             co.country_name
         FROM cities ci
         INNER JOIN countries co ON co.country_id = ci.country_id;
+END;
+$$;*/
+
+CREATE OR REPLACE FUNCTION get_top_salon_reviews()
+RETURNS TABLE (
+    "SalonStarsCount" INT,
+    "CustomerSalonReview" VARCHAR,
+    "CustomerSalonReviewDate" TIMESTAMP,
+    "CustomerPfp" VARCHAR,
+    "CustomerFn" name_domain,
+    "CustomerLn" name_domain
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT
+            s.salon_stars_count AS "SalonStarsCount",
+            s.customer_salon_review AS "CustomerSalonReview",
+            s.customer_salon_review_date AS "CustomerSalonReviewDate",
+            c.customer_pfp AS "CustomerPfp",
+            c.customer_fn AS "CustomerFn",
+            c.customer_ln AS "CustomerLn"
+        FROM salon_reviews s
+        INNER JOIN customers c ON c.customer_id = s.customer_id
+        WHERE s.salon_stars_count >= 4
+        AND s.customer_salon_review_date >= (CURRENT_DATE - INTERVAL '3 months')
+        ORDER BY RANDOM()
+        LIMIT 5;
 END;
 $$;
