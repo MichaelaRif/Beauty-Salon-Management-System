@@ -427,7 +427,7 @@ CREATE TABLE IF NOT EXISTS public.employee_reviews (
     customer_id INT NOT NULL,
     employee_stars_count INT NOT NULL,
     customer_employee_review VARCHAR(255),
-    customer_employee_review_date timestamp without time zone NOT NULL,
+    customer_employee_review_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS public.product_reviews (
     customer_id INT NOT NULL,
     product_stars_count INT NOT NULL,
     customer_product_review VARCHAR(255),
-    customer_product_review_date timestamp without time zone NOT NULL,
+    customer_product_review_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -717,7 +717,7 @@ CREATE TABLE IF NOT EXISTS public.salon_reviews (
     customer_id INT NOT NULL,
     salon_stars_count INT NOT NULL,
     customer_salon_review VARCHAR(255),
-    customer_salon_review_date timestamp without time zone NOT NULL,
+    customer_salon_review_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -779,7 +779,7 @@ CREATE TABLE IF NOT EXISTS public.service_reviews (
     customer_id INT NOT NULL,
     service_stars_count INT NOT NULL,
     customer_service_review VARCHAR(255),
-    customer_service_review_date timestamp without time zone NOT NULL,
+    customer_service_review_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
