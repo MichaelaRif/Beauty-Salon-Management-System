@@ -712,6 +712,27 @@ CREATE SEQUENCE IF NOT EXISTS public.roles_role_id_seq
 ALTER SEQUENCE public.roles_role_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.roles_role_id_seq OWNED BY public.roles.role_id;
 
+CREATE TABLE IF NOT EXISTS public.salon_reviews (
+    salon_review_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    salon_stars_count INT NOT NULL,
+    customer_salon_review VARCHAR(255),
+    customer_salon_review_date timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+ALTER TABLE public.salon_reviews OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.salon_reviews_salon_review_id_seq
+    AS INT
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.salon_reviews_salon_review_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.salon_reviews_salon_review_id_seq OWNED BY public.salon_reviews.salon_review_id;
+
 CREATE TABLE IF NOT EXISTS public.service_categories (
     service_category_id INT NOT NULL,
     service_category_name VARCHAR(255) NOT NULL,
@@ -864,6 +885,7 @@ ALTER TABLE ONLY public.product_reviews ALTER COLUMN product_review_id SET DEFAU
 ALTER TABLE ONLY public.products ALTER COLUMN product_id SET DEFAULT nextval('public.products_product_id_seq'::regclass);
 ALTER TABLE ONLY public.pronouns ALTER COLUMN pronoun_id SET DEFAULT nextval('public.pronouns_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.roles ALTER COLUMN role_id SET DEFAULT nextval('public.roles_role_id_seq'::regclass);
+ALTER TABLE ONLY public.salon_reviews ALTER COLUMN salon_review_id SET DEFAULT nextval('public.salon_reviews_salon_review_id_seq'::regclass);
 ALTER TABLE ONLY public.service_categories ALTER COLUMN service_category_id SET DEFAULT nextval('public.service_categories_service_category_id_seq'::regclass);
 ALTER TABLE ONLY public.service_favorites ALTER COLUMN service_favorite_id SET DEFAULT nextval('public.service_favorites_service_favorite_id_seq'::regclass);
 ALTER TABLE ONLY public.service_reviews ALTER COLUMN service_review_id SET DEFAULT nextval('public.service_reviews_service_review_id_seq'::regclass);
@@ -899,6 +921,7 @@ SELECT pg_catalog.setval('public.product_reviews_product_review_id_seq', 1, fals
 SELECT pg_catalog.setval('public.products_product_id_seq', 1, false);
 SELECT pg_catalog.setval('public.pronouns_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.roles_role_id_seq', 1, false);
+SELECT pg_catalog.setval('public.salon_reviews_salon_review_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_categories_service_category_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_favorites_service_favorite_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_reviews_service_review_id_seq', 1, false);
@@ -1242,6 +1265,18 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.roles
         ADD CONSTRAINT roles_pkey PRIMARY KEY (role_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'salon_reviews_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.salon_reviews
+        ADD CONSTRAINT salon_reviews_pkey PRIMARY KEY (salon_review_id);
     END IF;
 END $$;
 
@@ -1968,6 +2003,18 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.products
         ADD CONSTRAINT fk_products_product_category_id FOREIGN KEY (product_category_id) REFERENCES public.product_categories(product_category_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_salon_reviews_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.salon_reviews
+        ADD CONSTRAINT fk_salon_reviews_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
     END IF;
 END $$;
 
