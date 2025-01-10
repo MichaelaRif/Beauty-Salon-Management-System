@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS public.addresses (
     address_id INT NOT NULL,
     address_street VARCHAR(255) NOT NULL,
     address_building VARCHAR(255) NOT NULL,
-    address_floor VARCHAR(255) NOT NULL,
+    address_floor INT NOT NULL,
     address_notes VARCHAR(255),
     address_city_id INT NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -2955,8 +2955,53 @@ INSERT INTO public.transaction_types(transaction_type) VALUES ('Zelle') ON CONFL
 -- Functions
 ------------------------
 
-/*
-CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INT)
+/*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
+RETURNS TABLE (
+    "CustomerId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT c.customer_id AS "CustomerId"
+        FROM customers c
+        WHERE c.customer_id = p_customer_id;
+END;
+$$;*/
+
+/*CREATE OR REPLACE FUNCTION get_customer_id_by_keycloak_id(p_customer_keycloak_id keycloak_domain)
+RETURNS TABLE (
+    "CustomerFn" name_domain,
+    "CustomerLn" name_domain,
+    "CustomerEmail" email_domain,
+    "CustomerPn" pn_domain,
+    "CustomerDob" DATE,
+    "IsGoogle" BOOLEAN,
+    "IsApple" BOOLEAN,
+    "Is2fa" BOOLEAN,
+    "PronounName" pronoun_domain
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT
+            c.customer_fn AS "CustomerFn",
+            c.customer_ln AS "CustomerLn",
+            c.customer_email AS "CustomerEmail",
+            c.customer_pn AS "CustomerPn",
+            c.customer_dob AS "CustomerDob",
+            c.is_google AS "IsGoogle",
+            c.is_apple AS "IsApple",
+            c.is_2fa AS "Is2fa",
+            p.pronoun AS "PronounName"
+        FROM customers c
+        INNER JOIN pronouns p ON p.pronoun_id = c.customer_pronoun_id
+        WHERE c.customer_keycloak_id = p_customer_keycloak_id;
+END;
+$$;*/
+
+/*CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (customer_fn name_domain, pronoun pronoun_domain)
 LANGUAGE plpgsql
 AS $$
@@ -2967,8 +3012,7 @@ BEGIN
         INNER JOIN pronouns p ON p.pronoun_id = c.customer_pronoun_id
         WHERE c.customer_id = p_customer_id;
 END;
-$$;
-*/
+$$;*/
 
 /*CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INT)
 RETURNS TABLE (
