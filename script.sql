@@ -2955,6 +2955,68 @@ INSERT INTO public.transaction_types(transaction_type) VALUES ('Zelle') ON CONFL
 -- Functions
 ------------------------
 
+CREATE OR REPLACE FUNCTION get_pronoun_id(p_pronoun pronoun_domain)
+RETURNS TABLE (
+    "PronounId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT p.pronoun_id AS "PronounId"
+        FROM pronouns p
+        WHERE p.pronoun = p_pronoun;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION insert_customer(
+    p_customer_keycloak_id keycloak_domain,
+    p_customer_fn name_domain,
+    p_customer_ln name_domain,
+    p_customer_email email_domain,
+    p_customer_pn pn_domain,
+    p_customer_dob DATE,
+    p_customer_pronoun_id INT,
+    p_is_google BOOLEAN,
+    p_is_apple BOOLEAN
+)
+RETURNS TABLE (
+    "CustomerId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_customer_id INT;
+BEGIN
+    INSERT INTO customers(
+        customer_keycloak_id,
+        customer_fn,
+        customer_ln,
+        customer_email,
+        customer_pn,
+        customer_dob,
+        customer_pronoun_id,
+        is_google,
+        is_apple
+    )
+    VALUES (
+        p_customer_keycloak_id,
+        p_customer_fn,
+        p_customer_ln,
+        p_customer_email,
+        p_customer_pn,
+        p_customer_dob,
+        p_customer_pronoun_id,
+        p_is_google,
+        p_is_apple
+    )
+    RETURNING customer_id INTO v_customer_id;
+
+    RETURN QUERY
+        SELECT v_customer_id AS "CustomerId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
