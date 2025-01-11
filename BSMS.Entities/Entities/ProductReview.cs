@@ -23,6 +23,7 @@ public partial class ProductReview
     public int ProductStarsCount { get; set; }
 
     [Column("customer_product_review")]
+    [StringLength(255)]
     public string? CustomerProductReview { get; set; }
 
     [Column("customer_product_review_date", TypeName = "timestamp without time zone")]

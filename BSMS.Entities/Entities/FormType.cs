@@ -17,6 +17,7 @@ public partial class FormType
     public string FormType1 { get; set; } = null!;
 
     [Column("form_type_description")]
+    [StringLength(255)]
     public string? FormTypeDescription { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]

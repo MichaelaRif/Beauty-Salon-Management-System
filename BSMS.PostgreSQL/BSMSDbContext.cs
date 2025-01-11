@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BSMS.Domain.Entities;
+﻿using BSMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.PostgreSQL;
@@ -71,6 +69,8 @@ public partial class BSMSDbContext : DbContext
     public virtual DbSet<Pronoun> Pronouns { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<SalonReview> SalonReviews { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
 
@@ -307,6 +307,7 @@ public partial class BSMSDbContext : DbContext
             entity.HasKey(e => e.EmployeeReviewId).HasName("employee_reviews_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.CustomerEmployeeReviewDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.EmployeeReviews)
@@ -435,6 +436,7 @@ public partial class BSMSDbContext : DbContext
             entity.HasKey(e => e.ProductReviewId).HasName("product_reviews_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.CustomerProductReviewDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.ProductReviews)
@@ -459,6 +461,19 @@ public partial class BSMSDbContext : DbContext
             entity.HasKey(e => e.RoleId).HasName("roles_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
+
+        modelBuilder.Entity<SalonReview>(entity =>
+        {
+            entity.HasKey(e => e.SalonReviewId).HasName("salon_reviews_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.CustomerSalonReviewDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.SalonReviews)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_salon_reviews_customer_id");
         });
 
         modelBuilder.Entity<Service>(entity =>
@@ -504,6 +519,7 @@ public partial class BSMSDbContext : DbContext
             entity.HasKey(e => e.ServiceReviewId).HasName("service_reviews_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.CustomerServiceReviewDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.ServiceReviews)

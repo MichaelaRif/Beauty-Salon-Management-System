@@ -25,6 +25,7 @@ public partial class ServiceReview
     public int ServiceStarsCount { get; set; }
 
     [Column("customer_service_review")]
+    [StringLength(255)]
     public string? CustomerServiceReview { get; set; }
 
     [Column("customer_service_review_date", TypeName = "timestamp without time zone")]

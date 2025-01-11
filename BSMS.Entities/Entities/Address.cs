@@ -24,8 +24,7 @@ public partial class Address
     public string AddressBuilding { get; set; } = null!;
 
     [Column("address_floor")]
-    [StringLength(255)]
-    public string AddressFloor { get; set; } = null!;
+    public int AddressFloor { get; set; }
 
     [Column("address_notes")]
     [StringLength(255)]

@@ -91,6 +91,9 @@ public partial class Customer
     public virtual ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
 
     [InverseProperty("Customer")]
+    public virtual ICollection<SalonReview> SalonReviews { get; set; } = new List<SalonReview>();
+
+    [InverseProperty("Customer")]
     public virtual ICollection<ServiceFavorite> ServiceFavorites { get; set; } = new List<ServiceFavorite>();
 
     [InverseProperty("Customer")]
