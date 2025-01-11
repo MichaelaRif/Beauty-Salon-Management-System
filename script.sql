@@ -81,7 +81,7 @@ DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_catalog.pg_type WHERE typname = 'form_type_domain') THEN
         CREATE DOMAIN "public"."form_type_domain" AS citext
-        CHECK(VALUE ~* '^(Test|Quiz|Survey|Other)$');
+        CHECK(VALUE ~* '^(Quiz|Survey|Other)$');
     END IF;
 END $$;
 
