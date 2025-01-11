@@ -4,7 +4,7 @@
     {
         public int PreferenceId { get; set; }
         public string PreferenceName { get; set; } = null!;
-        public string Category { get; set; } = null!;
+        public string CategoryName { get; set; } = null!;
     }
 
 }
