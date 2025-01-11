@@ -2475,6 +2475,33 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION insert_customer_address(
+    p_customer_id INT,
+    p_address_id INT
+)
+RETURNS TABLE (
+    "CustomerAddressId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_customer_address_id INT;
+BEGIN
+    INSERT INTO customer_addresses(
+        customer_id,
+        address_id
+    )
+    VALUES (
+        p_customer_id,
+        p_address_id
+    )
+    RETURNING customer_address_id INTO v_customer_address_id;
+
+    RETURN QUERY
+        SELECT v_customer_address_id AS "CustomerAddressId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
