@@ -4,10 +4,8 @@ using BSMS.Domain.Entities;
 namespace BSMS.Data.Common.Interfaces
 {
     public interface IPreferenceRepository : 
-        IRepositoryQuery<Preference>,
-        IRepositoryPost<Preference>,
-        IRepositoryUpdate<Preference>,
-        IRepositoryDelete<Preference>
+        IRepositoryQuery<Preference>
     {
+        Task<IEnumerable<Preference>?> GetAllAsync(string keycloakId);
     }
 }
