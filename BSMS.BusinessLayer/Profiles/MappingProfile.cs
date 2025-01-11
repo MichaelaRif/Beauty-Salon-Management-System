@@ -73,6 +73,7 @@ namespace BSMS.BusinessLayer.Profiles
                 .ReverseMap();
 
             CreateMap<Preference, PreferenceDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ReverseMap();
 
         }
