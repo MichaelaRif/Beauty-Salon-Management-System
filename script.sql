@@ -2537,6 +2537,25 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION insert_customer_preference(
+    p_customer_id INT,
+    p_preference_id INT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO customer_preferences(
+        customer_id,
+        preference_id
+    )
+    VALUES (
+        p_customer_id,
+        p_preference_id
+    );
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
