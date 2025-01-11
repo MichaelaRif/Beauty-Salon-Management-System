@@ -6,8 +6,7 @@
         public string AddressBuilding { get; set; } = null!;
         public string AddressFloor { get; set; } = null!;
         public string? AddressNotes { get; set; }
-        public CityDto AddressCity { get; set; } = null!;
-
+        public string AddressCity { get; set; } = null!;
     }
 
 }
