@@ -26,11 +26,13 @@ namespace BSMS.WebAPI.Controllers
             return CreatedAtAction(nameof(GetCustomerByKeycloakId), new { keycloakId }, command);
         }
 
-        [HttpPost("address")]
-        public async Task<IActionResult> AddCustomerAddress(CreateCustomerAddressCommand command)
+        // GET api/customers/customer
+        [HttpGet("customer")]
+        public async Task<IActionResult> GetCustomerByKeycloakId()
         {
-            return Ok(await _mediator.Send(command));
+            var customer = await _mediator.Send(new GetCustomerByKeycloakIdQuery {});
 
+            return Ok(customer);
         }
 
         [HttpPost("preferences")]
