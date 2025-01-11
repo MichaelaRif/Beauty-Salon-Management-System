@@ -2425,6 +2425,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_city_id(p_city_name VARCHAR)
+RETURNS TABLE (
+    "CityId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT ci.city_id AS "CityId"
+        FROM cities ci
+        WHERE ci.city_name = p_city_name;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
