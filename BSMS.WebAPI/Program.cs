@@ -2,10 +2,10 @@ using BSMS.BusinessLayer;
 using BSMS.BusinessLayer.Profiles;
 using BSMS.BusinessLayer.Services;
 using BSMS.PostgreSQL;
+using BSMS.PostgreSQL.Handlers;
 using BSMS.WebAPI.Services;
+using Dapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace BSMS.WebAPI
 {
@@ -48,6 +48,9 @@ namespace BSMS.WebAPI
 
 
             builder.Services.AddSwaggerGen();
+
+            SqlMapper.RemoveTypeMap(typeof(DateOnly));
+            SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
 
             var app = builder.Build();
 
