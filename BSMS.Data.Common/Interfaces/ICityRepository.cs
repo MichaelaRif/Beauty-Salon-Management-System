@@ -1,9 +1,7 @@
-﻿using BSMS.Data.Common.Interfaces.Common;
-using BSMS.Domain.Entities;
-
-namespace BSMS.Data.Common.Interfaces
+﻿namespace BSMS.Data.Common.Interfaces
 {
-    public interface ICityRepository : IRepositoryQuery<City>
+    public interface ICityRepository
     {
+        Task<int> GetIdByNameAsync(string cityName);
     }
 }
