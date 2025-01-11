@@ -57,7 +57,18 @@ namespace BSMS.PostgreSQL.Repositories
 
         public async Task<int> GetByKeycloakIdAsync(string keycloakId)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                                SELECT * FROM get_customer_id_by_keycloak_id(
+                                    @CustomerKeycloakId::keycloak_domain
+                                )";
+
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QueryFirstAsync<int>(sql, new { CustomerKeycloakId = keycloakId });
+
+            return result;
         }
 
         public Task UpdateAsync(Customer entity)
