@@ -1,17 +1,25 @@
 ﻿using BSMS.Data.Common.Interfaces;
 using BSMS.Domain.Entities;
-using BSMS.PostgreSQL;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using Npgsql;
 
-public class PronounRepository : BaseRepository<Pronoun>, IPronounRepository
+public class PronounRepository : IPronounRepository
 {
-    public PronounRepository(BSMSDbContext context) : base(context) { }
-
-    public async Task<int> GetIdByNameAsync(string pronounName)
+    private readonly string _connectionString;
+    public PronounRepository(string connectionString)
     {
-        var pronoun = await _context.Pronouns
-            .FirstOrDefaultAsync(p => p.Pronoun1 == pronounName);
+        _connectionString = connectionString;
+    }
 
-        return pronoun.PronounId;
+    public async Task<int> GetIdByNameAsync(string pronoun1)
+    {
+        const string sql = "SELECT * FROM get_pronoun_id(@pronounName::pronoun_domain);";
+
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var result = await connection.QueryFirstAsync<int>(sql, new { pronounName = pronoun1 });
+
+        return result;
     }
 }
