@@ -34,8 +34,8 @@ public class CreateAddressHandler : IRequestHandler<CreateAddressCommand, int>
             LastUpdate = DateTime.Now
         };
 
-        var entity = await _addressRepository.AddAsync(address);
+        var address_id = await _addressRepository.AddAsync(address);
 
-        return entity.AddressId;
+        return address_id;
     }
 }

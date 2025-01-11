@@ -20,7 +20,8 @@ namespace BSMS.PostgreSQL
 
             services.AddScoped<IBundleRepository, BundleRepository>();
 
-            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressRepository>(sp =>
+                        new AddressRepository(connectionString));
    
             services.AddScoped<ICustomerRepository>(sp =>
                         new CustomerRepository(connectionString));

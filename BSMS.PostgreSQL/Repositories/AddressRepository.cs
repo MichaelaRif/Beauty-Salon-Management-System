@@ -1,28 +1,59 @@
 using BSMS.Data.Common.Interfaces;
 using BSMS.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using Npgsql;
 
 namespace BSMS.PostgreSQL.Repositories
 {
-    public class AddressRepository : BaseRepository<Address>, IAddressRepository
+    public class AddressRepository : IAddressRepository
     {
-        public AddressRepository(BSMSDbContext context) : base(context) { }
+        private readonly string _connectionString;
 
-        public override async Task<Address?> GetByIdAsync(int id)
+        public AddressRepository(string connectionString)
         {
-            return await _context.Addresses
-                .Where(address => address.AddressId == id)
-                .Include(address => address.AddressCity)
-                    .ThenInclude(city => city.Country)
-                .FirstOrDefaultAsync(x => x.AddressId == id);
+            _connectionString = connectionString;
         }
 
-        public override async Task<IEnumerable<Address>> GetAllAsync()
+        public async Task<int> AddAsync(Address address)
         {
-            return await _context.Addresses
-                .Include(address => address.AddressCity)
-                    .ThenInclude(city => city.Country)
-                .ToListAsync();
+            const string sql = @"
+                                SELECT * FROM insert_address(
+                                    @AddressStreet, 
+                                    @AddressBuilding, 
+                                    @AddressFloor, 
+                                    @AddressNotes, 
+                                    @AddressCityId
+                                )";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QuerySingleOrDefaultAsync<int>(
+                sql,
+                address
+            );
+
+            return result;
+        }
+
+        public Task DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Address>?> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Address?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Address entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
