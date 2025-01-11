@@ -2502,6 +2502,27 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_preferences()
+RETURNS TABLE (
+    "PreferenceId" INT,
+    "PreferenceName" VARCHAR,
+    "CategoryId" INT,
+    "CategoryName" VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT
+            p.preference_id AS "PreferenceId",
+            p.preference_name AS "PreferenceName",
+            c.category_id AS "CategoryId",
+            c.category_name AS "CategoryName"
+        FROM preferences p
+        INNER JOIN categories c ON c.category_id = p.category_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
