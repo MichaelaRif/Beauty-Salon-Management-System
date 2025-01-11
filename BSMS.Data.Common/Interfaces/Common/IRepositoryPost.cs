@@ -2,7 +2,7 @@
 {
     public interface IRepositoryPost<T> where T : class
     {
-        Task<T?> AddAsync(T entity);
+        Task<int> AddAsync(T entity);
     }
 
 }

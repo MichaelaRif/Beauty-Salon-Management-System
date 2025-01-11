@@ -2,7 +2,12 @@
 using BSMS.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 
-public abstract class BaseRepository<T> : IRepositoryCommand<T>, IRepositoryQuery<T> where T : class
+public abstract class BaseRepository<T> :
+        IRepositoryQuery<T>,
+        IRepositoryPost<T>,
+        IRepositoryUpdate<T>,
+        IRepositoryDelete<T>
+    where T : class
 {
     protected readonly BSMSDbContext _context;
     protected readonly DbSet<T> _dbSet;
@@ -23,13 +28,13 @@ public abstract class BaseRepository<T> : IRepositoryCommand<T>, IRepositoryQuer
         return await _dbSet.FindAsync(id);
     }
 
-    public virtual async Task<T?> AddAsync(T entity)
+/*    public virtual async Task<int> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();
 
         return entity;
-    }
+    }*/
 
     public virtual async Task UpdateAsync(T entity)
     {
@@ -45,5 +50,10 @@ public abstract class BaseRepository<T> : IRepositoryCommand<T>, IRepositoryQuer
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public Task<int> AddAsync(T entity)
+    {
+        throw new NotImplementedException();
     }
 }
