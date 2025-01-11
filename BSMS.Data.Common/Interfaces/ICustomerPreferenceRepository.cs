@@ -5,9 +5,9 @@ namespace BSMS.Data.Common.Interfaces
 {
     public interface ICustomerPreferenceRepository : 
         IRepositoryQuery<CustomerPreference>,
-        IRepositoryPost<CustomerPreference>,
         IRepositoryUpdate<CustomerPreference>,
         IRepositoryDelete<CustomerPreference>
     {
+        Task AddAsync(CustomerPreference entity);
     }
 }

@@ -8,18 +8,15 @@ using System.Security.Claims;
 public class CreateCustomerPreferenceHandler : IRequestHandler<CreateCustomerPreferenceCommand, Unit>
 {
     private readonly ICustomerRepository _customerRepository;
-    private readonly IPreferenceRepository _preferenceRepository;
     private readonly ICustomerPreferenceRepository _customerPreferenceRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public CreateCustomerPreferenceHandler(
         ICustomerRepository customerRepository,
-        IPreferenceRepository preferenceRepository,
         ICustomerPreferenceRepository customerPreferenceRepository,
         IHttpContextAccessor httpContextAccessor)
     {
         _customerRepository = customerRepository;
-        _preferenceRepository = preferenceRepository;
         _customerPreferenceRepository = customerPreferenceRepository;
         _httpContextAccessor = httpContextAccessor;
     }
@@ -32,14 +29,10 @@ public class CreateCustomerPreferenceHandler : IRequestHandler<CreateCustomerPre
 
         foreach (var preferenceId in request.PreferenceIds)
         {
-            var preference = await _preferenceRepository.GetByIdAsync(preferenceId);
-
             var customerPreference = new CustomerPreference
             {
-                PreferenceId = preferenceId,
-                CreatedAt = DateTime.Now,
-                LastUpdate = DateTime.Now
                 CustomerId = customer_id, 
+                PreferenceId = preferenceId
             };
 
             await _customerPreferenceRepository.AddAsync(customerPreference);
