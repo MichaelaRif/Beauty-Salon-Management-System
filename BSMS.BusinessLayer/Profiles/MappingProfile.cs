@@ -12,11 +12,11 @@ namespace BSMS.BusinessLayer.Profiles
             CreateMap<City, CityDto>()
                 .ReverseMap();
 
-
             CreateMap<Bundle, BundleDto>()
-                           .ReverseMap();
+                .ReverseMap();
 
-            CreateMap<Country, CountryDto>().ReverseMap();
+            CreateMap<Country, CountryDto>()
+                .ReverseMap();
 
             CreateMap<Address, AddressDto>()
                 .ReverseMap();
