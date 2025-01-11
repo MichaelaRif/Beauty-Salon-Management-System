@@ -2,9 +2,9 @@
 {
     public class PreferenceDto
     {
+        public int PreferenceId { get; set; }
         public string PreferenceName { get; set; } = null!;
-        public string PreferenceDescription { get; set; } = null!;
-        public CategoryDto Category { get; set; } = null!;
+        public string Category { get; set; } = null!;
     }
 
 }
