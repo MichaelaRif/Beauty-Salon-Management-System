@@ -28,9 +28,9 @@ namespace BSMS.BusinessLayer.Handlers
                 LastUpdate = DateTime.Now
             };
 
-            var entity = await _bundleRepository.AddAsync(bundle);
+            var bundle_id = await _bundleRepository.AddAsync(bundle);
 
-            return entity.BundleId;
+            return bundle_id;
         }
     }
 }

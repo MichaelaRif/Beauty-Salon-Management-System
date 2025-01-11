@@ -28,20 +28,18 @@ public class CreateCustomerPreferenceHandler : IRequestHandler<CreateCustomerPre
     {
         var keycloakId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+        var customer_id = await _customerRepository.GetByKeycloakIdAsync(keycloakId);
 
-        var customer = await _customerRepository.GetByKeycloakIdAsync(keycloakId);
-
-    
         foreach (var preferenceId in request.PreferenceIds)
         {
             var preference = await _preferenceRepository.GetByIdAsync(preferenceId);
 
             var customerPreference = new CustomerPreference
             {
-                CustomerId = customer.CustomerId, 
                 PreferenceId = preferenceId,
                 CreatedAt = DateTime.Now,
                 LastUpdate = DateTime.Now
+                CustomerId = customer_id, 
             };
 
             await _customerPreferenceRepository.AddAsync(customerPreference);

@@ -32,21 +32,20 @@ public class CreateCustomerAddressHandler : IRequestHandler<CreateCustomerAddres
     {
         var keycloakId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-
-        var customer = await _customerRepository.GetByKeycloakIdAsync(keycloakId);
+        var customer_id = await _customerRepository.GetByKeycloakIdAsync(keycloakId);
 
         var address = await _addressRepository.GetByIdAsync(request.AddressId);
 
         var customerAddress = new CustomerAddress
         {
-            CustomerId = customer.CustomerId,
+            CustomerId = customer_id,
             AddressId = address.AddressId,
             CreatedAt = DateTime.Now,
             LastUpdate = DateTime.Now
         };
 
-        var entity = await _customerAddressRepository.AddAsync(customerAddress);
+        var customer_address_id = await _customerAddressRepository.AddAsync(customerAddress);
 
-        return entity.CustomerAddressId;
+        return customer_id;
     }
 }
