@@ -2523,6 +2523,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_customer_id_by_keycloak_id(p_customer_keycloak_id keycloak_domain)
+RETURNS TABLE (
+    "CustomerId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT c.customer_id AS "CustomerId"
+        FROM customers c
+        WHERE c.customer_keycloak_id = p_customer_keycloak_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
