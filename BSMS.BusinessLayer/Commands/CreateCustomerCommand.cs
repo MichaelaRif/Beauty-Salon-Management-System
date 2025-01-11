@@ -2,7 +2,7 @@
 
 namespace BSMS.BusinessLayer.Commands
 {
-    public class CreateCustomerCommand : IRequest<int>
+    public class CreateCustomerCommand : IRequest<string>
     {
     }
 }

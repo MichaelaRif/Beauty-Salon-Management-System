@@ -30,7 +30,7 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<UpdateAddressCommand, Unit>, UpdateAddressHandler>();
 
             // register MediatR handlers for customers
-            services.AddScoped<IRequestHandler<CreateCustomerCommand, int>, CreateCustomerHandler>();
+            services.AddScoped<IRequestHandler<CreateCustomerCommand, string>, CreateCustomerHandler>();
 
             // register MediatR handlers for preferences
             services.AddScoped<IRequestHandler<GetPreferenceByIdQuery, PreferenceDto>, GetPreferenceByIdHandler>();

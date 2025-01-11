@@ -7,7 +7,7 @@ namespace BSMS.WebAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/customers")]
     public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,10 +17,13 @@ namespace BSMS.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        // POST api/customers/register
         [HttpPost("register")]
         public async Task<IActionResult> RegisterCustomer(CreateCustomerCommand command)
         {
-            return Ok(await _mediator.Send(command));
+            var keycloakId = await _mediator.Send(command);
+
+            return CreatedAtAction(nameof(GetCustomerByKeycloakId), new { keycloakId }, command);
         }
 
         [HttpPost("address")]
