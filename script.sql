@@ -2439,6 +2439,42 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION insert_address(
+    p_address_street VARCHAR,
+    p_address_building VARCHAR,
+    p_address_floor INT,
+    p_address_notes VARCHAR,
+    p_address_city_id INT
+)
+RETURNS TABLE (
+    "AddressId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_address_id INT;
+BEGIN
+    INSERT INTO addresses(
+        address_street,
+        address_building,
+        address_floor,
+        address_notes,
+        address_city_id
+    )
+    VALUES (
+        p_address_street,
+        p_address_building,
+        p_address_floor,
+        p_address_notes,
+        p_address_city_id
+    )
+    RETURNING address_id INTO v_address_id;
+
+    RETURN QUERY
+        SELECT v_address_id AS "AddressId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
