@@ -6,9 +6,9 @@ namespace BSMS.Data.Common.Interfaces
     public interface ICustomerRepository :
         IRepositoryQuery<Customer>,
         IRepositoryPost<Customer>,
-        IRepositoryUpdate<Customer>,
-        IRepositoryDelete<Customer>
+        IRepositoryUpdate<Customer>
     {
-        Task<Customer?> GetByKeycloakIdAsync(string keycloakId);
+        Task<int> GetByKeycloakIdAsync(string keycloakId);
+        Task DeleteAsync(string keycloakId);
     }
 }
