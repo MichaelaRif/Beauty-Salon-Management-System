@@ -51,9 +51,32 @@ namespace BSMS.PostgreSQL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Address entity)
+        public async Task<Address?> UpdateAsync(Address address, int customerId)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                                SELECT * FROM update_customer_address(
+                                    @AddressStreet, 
+                                    @AddressBuilding, 
+                                    @AddressFloor, 
+                                    @AddressNotes, 
+                                    @AddressCityId,
+                                    @CustomerId
+                                )";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QuerySingleOrDefaultAsync<Address>(
+                sql,
+                new { AddressStreet = address.AddressStreet, 
+                    AddressBuilding = address.AddressBuilding, 
+                    AddressFloor = address.AddressFloor, 
+                    AddressNotes = address.AddressNotes, 
+                    AddressCityId = address.AddressCityId,
+                    CustomerId = customerId }
+            );
+
+            return result;
         }
     }
 }

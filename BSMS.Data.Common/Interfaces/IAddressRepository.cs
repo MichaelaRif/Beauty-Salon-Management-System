@@ -6,8 +6,8 @@ namespace BSMS.Data.Common.Interfaces
     public interface IAddressRepository : 
         IRepositoryQuery<Address>, 
         IRepositoryPost<Address>, 
-        IRepositoryUpdate<Address>, 
         IRepositoryDelete<Address>
     {
+        Task<Address?> UpdateAsync(Address address, int customerId);
     }
 }
