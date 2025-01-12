@@ -41,6 +41,12 @@ namespace BSMS.PostgreSQL
             services.AddScoped<ISalonReviewRepository>(sp =>
                         new SalonReviewRepository(connectionString));
 
+            services.AddScoped<IServiceRepository>(sp =>
+                        new ServiceRepository(connectionString));
+
+            services.AddScoped<IServiceFavoriteRepository>(sp =>
+                        new ServiceFavoriteRepository(connectionString));
+
             return services;
         }
     }
