@@ -45,6 +45,16 @@ namespace BSMS.WebAPI.Controllers
 
             return Ok();
         }
+
+        // GET api/customers/customer/user-profile
+        [HttpGet("customer/user-profile")]
+        public async Task<IActionResult> GetCustomerUserProfile()
+        {
+            var customerProfile = await _mediator.Send(new GetCustomerProfileQuery{});
+
+            return Ok(customerProfile);
+        }
+
         }
 
     }
