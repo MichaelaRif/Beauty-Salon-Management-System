@@ -2722,6 +2722,32 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_service_by_id(p_service_id INT)
+RETURNS TABLE (
+    "ServiceId" INT,
+    "ServiceName" VARCHAR,
+    "ServiceDescription" VARCHAR,
+    "ServicePrice" money,
+    "ServiceCategoryId" INT,
+    "ServiceCategoryName" VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT
+            s.service_id AS "ServiceId",
+            s.service_name AS "ServiceName",
+            s.service_description AS "ServiceDescription",
+            s.service_price AS "ServicePrice",
+            sc.service_category_id AS "ServiceCategoryId",
+            sc.service_category_name AS "ServiceCategoryName"
+        FROM services s
+        INNER JOIN service_categories sc ON sc.service_category_id = s.service_category_id
+        WHERE s.service_id = p_service_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
