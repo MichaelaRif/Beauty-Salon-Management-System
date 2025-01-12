@@ -2607,7 +2607,8 @@ BEGIN
         customer_email = p_customer_email,
         customer_pn = p_customer_pn,
         customer_dob = p_customer_dob,
-        customer_pronoun_id = p_customer_pronoun_id
+        customer_pronoun_id = p_customer_pronoun_id,
+        last_updated = NOW()
     WHERE customer_id = p_customer_id;
 
     RETURN QUERY
@@ -2647,7 +2648,8 @@ BEGIN
         address_building = p_address_building,
         address_floor = p_address_floor,
         address_notes = p_address_notes,
-        address_city_id = p_address_city_id
+        address_city_id = p_address_city_id,
+        last_updated = NOW()
     FROM customer_addresses ca
     WHERE ca.customer_id = p_customer_id
     AND ca.address_id = addresses.address_id;
