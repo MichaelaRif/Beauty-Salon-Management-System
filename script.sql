@@ -2708,6 +2708,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_service_favorites(p_customer_id INT)
+RETURNS TABLE (
+    "ServiceId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT s.service_id AS "ServiceId"
+        FROM service_favorites s
+        WHERE s.customer_id = p_customer_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
