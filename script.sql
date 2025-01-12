@@ -2677,6 +2677,37 @@ BEGIN
 END;
 $$;
 
+
+--
+
+
+CREATE OR REPLACE FUNCTION insert_service_favorite(
+    p_customer_id INT,
+    p_service_id INT
+)
+RETURNS TABLE (
+    "ServiceFavoriteId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_service_favorite_id INT;
+BEGIN
+    INSERT INTO service_favorites(
+        customer_id,
+        service_id
+    )
+    VALUES (
+        p_customer_id,
+        p_service_id
+    )
+    RETURNING service_favorite_id INTO v_service_favorite_id;
+
+    RETURN QUERY
+        SELECT v_service_favorite_id AS "ServiceFavoriteId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
