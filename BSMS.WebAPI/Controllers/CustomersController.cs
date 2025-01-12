@@ -55,6 +55,15 @@ namespace BSMS.WebAPI.Controllers
             return Ok(customerProfile);
         }
 
+        // PUT api/customers/customer/user-profile
+        [HttpPut("customer/user-profile")]
+        public async Task<IActionResult> UpdateCustomerUserProfile(UpdateCustomerProfileCommand command)
+        {
+            var updatedCustomerProfile = await _mediator.Send(command);
+
+            return Ok(updatedCustomerProfile);
+        }
+
         }
 
     }
