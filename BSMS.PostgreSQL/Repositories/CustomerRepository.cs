@@ -71,9 +71,28 @@ namespace BSMS.PostgreSQL.Repositories
             return result;
         }
 
-        public Task UpdateAsync(Customer entity)
+        public async Task<Customer?> UpdateAsync(Customer customer)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                                SELECT * FROM update_customer(
+                                    @CustomerId,
+                                    @CustomerFn::name_domain,
+                                    @CustomerLn::name_domain,
+                                    @CustomerEmail::email_domain,
+                                    @CustomerPn::pn_domain,
+                                    @CustomerDob::date,
+                                    @CustomerPronounId
+                                )";
+
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QueryFirstAsync<Customer>(
+                sql, 
+                customer);
+
+            return result;
         }
     }
 }

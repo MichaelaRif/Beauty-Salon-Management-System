@@ -29,7 +29,11 @@ namespace BSMS.BusinessLayer.Handlers
 
             var userInfo = await _userInfoService.GetUserInfoAsync(token);
 
-            var customerInfo = _mapper.Map<CustomerInfoDto>(userInfo);
+            var customerInfo = new CustomerInfoDto
+            {
+                Customer = _mapper.Map<CustomerDto>(userInfo),
+                Address = _mapper.Map<AddressDto>(userInfo)
+            };
 
             return customerInfo;
         }
