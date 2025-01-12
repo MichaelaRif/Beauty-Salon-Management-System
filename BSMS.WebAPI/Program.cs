@@ -6,6 +6,7 @@ using BSMS.PostgreSQL.Handlers;
 using BSMS.WebAPI.Services;
 using Dapper;
 using MediatR;
+using System.Reflection;
 
 namespace BSMS.WebAPI
 {
@@ -51,6 +52,42 @@ namespace BSMS.WebAPI
 
             SqlMapper.RemoveTypeMap(typeof(DateOnly));
             SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+
+           
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Beauty Salon Management System API",
+                });
+
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = @"JWT Authorization header using the Bearer scheme. 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
+                {
+                    new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                    {
+                        Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                        {
+                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }});
+
+            });
+
 
             var app = builder.Build();
 
