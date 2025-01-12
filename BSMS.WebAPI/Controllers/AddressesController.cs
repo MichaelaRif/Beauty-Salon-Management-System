@@ -46,13 +46,5 @@ namespace BSMS.WebAPI.Controllers
             return Ok(await _mediator.Send(new DeleteAddressCommand { AddressId = id }));
         }
 
-        [Authorize(Roles = "guest")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAddress(int id, UpdateAddressCommand command)
-        {
-            command.AddressId = id;
-
-            return Ok(await _mediator.Send(command));
-        }
     }
 }

@@ -27,7 +27,6 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<GetAllAddressesQuery, IEnumerable<AddressDto>>, GetAllAddressesHandler>();
             services.AddScoped<IRequestHandler<CreateAddressCommand, int>, CreateAddressHandler>();
             services.AddScoped<IRequestHandler<DeleteAddressCommand, Unit>, DeleteAddressHandler>();
-            services.AddScoped<IRequestHandler<UpdateAddressCommand, Unit>, UpdateAddressHandler>();
 
             // register MediatR handlers for customers
             services.AddScoped<IRequestHandler<CreateCustomerCommand, string>, CreateCustomerHandler>();
@@ -46,7 +45,6 @@ namespace BSMS.BusinessLayer
 
             // register MediatR handlers for customer preferences
             services.AddScoped<IRequestHandler<CreateCustomerPreferenceCommand, Unit>, CreateCustomerPreferenceHandler>();
-
 
 
         }
