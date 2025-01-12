@@ -2784,7 +2784,6 @@ RETURNS TABLE (
     "SalonStarsCount" INT,
     "CustomerSalonReview" VARCHAR,
     "CustomerSalonReviewDate" TIMESTAMP,
-    "CustomerPfp" VARCHAR,
     "CustomerFn" name_domain,
     "CustomerLn" name_domain
 )
@@ -2796,7 +2795,6 @@ BEGIN
             s.salon_stars_count AS "SalonStarsCount",
             s.customer_salon_review AS "CustomerSalonReview",
             s.customer_salon_review_date AS "CustomerSalonReviewDate",
-            c.customer_pfp AS "CustomerPfp",
             c.customer_fn AS "CustomerFn",
             c.customer_ln AS "CustomerLn"
         FROM salon_reviews s
