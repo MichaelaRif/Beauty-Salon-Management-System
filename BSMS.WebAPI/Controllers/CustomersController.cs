@@ -19,11 +19,13 @@ namespace BSMS.WebAPI.Controllers
 
         // POST api/customers/register
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterCustomer(CreateCustomerCommand command)
+        public async Task<IActionResult> RegisterCustomer()
         {
+            var command = new CreateCustomerCommand { };
+
             var keycloakId = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetCustomerByKeycloakId), new { keycloakId }, command);
+            return Ok();
         }
 
         // GET api/customers/customer
