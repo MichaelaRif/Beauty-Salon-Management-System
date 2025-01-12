@@ -47,6 +47,8 @@ namespace BSMS.BusinessLayer
             // register MediatR handlers for customer preferences
             services.AddScoped<IRequestHandler<CreateCustomerPreferenceCommand, Unit>, CreateCustomerPreferenceHandler>();
 
+            // register MediatR handlers for service reviews
+            services.AddScoped<IRequestHandler<GetTopSalonReviewQuery, IEnumerable<GetSalonReviewDto>>, GetTopSalonReviewHandler>();
 
         }
     }

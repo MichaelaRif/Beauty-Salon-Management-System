@@ -62,6 +62,15 @@ namespace BSMS.BusinessLayer.Profiles
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ReverseMap();
 
+            CreateMap<SalonReview,GetSalonReviewDto>()
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => GetCustomerName(src.Customer)))
+                .ReverseMap();
+
+        }
+
+        private string GetCustomerName(Customer customer)
+        {
+            return customer.CustomerFn + " " + customer.CustomerLn;
         }
     }
 

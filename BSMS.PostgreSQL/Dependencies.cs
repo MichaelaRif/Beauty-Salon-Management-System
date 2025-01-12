@@ -38,6 +38,8 @@ namespace BSMS.PostgreSQL
             services.AddScoped<ICustomerPreferenceRepository>(sp =>
                         new CustomerPreferenceRepository(connectionString));
 
+            services.AddScoped<ISalonReviewRepository>(sp =>
+                        new SalonReviewRepository(connectionString));
 
             return services;
         }
