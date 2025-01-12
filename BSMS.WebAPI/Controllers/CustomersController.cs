@@ -1,4 +1,5 @@
 ﻿using BSMS.BusinessLayer.Commands;
+using BSMS.BusinessLayer.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,14 @@ namespace BSMS.WebAPI.Controllers
             return Ok(updatedCustomerProfile);
         }
 
+        // DELETE api/customers/customer
+        [HttpDelete("customer")]
+        public async Task<IActionResult> DeleteCustomer()
+        {
+            var command = new DeleteCustomerCommand { };
+            await _mediator.Send(command);
+
+            return Ok();
         }
 
     }
