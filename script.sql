@@ -2623,6 +2623,48 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION update_customer_address(
+    p_address_street VARCHAR,
+    p_address_building VARCHAR,
+    p_address_floor INT,
+    p_address_notes VARCHAR,
+    p_address_city_id INT,
+    p_customer_id INT
+)
+RETURNS TABLE (
+    "AddressStreet" VARCHAR,
+    "AddressBuilding" VARCHAR,
+    "AddressFloor" INT,
+    "AddressNotes" VARCHAR,
+    "AddressCityId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE addresses
+    SET
+        address_street = p_address_street,
+        address_building = p_address_building,
+        address_floor = p_address_floor,
+        address_notes = p_address_notes,
+        address_city_id = p_address_city_id
+    FROM customer_addresses ca
+    WHERE ca.customer_id = p_customer_id
+    AND ca.address_id = addresses.address_id;
+
+    RETURN QUERY
+        SELECT
+            a.address_street AS "AddressStreet",
+            a.address_building AS "AddressBuilding",
+            a.address_floor AS "AddressFloor",
+            a.address_notes AS "AddressNotes",
+            a.address_city_id AS "AddressCityId"
+        FROM addresses a
+        INNER JOIN customer_addresses ca ON ca.address_id = a.address_id
+        WHERE ca.customer_id = p_customer_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
