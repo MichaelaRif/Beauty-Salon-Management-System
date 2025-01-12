@@ -66,6 +66,10 @@ namespace BSMS.BusinessLayer.Profiles
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => GetCustomerName(src.Customer)))
                 .ReverseMap();
 
+            CreateMap<Service, ServiceDto>()
+                .ForMember(dest => dest.ServiceCategoryName, opt => opt.MapFrom(src => src.ServiceCategory.ServiceCategoryName))
+                .ReverseMap();
+
         }
 
         private string GetCustomerName(Customer customer)
