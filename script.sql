@@ -2665,6 +2665,16 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION delete_customer(p_customer_keycloak_id keycloak_domain)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM customers
+    WHERE customer_keycloak_id = p_customer_keycloak_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
