@@ -35,11 +35,6 @@ namespace BSMS.PostgreSQL.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<Preference>?> GetAllAsync(string keycloakId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<Preference?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
