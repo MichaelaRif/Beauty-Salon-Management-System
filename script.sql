@@ -2670,30 +2670,6 @@ BEGIN
 END;
 $$;
 
-/*CREATE OR REPLACE FUNCTION get_customer_preferences(p_customer_keycloak_id keycloak_domain)
-RETURNS TABLE (
-    "PreferenceId" INT,
-    "PreferenceName" VARCHAR,
-    "CategoryId" INT,
-    "CategoryName" VARCHAR
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT
-            p.preference_id AS "PreferenceId",
-            p.preference_name AS "PreferenceName",
-            c.category_id AS "CategoryId",
-            c.category_name AS "CategoryName"
-        FROM customers cu
-        INNER JOIN customer_preferences cp ON cp.customer_id = cu.customer_id
-        INNER JOIN preferences p ON p.preference_id = cp.preference_id
-        INNER JOIN categories c ON c.category_id = p.category_id
-        WHERE cu.customer_keycloak_id = p_customer_keycloak_id;
-END;
-$$;*/
-
 CREATE OR REPLACE FUNCTION update_customer(
     p_customer_id INT,
     p_customer_fn name_domain,
@@ -3026,108 +3002,6 @@ BEGIN
     AND salon_review_id = p_salon_review_id;
 END;
 $$;
-
-/*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
-RETURNS TABLE (
-    "CustomerId" INT
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT c.customer_id AS "CustomerId"
-        FROM customers c
-        WHERE c.customer_id = p_customer_id;
-END;
-$$;*/
-
-/*CREATE OR REPLACE FUNCTION get_customer_id_by_keycloak_id(p_customer_keycloak_id keycloak_domain)
-RETURNS TABLE (
-    "CustomerFn" name_domain,
-    "CustomerLn" name_domain,
-    "CustomerEmail" email_domain,
-    "CustomerPn" pn_domain,
-    "CustomerDob" DATE,
-    "IsGoogle" BOOLEAN,
-    "IsApple" BOOLEAN,
-    "Is2fa" BOOLEAN,
-    "PronounName" pronoun_domain
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT
-            c.customer_fn AS "CustomerFn",
-            c.customer_ln AS "CustomerLn",
-            c.customer_email AS "CustomerEmail",
-            c.customer_pn AS "CustomerPn",
-            c.customer_dob AS "CustomerDob",
-            c.is_google AS "IsGoogle",
-            c.is_apple AS "IsApple",
-            c.is_2fa AS "Is2fa",
-            p.pronoun AS "PronounName"
-        FROM customers c
-        INNER JOIN pronouns p ON p.pronoun_id = c.customer_pronoun_id
-        WHERE c.customer_keycloak_id = p_customer_keycloak_id;
-END;
-$$;*/
-
-/*CREATE OR REPLACE FUNCTION t_get_customer_by_id(p_customer_id INT)
-RETURNS TABLE (customer_fn name_domain, pronoun pronoun_domain)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT c.customer_fn, p.pronoun
-        FROM customers c
-        INNER JOIN pronouns p ON p.pronoun_id = c.customer_pronoun_id
-        WHERE c.customer_id = p_customer_id;
-END;
-$$;*/
-
-/*CREATE OR REPLACE FUNCTION get_city_by_id(p_city_id INT)
-RETURNS TABLE (
-    city_id INT,
-    city_name VARCHAR,
-    country_id INT,
-    country_name VARCHAR
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT
-            ci.city_id,
-            ci.city_name,
-            co.country_id,
-            co.country_name
-        FROM cities ci
-        INNER JOIN countries co ON co.country_id = ci.country_id
-        WHERE ci.city_id = p_city_id;
-END;
-$$;*/
-
-/*CREATE OR REPLACE FUNCTION get_cities()
-RETURNS TABLE (
-    city_id INT,
-    city_name VARCHAR,
-    country_id INT,
-    country_name VARCHAR
-)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY
-        SELECT
-            ci.city_id,
-            ci.city_name,
-            co.country_id,
-            co.country_name
-        FROM cities ci
-        INNER JOIN countries co ON co.country_id = ci.country_id;
-END;
-$$;*/
 
 CREATE OR REPLACE FUNCTION get_top_salon_reviews()
 RETURNS TABLE (
