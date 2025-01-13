@@ -2834,6 +2834,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION delete_product_favorite(
+    p_customer_id INT,
+    p_product_id INT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM product_favorites
+    WHERE customer_id = p_customer_id
+    AND product_id = p_product_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
