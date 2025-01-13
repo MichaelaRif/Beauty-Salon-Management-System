@@ -3,7 +3,7 @@ using MediatR;
 
 namespace BSMS.BusinessLayer.Queries
 {
-    public class GetTopSalonReviewQuery : IRequest<IEnumerable<GetSalonReviewDto>>
+    public class GetTopSalonReviewQuery : IRequest<IEnumerable<SalonReviewDto>>
     {
     }
 }

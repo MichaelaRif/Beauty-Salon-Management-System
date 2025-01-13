@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BSMS.BusinessLayer.Handlers
 {
-    public class GetTopSalonReviewHandler : IRequestHandler<GetTopSalonReviewQuery, IEnumerable<GetSalonReviewDto>>
+    public class GetTopSalonReviewHandler : IRequestHandler<GetTopSalonReviewQuery, IEnumerable<SalonReviewDto>>
     {
         private readonly ISalonReviewRepository _salonReviewRepository;
         private readonly IMapper _mapper;
@@ -17,11 +17,11 @@ namespace BSMS.BusinessLayer.Handlers
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetSalonReviewDto>> Handle(GetTopSalonReviewQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SalonReviewDto>> Handle(GetTopSalonReviewQuery request, CancellationToken cancellationToken)
         {
             var salonReviews = await _salonReviewRepository.GetTopAsync();
 
-            return _mapper.Map<IEnumerable<GetSalonReviewDto>> (salonReviews);
+            return _mapper.Map<IEnumerable<SalonReviewDto>> (salonReviews);
         }
     }
 }
