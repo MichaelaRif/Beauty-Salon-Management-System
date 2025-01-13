@@ -70,6 +70,11 @@ namespace BSMS.BusinessLayer.Profiles
                 .ForMember(dest => dest.ServiceCategoryName, opt => opt.MapFrom(src => src.ServiceCategory.ServiceCategoryName))
                 .ReverseMap();
 
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.ProductBrandName, opt => opt.MapFrom(src => src.ProductBrand.ProductBrand1))
+                .ForMember(dest => dest.ProductCategoryName, opt => opt.MapFrom(src => src.ProductCategory.ProductCategory1))
+                .ReverseMap();
+
         }
 
         private string GetCustomerName(Customer customer)

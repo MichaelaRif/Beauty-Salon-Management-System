@@ -38,9 +38,22 @@ namespace BSMS.PostgreSQL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ProductFavorite>?> GetAllAsync(int customerId)
+        public async Task<IEnumerable<ProductFavorite>?> GetAllAsync(int customerId)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                         SELECT * FROM get_product_favorites(
+                             @CustomerId
+                         )";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<ProductFavorite>(
+                sql,
+                new { CustomerId = customerId });
+
+            return result;
         }
+
     }
 }

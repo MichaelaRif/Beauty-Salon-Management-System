@@ -26,6 +26,15 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
-      
+        // GET /api/products/customer/favorites
+        [HttpGet("favorites")]
+        public async Task<IActionResult> GetProductFavoritesAsync()
+        {
+            var query = new GetAllProductFavoritesQuery();
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
     }
 }

@@ -47,6 +47,9 @@ namespace BSMS.PostgreSQL
             services.AddScoped<IServiceFavoriteRepository>(sp =>
                         new ServiceFavoriteRepository(connectionString));
 
+            services.AddScoped<IProductRepository>(sp =>
+            new ProductRepository(connectionString));
+
             services.AddScoped<IProductFavoriteRepository>(sp =>
                         new ProductFavoriteRepository(connectionString));
 

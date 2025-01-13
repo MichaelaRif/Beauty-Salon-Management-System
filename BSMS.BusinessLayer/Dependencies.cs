@@ -53,6 +53,7 @@ namespace BSMS.BusinessLayer
 
             // register MediatR handlers for product favorites
             services.AddScoped<IRequestHandler<CreateProductFavoriteCommand, int>, CreateProductFavoriteHandler>();
+            services.AddScoped<IRequestHandler<GetAllProductFavoritesQuery, IEnumerable<ProductDto>>, GetAllProductFavoritesHandler>();
         }
     }
 }
