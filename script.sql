@@ -2789,6 +2789,20 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_product_favorites(p_customer_id INT)
+RETURNS TABLE (
+    "ProductId" INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT p.product_id AS "ProductId"
+        FROM product_favorites p
+        WHERE p.customer_id = p_customer_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
