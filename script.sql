@@ -2902,6 +2902,17 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION delete_salon_review(p_customer_id INT, p_salon_review_id INT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM salon_reviews
+    WHERE customer_id = p_customer_id
+    AND salon_review_id = p_salon_review_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
