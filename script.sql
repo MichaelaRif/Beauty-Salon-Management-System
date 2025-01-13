@@ -597,7 +597,7 @@ CREATE TABLE IF NOT EXISTS public.product_cart (
     product_id INT NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-)
+);
 ALTER TABLE public.product_cart OWNER TO postgres;
 
 CREATE SEQUENCE IF NOT EXISTS public.product_cart_product_cart_id_seq
@@ -752,6 +752,25 @@ CREATE SEQUENCE IF NOT EXISTS public.salon_reviews_salon_review_id_seq
 ALTER SEQUENCE public.salon_reviews_salon_review_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.salon_reviews_salon_review_id_seq OWNED BY public.salon_reviews.salon_review_id;
 
+CREATE TABLE IF NOT EXISTS public.service_cart (
+    service_cart_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    service_id INT NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+ALTER TABLE public.service_cart OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.service_cart_service_cart_id_seq
+    AS INT
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.service_cart_service_cart_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.service_cart_service_cart_id_seq OWNED BY public.service_cart.service_cart_id;
+
 CREATE TABLE IF NOT EXISTS public.service_categories (
     service_category_id INT NOT NULL,
     service_category_name VARCHAR(255) NOT NULL,
@@ -898,7 +917,7 @@ ALTER TABLE ONLY public.forms ALTER COLUMN form_id SET DEFAULT nextval('public.f
 ALTER TABLE ONLY public.inventory ALTER COLUMN inventory_id SET DEFAULT nextval('public.inventory_inventory_id_seq'::regclass);
 ALTER TABLE ONLY public.preferences ALTER COLUMN preference_id SET DEFAULT nextval('public.preferences_preference_id_seq'::regclass);
 ALTER TABLE ONLY public.product_brands ALTER COLUMN product_brand_id SET DEFAULT nextval('public.product_brands_product_brand_id_seq'::regclass);
-ALTER TABLE ONLY public.product_cart ALTER COLUMN product_cart_id SET DEFAULT nextval('public.product_cart_product_cart_id'::regclass);
+ALTER TABLE ONLY public.product_cart ALTER COLUMN product_cart_id SET DEFAULT nextval('public.product_cart_product_cart_id_seq'::regclass);
 ALTER TABLE ONLY public.product_categories ALTER COLUMN product_category_id SET DEFAULT nextval('public.product_categories_product_category_id_seq'::regclass);
 ALTER TABLE ONLY public.product_favorites ALTER COLUMN product_favorite_id SET DEFAULT nextval('public.product_favorites_product_favorite_id_seq'::regclass);
 ALTER TABLE ONLY public.product_reviews ALTER COLUMN product_review_id SET DEFAULT nextval('public.product_reviews_product_review_id_seq'::regclass);
@@ -906,6 +925,7 @@ ALTER TABLE ONLY public.products ALTER COLUMN product_id SET DEFAULT nextval('pu
 ALTER TABLE ONLY public.pronouns ALTER COLUMN pronoun_id SET DEFAULT nextval('public.pronouns_pronoun_id_seq'::regclass);
 ALTER TABLE ONLY public.roles ALTER COLUMN role_id SET DEFAULT nextval('public.roles_role_id_seq'::regclass);
 ALTER TABLE ONLY public.salon_reviews ALTER COLUMN salon_review_id SET DEFAULT nextval('public.salon_reviews_salon_review_id_seq'::regclass);
+ALTER TABLE ONLY public.service_cart ALTER COLUMN service_cart_id SET DEFAULT nextval('public.service_cart_service_cart_id_seq'::regclass);
 ALTER TABLE ONLY public.service_categories ALTER COLUMN service_category_id SET DEFAULT nextval('public.service_categories_service_category_id_seq'::regclass);
 ALTER TABLE ONLY public.service_favorites ALTER COLUMN service_favorite_id SET DEFAULT nextval('public.service_favorites_service_favorite_id_seq'::regclass);
 ALTER TABLE ONLY public.service_reviews ALTER COLUMN service_review_id SET DEFAULT nextval('public.service_reviews_service_review_id_seq'::regclass);
@@ -943,6 +963,7 @@ SELECT pg_catalog.setval('public.products_product_id_seq', 1, false);
 SELECT pg_catalog.setval('public.pronouns_pronoun_id_seq', 1, false);
 SELECT pg_catalog.setval('public.roles_role_id_seq', 1, false);
 SELECT pg_catalog.setval('public.salon_reviews_salon_review_id_seq', 1, false);
+SELECT pg_catalog.setval('public.service_cart_service_cart_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_categories_service_category_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_favorites_service_favorite_id_seq', 1, false);
 SELECT pg_catalog.setval('public.service_reviews_service_review_id_seq', 1, false);
@@ -1310,6 +1331,18 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.salon_reviews
         ADD CONSTRAINT salon_reviews_pkey PRIMARY KEY (salon_review_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'service_cart_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.service_cart
+        ADD CONSTRAINT service_cart_pkey PRIMARY KEY (service_cart_id);
     END IF;
 END $$;
 
@@ -2120,6 +2153,30 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.service_reviews
         ADD CONSTRAINT fk_service_reviews_service_id FOREIGN KEY (service_id) REFERENCES public.services(service_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_cart_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.service_cart
+        ADD CONSTRAINT fk_service_cart_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_service_cart_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_cart
+        ADD CONSTRAINT fk_service_cart_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
     END IF;
 END $$;
 
