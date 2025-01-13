@@ -51,6 +51,8 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<GetAllServiceFavoritesQuery, IEnumerable<ServiceDto>>, GetAllServiceFavoritesHandler>();
             services.AddScoped<IRequestHandler<DeleteServiceFavoriteCommand, Unit>, DeleteServiceFavoriteHandler>();
 
+            // register MediatR handlers for product favorites
+            services.AddScoped<IRequestHandler<CreateProductFavoriteCommand, int>, CreateProductFavoriteHandler>();
         }
     }
 }
