@@ -2803,6 +2803,37 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION get_product_by_id(p_product_id INT)
+RETURNS TABLE (
+    "ProductId" INT,
+    "ProductName" VARCHAR,
+    "ProductDescription" VARCHAR,
+    "ProductPrice" money,
+    "ProductBrandId" INT,
+    "ProductBrand1" VARCHAR,
+    "ProductCategoryId" INT,
+    "ProductCategory1" VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT
+            p.product_id AS "ProductId",
+            p.product_name AS "ProductName",
+            p.product_description AS "ProductDescription",
+            p.product_price AS "ProductPrice",
+            pb.product_brand_id AS "ProductBrandId",
+            pb.product_brand AS "ProductBrand1",
+            pc.product_category_id AS "ProductCategoryId",
+            pc.product_category AS "ProductCategory1"
+        FROM products p
+        INNER JOIN product_categories pc ON pc.product_category_id = p.product_category_id
+        INNER JOIN product_brands pb ON pb.product_brand_id = p.product_brand_id
+        WHERE p.product_id = p_product_id;
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
