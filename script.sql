@@ -2848,6 +2848,36 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION insert_salon_review(
+    p_customer_id INT,
+    p_salon_stars_count INT,
+    p_customer_salon_review VARCHAR
+)
+RETURNS TABLE (
+    "SalonReviewId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_salon_review_id INT;
+BEGIN
+    INSERT INTO salon_reviews(
+        customer_id,
+        salon_stars_count,
+        customer_salon_review
+    )
+    VALUES (
+        p_customer_id,
+        p_salon_stars_count,
+        p_customer_salon_review
+    )
+    RETURNING salon_review_id INTO v_salon_review_id;
+
+    RETURN QUERY
+        SELECT v_salon_review_id AS "SalonReviewId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
