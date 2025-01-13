@@ -14,9 +14,25 @@ namespace BSMS.PostgreSQL.Repositories
             _connectionString = connectionString;
         }
 
-        public Task<int> AddAsync(SalonReview entity)
+        public async Task<int> AddAsync(SalonReview entity)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                                SELECT * FROM insert_salon_review(
+                                    @CustomerId, 
+                                    @SalonStarsCount,
+                                    @CustomerSalonReview
+                                )";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QuerySingleAsync<int>(
+                sql,
+                entity
+            );
+
+            return result;
+
         }
 
         public Task DeleteAsync(int id)
@@ -29,9 +45,26 @@ namespace BSMS.PostgreSQL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<SalonReview?> GetByIdAsync(int id)
+        public async Task<SalonReview?> GetByIdAsync(int salonReviewId)
         {
-            throw new NotImplementedException();
+            const string sql = "SELECT * FROM get_salon_review_by_id(@SalonReviewId)";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+
+            await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<SalonReview, Customer, SalonReview>(
+                sql,
+                (salonReview, customer) =>
+                {
+                    salonReview.Customer = customer;
+                    return salonReview;
+                },
+                new { SalonReviewId = salonReviewId },
+                splitOn: "CustomerFn"
+            );
+
+            return result.FirstOrDefault();
         }
 
         public async Task<IEnumerable<SalonReview>?> GetTopAsync()

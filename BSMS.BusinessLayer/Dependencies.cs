@@ -55,6 +55,10 @@ namespace BSMS.BusinessLayer
 
             // register MediatR handlers for salon reviews
             services.AddScoped<IRequestHandler<GetTopSalonReviewQuery, IEnumerable<SalonReviewDto>>, GetTopSalonReviewHandler>();
+            services.AddScoped<IRequestHandler<CreateSalonReviewCommand, int>, CreateSalonReviewHandler>();
+            services.AddScoped<IRequestHandler<GetSalonReviewByIdQuery, SalonReviewDto>, GetSalonReviewByIdHandler>();
+
+
         }
     }
 }
