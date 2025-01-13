@@ -5,9 +5,9 @@ namespace BSMS.Data.Common.Interfaces
 {
     public interface ISalonReviewRepository : 
         IRepositoryQuery<SalonReview>, 
-        IRepositoryDelete<SalonReview>
         IRepositoryPost<SalonReview>
     {
         Task<IEnumerable<SalonReview>?> GetTopAsync();
+        Task DeleteAsync(int customerId, int salonReviewId);
     }
 }

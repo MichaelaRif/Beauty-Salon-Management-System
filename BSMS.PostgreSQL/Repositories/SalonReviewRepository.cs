@@ -35,9 +35,22 @@ namespace BSMS.PostgreSQL.Repositories
 
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int customerId, int salonReviewId)
         {
-            throw new NotImplementedException();
+            const string sql = @"
+                                SELECT * FROM delete_salon_review(
+                                    @CustomerId,
+                                    @SalonReviewId
+                                )";
+
+            using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var result = await connection.QuerySingleAsync(
+                sql,
+                new { CustomerId = customerId, SalonReviewId = salonReviewId }
+            );
+
         }
 
         public Task<IEnumerable<SalonReview>?> GetAllAsync()

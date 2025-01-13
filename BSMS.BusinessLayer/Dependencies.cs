@@ -57,6 +57,7 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<GetTopSalonReviewQuery, IEnumerable<SalonReviewDto>>, GetTopSalonReviewHandler>();
             services.AddScoped<IRequestHandler<CreateSalonReviewCommand, int>, CreateSalonReviewHandler>();
             services.AddScoped<IRequestHandler<GetSalonReviewByIdQuery, SalonReviewDto>, GetSalonReviewByIdHandler>();
+            services.AddScoped<IRequestHandler<DeleteSalonReviewCommand, Unit>, DeleteSalonReviewHandler>();
 
 
         }

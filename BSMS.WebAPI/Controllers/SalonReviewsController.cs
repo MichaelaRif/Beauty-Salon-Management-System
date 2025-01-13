@@ -48,5 +48,17 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
+        // DELETE /api/salon-reviews/customer/salon-review-id
+        [HttpDelete("customer/{id}")]
+        public async Task<IActionResult> DeleteSalonReviewAsync(int id)
+        {
+            var command = new DeleteSalonReviewCommand
+            {
+                SalonReviewId = id
+            };
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
     }
 }
