@@ -36,7 +36,7 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
-        // DELETE /api/services/customer/favorite
+        // DELETE /api/services/customer/favorite/service-id
         [HttpDelete("favorite/{id}")]
         public async Task<IActionResult> DeleteFavoriteAsync(int id)
         {
