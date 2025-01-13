@@ -2,6 +2,7 @@
 using BSMS.BusinessLayer.DTOs;
 using BSMS.BusinessLayer.Handlers;
 using BSMS.BusinessLayer.Queries;
+using BSMS.BusinessLayer.Services.EmailServices;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,12 @@ namespace BSMS.BusinessLayer
     {
         public static void AddBusinessLogicLayerDependencies(this IServiceCollection services)
         {
+            // register email sender service
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            // register MediatR handlers for contact us
+            services.AddScoped<IRequestHandler<CreateContactUsCommand, Unit>, CreateContactUsHandler>();
+
             // register MediatR handlers for bundles
             services.AddScoped<IRequestHandler<GetBundleByIdQuery, BundleDto>, GetBundleByIdHandler>();
             services.AddScoped<IRequestHandler<GetAllBundlesQuery, IEnumerable<BundleDto>>, GetAllBundlesHandler>();
