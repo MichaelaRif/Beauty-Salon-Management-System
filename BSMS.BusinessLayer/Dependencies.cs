@@ -43,9 +43,6 @@ namespace BSMS.BusinessLayer
             // register MediatR handlers for customer preferences
             services.AddScoped<IRequestHandler<CreateCustomerPreferenceCommand, Unit>, CreateCustomerPreferenceHandler>();
 
-            // register MediatR handlers for service reviews
-            services.AddScoped<IRequestHandler<GetTopSalonReviewQuery, IEnumerable<GetSalonReviewDto>>, GetTopSalonReviewHandler>();
-
             // register MediatR handlers for services favorites
             services.AddScoped<IRequestHandler<CreateServiceFavoriteCommand, int>, CreateServiceFavoriteHandler>();
             services.AddScoped<IRequestHandler<GetAllServiceFavoritesQuery, IEnumerable<ServiceDto>>, GetAllServiceFavoritesHandler>();
@@ -56,6 +53,8 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<GetAllProductFavoritesQuery, IEnumerable<ProductDto>>, GetAllProductFavoritesHandler>();
             services.AddScoped<IRequestHandler<DeleteProductFavoriteCommand, Unit>, DeleteProductFavoriteHandler>();
 
+            // register MediatR handlers for salon reviews
+            services.AddScoped<IRequestHandler<GetTopSalonReviewQuery, IEnumerable<SalonReviewDto>>, GetTopSalonReviewHandler>();
         }
     }
 }

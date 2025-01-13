@@ -1,6 +1,6 @@
 ﻿namespace BSMS.BusinessLayer.DTOs
 {
-    public class GetSalonReviewDto
+    public class SalonReviewDto
     {
         public int SalonStarsCount { get; set; }
         public string? CustomerSalonReview { get; set; }

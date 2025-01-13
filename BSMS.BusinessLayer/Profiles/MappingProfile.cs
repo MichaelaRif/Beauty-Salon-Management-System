@@ -62,7 +62,7 @@ namespace BSMS.BusinessLayer.Profiles
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ReverseMap();
 
-            CreateMap<SalonReview,GetSalonReviewDto>()
+            CreateMap<SalonReview,SalonReviewDto>()
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => GetCustomerName(src.Customer)))
                 .ReverseMap();
 
