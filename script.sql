@@ -592,7 +592,7 @@ ALTER SEQUENCE public.product_brands_product_brand_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.product_brands_product_brand_id_seq OWNED BY public.product_brands.product_brand_id;
 
 CREATE TABLE IF NOT EXISTS public.product_cart (
-    product_card_id INT NOT NULL,
+    product_cart_id INT NOT NULL,
     customer_id INT NOT NULL,
     product_id INT NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
