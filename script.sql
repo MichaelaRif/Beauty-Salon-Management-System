@@ -2762,6 +2762,33 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION insert_product_favorite(
+    p_customer_id INT,
+    p_product_id INT
+)
+RETURNS TABLE (
+    "ProductFavoriteId" INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_product_favorite_id INT;
+BEGIN
+    INSERT INTO product_favorites(
+        customer_id,
+        product_id
+    )
+    VALUES (
+        p_customer_id,
+        p_product_id
+    )
+    RETURNING product_favorite_id INTO v_product_favorite_id;
+
+    RETURN QUERY
+        SELECT v_product_favorite_id AS "ProductFavoriteId";
+END;
+$$;
+
 /*CREATE OR REPLACE FUNCTION get_customer_by_id(p_customer_id INT)
 RETURNS TABLE (
     "CustomerId" INT
