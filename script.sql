@@ -591,6 +591,25 @@ CREATE SEQUENCE IF NOT EXISTS public.product_brands_product_brand_id_seq
 ALTER SEQUENCE public.product_brands_product_brand_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.product_brands_product_brand_id_seq OWNED BY public.product_brands.product_brand_id;
 
+CREATE TABLE IF NOT EXISTS public.product_cart (
+    product_card_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_update timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
+ALTER TABLE public.product_cart OWNER TO postgres;
+
+CREATE SEQUENCE IF NOT EXISTS public.product_cart_product_cart_id_seq
+    AS INT
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.product_cart_product_cart_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.product_cart_product_cart_id_seq OWNED BY public.product_cart.product_cart_id;
+
 CREATE TABLE IF NOT EXISTS public.product_categories (
     product_category_id INT NOT NULL,
     product_category VARCHAR(255) NOT NULL,
@@ -879,6 +898,7 @@ ALTER TABLE ONLY public.forms ALTER COLUMN form_id SET DEFAULT nextval('public.f
 ALTER TABLE ONLY public.inventory ALTER COLUMN inventory_id SET DEFAULT nextval('public.inventory_inventory_id_seq'::regclass);
 ALTER TABLE ONLY public.preferences ALTER COLUMN preference_id SET DEFAULT nextval('public.preferences_preference_id_seq'::regclass);
 ALTER TABLE ONLY public.product_brands ALTER COLUMN product_brand_id SET DEFAULT nextval('public.product_brands_product_brand_id_seq'::regclass);
+ALTER TABLE ONLY public.product_cart ALTER COLUMN product_cart_id SET DEFAULT nextval('public.product_cart_product_cart_id'::regclass);
 ALTER TABLE ONLY public.product_categories ALTER COLUMN product_category_id SET DEFAULT nextval('public.product_categories_product_category_id_seq'::regclass);
 ALTER TABLE ONLY public.product_favorites ALTER COLUMN product_favorite_id SET DEFAULT nextval('public.product_favorites_product_favorite_id_seq'::regclass);
 ALTER TABLE ONLY public.product_reviews ALTER COLUMN product_review_id SET DEFAULT nextval('public.product_reviews_product_review_id_seq'::regclass);
@@ -915,6 +935,7 @@ SELECT pg_catalog.setval('public.forms_form_id_seq', 1, false);
 SELECT pg_catalog.setval('public.inventory_inventory_id_seq', 1, false);
 SELECT pg_catalog.setval('public.preferences_preference_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_brands_product_brand_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_cart_product_cart_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_categories_product_category_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_favorites_product_favorite_id_seq', 1, false);
 SELECT pg_catalog.setval('public.product_reviews_product_review_id_seq', 1, false);
@@ -1193,6 +1214,18 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.product_brands
         ADD CONSTRAINT product_brands_pkey PRIMARY KEY (product_brand_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'product_cart_pkey'
+    ) THEN
+        ALTER TABLE ONLY public.product_cart
+        ADD CONSTRAINT product_cart_pkey PRIMARY KEY (product_cart_id);
     END IF;
 END $$;
 
@@ -1919,6 +1952,30 @@ BEGIN
     ) THEN
         ALTER TABLE ONLY public.inventory
         ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_cart_customer_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_cart
+        ADD CONSTRAINT fk_product_cart_customer_id FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id);
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'fk_product_cart_product_id'
+    ) THEN
+        ALTER TABLE ONLY public.product_cart
+        ADD CONSTRAINT fk_product_cart_product_id FOREIGN KEY (product_id) REFERENCES public.products(product_id);
     END IF;
 END $$;
 
