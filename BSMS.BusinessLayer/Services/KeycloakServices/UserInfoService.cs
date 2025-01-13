@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
-namespace BSMS.BusinessLayer.Services
+namespace BSMS.BusinessLayer.Services.KeycloakServices
 {
     public class UserInfoService : IUserInfoService
     {

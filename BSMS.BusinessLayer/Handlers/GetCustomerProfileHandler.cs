@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BSMS.BusinessLayer.DTOs;
 using BSMS.BusinessLayer.Queries;
-using BSMS.BusinessLayer.Services;
+using BSMS.BusinessLayer.Services.KeycloakServices;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

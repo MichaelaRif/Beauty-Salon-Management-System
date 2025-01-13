@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BSMS.BusinessLayer.DTOs;
-using BSMS.BusinessLayer.Services;
+using BSMS.BusinessLayer.Services.KeycloakServices;
 using BSMS.Domain.Entities;
 
 namespace BSMS.BusinessLayer.Profiles

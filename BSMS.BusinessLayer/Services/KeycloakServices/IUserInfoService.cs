@@ -1,4 +1,4 @@
-﻿namespace BSMS.BusinessLayer.Services
+﻿namespace BSMS.BusinessLayer.Services.KeycloakServices
 {
     public interface IUserInfoService
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace BSMS.BusinessLayer.Services
+namespace BSMS.BusinessLayer.Services.KeycloakServices
 {
     public class UserInfo
     {
