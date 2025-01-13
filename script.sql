@@ -2424,7 +2424,6 @@ INSERT INTO public.cities(city_name, country_id) VALUES ('Zahle', 94) ON CONFLIC
 INSERT INTO public.cities(city_name, country_id) VALUES ('Jezzine', 94) ON CONFLICT (city_id) DO NOTHING;
 INSERT INTO public.cities(city_name, country_id) VALUES ('Chouf', 94) ON CONFLICT (city_id) DO NOTHING;
 
-INSERT INTO public.form_types(form_type) VALUES ('Test') ON CONFLICT (form_type_id) DO NOTHING;
 INSERT INTO public.form_types(form_type) VALUES ('Quiz') ON CONFLICT (form_type_id) DO NOTHING;
 INSERT INTO public.form_types(form_type) VALUES ('Survey') ON CONFLICT (form_type_id) DO NOTHING;
 INSERT INTO public.form_types(form_type) VALUES ('Other') ON CONFLICT (form_type_id) DO NOTHING;
