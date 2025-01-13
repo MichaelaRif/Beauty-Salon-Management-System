@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BSMS.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/bundles")]
     public class BundlesController : ControllerBase
     {
         private readonly IMediator _mediator;
