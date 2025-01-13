@@ -36,5 +36,20 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
+
+        // DELETE /api/products/customer/favorite/product-id
+        [HttpDelete("favorite/{id}")]
+        public async Task<IActionResult> DeleteProductFavoriteAsync(int id)
+        {
+            var command = new DeleteProductFavoriteCommand
+            {
+                ProductId = id
+            };
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
     }
 }
