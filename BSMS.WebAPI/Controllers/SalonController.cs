@@ -5,27 +5,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BSMS.WebAPI.Controllers
 {
-    [Route("api/salon-reviews")]
+    [Route("api/salon")]
     [ApiController]
-    public class SalonReviewsController : ControllerBase
+    public class SalonController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public SalonReviewsController(IMediator mediator)
+        public SalonController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        // GET /api/salon-reviews/top-5
-        [HttpGet("top-5")]
+        // GET /api/salon/reviews/top-5
+        [HttpGet("reviews/top-5")]
         public async Task<IActionResult> GetTopSalonReview()
         {
             return Ok(await _mediator.Send(new GetTopSalonReviewQuery()));
 
         }
 
-        // POST /api/salon-reviews/customer
-        [HttpPost("customer")]
+        // POST /api/salon/reviews/customer
+        [HttpPost("reviews/customer")]
         public async Task<IActionResult> AddSalonReviewAsync([FromBody] CreateSalonReviewCommand command)
         {
             var result = await _mediator.Send(command);
@@ -33,9 +33,9 @@ namespace BSMS.WebAPI.Controllers
             return CreatedAtAction(nameof(GetSalonReviewByIdAsync), new { id = result }, result);
         }
 
-        // GET /api/salon-reviews/customer/salon-review-id
+        // GET /api/salon/reviews/customer/salon-review-id
         [ActionName("GetSalonReviewByIdAsync")]
-        [HttpGet("customer/{id}")]
+        [HttpGet("reviews/customer/{id}")]
         public async Task<IActionResult> GetSalonReviewByIdAsync(int id)
         {
             var command = new GetSalonReviewByIdQuery
@@ -48,8 +48,8 @@ namespace BSMS.WebAPI.Controllers
             return Ok(result);
         }
 
-        // DELETE /api/salon-reviews/customer/salon-review-id
-        [HttpDelete("customer/{id}")]
+        // DELETE /api/salon/reviews/customer/salon-review-id
+        [HttpDelete("reviews/customer/{id}")]
         public async Task<IActionResult> DeleteSalonReviewAsync(int id)
         {
             var command = new DeleteSalonReviewCommand
@@ -58,6 +58,14 @@ namespace BSMS.WebAPI.Controllers
             };
             await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpPost("contact-us")]
+        public async Task<IActionResult> ContactUsAsync([FromBody] CreateContactUsCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Ok();
         }
 
     }
