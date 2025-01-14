@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 public abstract class BaseRepository<T> :
         IRepositoryQuery<T>,
-        IRepositoryPost<T>,
         IRepositoryUpdate<T>,
         IRepositoryDelete<T>
     where T : class
@@ -28,13 +27,13 @@ public abstract class BaseRepository<T> :
         return await _dbSet.FindAsync(id);
     }
 
-/*    public virtual async Task<int> AddAsync(T entity)
+    public virtual async Task<T?> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();
 
         return entity;
-    }*/
+    }
 
     public virtual async Task UpdateAsync(T entity)
     {
@@ -50,10 +49,5 @@ public abstract class BaseRepository<T> :
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
-    }
-
-    public Task<int> AddAsync(T entity)
-    {
-        throw new NotImplementedException();
     }
 }
