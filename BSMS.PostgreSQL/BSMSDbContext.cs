@@ -1,4 +1,6 @@
-﻿using BSMS.Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using BSMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSMS.PostgreSQL;
@@ -60,6 +62,8 @@ public partial class BSMSDbContext : DbContext
 
     public virtual DbSet<ProductBrand> ProductBrands { get; set; }
 
+    public virtual DbSet<ProductCart> ProductCarts { get; set; }
+
     public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
     public virtual DbSet<ProductFavorite> ProductFavorites { get; set; }
@@ -73,6 +77,8 @@ public partial class BSMSDbContext : DbContext
     public virtual DbSet<SalonReview> SalonReviews { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
+
+    public virtual DbSet<ServiceCart> ServiceCarts { get; set; }
 
     public virtual DbSet<ServiceCategory> ServiceCategories { get; set; }
 
@@ -406,6 +412,22 @@ public partial class BSMSDbContext : DbContext
             entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
+        modelBuilder.Entity<ProductCart>(entity =>
+        {
+            entity.HasKey(e => e.ProductCartId).HasName("product_cart_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.ProductCarts)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_product_cart_customer_id");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductCarts)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_product_cart_product_id");
+        });
+
         modelBuilder.Entity<ProductCategory>(entity =>
         {
             entity.HasKey(e => e.ProductCategoryId).HasName("product_categories_pkey");
@@ -487,6 +509,18 @@ public partial class BSMSDbContext : DbContext
             entity.HasOne(d => d.ServiceCategory).WithMany(p => p.Services)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_services_service_category_id");
+        });
+
+        modelBuilder.Entity<ServiceCart>(entity =>
+        {
+            entity.HasKey(e => e.ServiceCartId).HasName("service_cart_pkey");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.LastUpdate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.ServiceCarts)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_service_cart_customer_id");
         });
 
         modelBuilder.Entity<ServiceCategory>(entity =>

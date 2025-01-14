@@ -85,6 +85,9 @@ public partial class Customer
     public virtual ICollection<EmployeeReview> EmployeeReviews { get; set; } = new List<EmployeeReview>();
 
     [InverseProperty("Customer")]
+    public virtual ICollection<ProductCart> ProductCarts { get; set; } = new List<ProductCart>();
+
+    [InverseProperty("Customer")]
     public virtual ICollection<ProductFavorite> ProductFavorites { get; set; } = new List<ProductFavorite>();
 
     [InverseProperty("Customer")]
@@ -92,6 +95,9 @@ public partial class Customer
 
     [InverseProperty("Customer")]
     public virtual ICollection<SalonReview> SalonReviews { get; set; } = new List<SalonReview>();
+
+    [InverseProperty("Customer")]
+    public virtual ICollection<ServiceCart> ServiceCarts { get; set; } = new List<ServiceCart>();
 
     [InverseProperty("Customer")]
     public virtual ICollection<ServiceFavorite> ServiceFavorites { get; set; } = new List<ServiceFavorite>();
