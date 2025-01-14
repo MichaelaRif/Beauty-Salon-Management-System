@@ -1,4 +1,4 @@
-﻿using BSMS.BusinessLayer.Queries;
+﻿using BSMS.BusinessLayer.Queries.Get.All;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

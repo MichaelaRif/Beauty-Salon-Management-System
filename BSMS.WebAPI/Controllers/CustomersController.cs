@@ -1,5 +1,7 @@
-﻿using BSMS.BusinessLayer.Commands;
-using BSMS.BusinessLayer.Queries;
+﻿using BSMS.BusinessLayer.Commands.Create;
+using BSMS.BusinessLayer.Commands.Delete;
+using BSMS.BusinessLayer.Commands.Update;
+using BSMS.BusinessLayer.Queries.Get.ById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,7 @@ namespace BSMS.WebAPI.Controllers
         {
             var customer = await _mediator.Send(new GetCustomerByKeycloakIdQuery {});
 
+
             return Ok(customer);
         }
 
@@ -61,6 +64,7 @@ namespace BSMS.WebAPI.Controllers
         public async Task<IActionResult> UpdateCustomerUserProfile(UpdateCustomerProfileCommand command)
         {
             var updatedCustomerProfile = await _mediator.Send(command);
+
 
             return Ok(updatedCustomerProfile);
         }

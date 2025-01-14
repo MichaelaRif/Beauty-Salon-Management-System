@@ -1,7 +1,16 @@
-﻿using BSMS.BusinessLayer.Commands;
+﻿using BSMS.BusinessLayer.Commands.Create;
+using BSMS.BusinessLayer.Commands.Delete;
+using BSMS.BusinessLayer.Commands.Update;
 using BSMS.BusinessLayer.DTOs;
-using BSMS.BusinessLayer.Handlers;
-using BSMS.BusinessLayer.Queries;
+using BSMS.BusinessLayer.Handlers.Create;
+using BSMS.BusinessLayer.Handlers.Delete;
+using BSMS.BusinessLayer.Handlers.Get;
+using BSMS.BusinessLayer.Handlers.Get.All;
+using BSMS.BusinessLayer.Handlers.Get.ById;
+using BSMS.BusinessLayer.Handlers.Update;
+using BSMS.BusinessLayer.Queries.Get;
+using BSMS.BusinessLayer.Queries.Get.All;
+using BSMS.BusinessLayer.Queries.Get.ById;
 using BSMS.BusinessLayer.Services.EmailServices;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +30,7 @@ namespace BSMS.BusinessLayer
             // register MediatR handlers for bundles
             services.AddScoped<IRequestHandler<GetBundleByIdQuery, BundleDto>, GetBundleByIdHandler>();
             services.AddScoped<IRequestHandler<GetAllBundlesQuery, IEnumerable<BundleDto>>, GetAllBundlesHandler>();
-            services.AddScoped<IRequestHandler<CreateBundleCommand, int>, CreateBundleHandler>();
+            services.AddScoped<IRequestHandler<CreateBundleCommand, BundleDto>, CreateBundleHandler>();
             services.AddScoped<IRequestHandler<DeleteBundleCommand, Unit>, DeleteBundleHandler>();
             services.AddScoped<IRequestHandler<UpdateBundleCommand, Unit>, UpdateBundleHandler>();
 
@@ -65,7 +74,6 @@ namespace BSMS.BusinessLayer
             services.AddScoped<IRequestHandler<CreateSalonReviewCommand, int>, CreateSalonReviewHandler>();
             services.AddScoped<IRequestHandler<GetSalonReviewByIdQuery, SalonReviewDto>, GetSalonReviewByIdHandler>();
             services.AddScoped<IRequestHandler<DeleteSalonReviewCommand, Unit>, DeleteSalonReviewHandler>();
-
 
         }
     }

@@ -1,5 +1,8 @@
-﻿using BSMS.BusinessLayer.Commands;
-using BSMS.BusinessLayer.Queries;
+﻿using BSMS.BusinessLayer.Commands.Create;
+using BSMS.BusinessLayer.Commands.Delete;
+using BSMS.BusinessLayer.Commands.Update;
+using BSMS.BusinessLayer.Queries.Get.All;
+using BSMS.BusinessLayer.Queries.Get.ById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
