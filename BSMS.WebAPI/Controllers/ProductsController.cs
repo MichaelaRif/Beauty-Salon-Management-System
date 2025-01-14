@@ -1,5 +1,6 @@
-﻿using BSMS.BusinessLayer.Commands;
-using BSMS.BusinessLayer.Queries;
+﻿using BSMS.BusinessLayer.Commands.Create;
+using BSMS.BusinessLayer.Commands.Delete;
+using BSMS.BusinessLayer.Queries.Get.All;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace BSMS.WebAPI.Controllers
         public async Task<IActionResult> AddProductFavoriteAsync([FromBody] CreateProductFavoriteCommand command)
         {
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
 
@@ -42,6 +44,45 @@ namespace BSMS.WebAPI.Controllers
         public async Task<IActionResult> DeleteProductFavoriteAsync(int id)
         {
             var command = new DeleteProductFavoriteCommand
+            {
+                ProductId = id
+            };
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        // POST /api/products/customer/cart
+        [HttpPost("cart")]
+        public async Task<IActionResult> AddProductToCartAsync([FromBody] CreateProductCartCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        // GET /api/products/customer/carts
+        [HttpGet("carts")]
+        public async Task<IActionResult> GetProductCartAsync()
+        {
+            var query = new GetAllProductCartQuery();
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return BadRequest("No products found in cart");
+            }
+
+            return Ok(result);
+        }
+
+
+        // DELETE /api/products/customer/cart/product-id
+        [HttpDelete("cart/{id}")]
+        public async Task<IActionResult> DeleteProductFromCartAsync(int id)
+        {
+            var command = new DeleteProductCartCommand
             {
                 ProductId = id
             };

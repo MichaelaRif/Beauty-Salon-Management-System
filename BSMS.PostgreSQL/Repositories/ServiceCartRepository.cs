@@ -5,19 +5,19 @@ using Npgsql;
 
 namespace BSMS.PostgreSQL.Repositories
 {
-    public class ServiceFavoriteRepository : IServiceFavoriteRepository
+    public class ServiceCartRepository : IServiceCartRepository
     {
         private readonly string _connectionString;
 
-        public ServiceFavoriteRepository(string connectionString)
+        public ServiceCartRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<int> AddAsync(ServiceFavorite entity)
+        public async Task<int> AddAsync(ServiceCart entity)
         {
             const string sql = @"
-                                SELECT * FROM insert_service_favorite(
+                                SELECT * FROM insert_service_cart(
                                     @CustomerId, 
                                     @ServiceId
                                 )";
@@ -36,7 +36,7 @@ namespace BSMS.PostgreSQL.Repositories
         public async Task DeleteAsync(int customerId, int serviceId)
         {
             const string sql = @"
-                                SELECT * FROM delete_service_favorite(
+                                SELECT * FROM delete_service_cart(
                                     @CustomerId,
                                     @ServiceId
                                 )";
@@ -44,15 +44,15 @@ namespace BSMS.PostgreSQL.Repositories
             using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var result = await connection.QueryFirstAsync<Customer>(
+            var result = await connection.QuerySingleAsync<Customer>(
                 sql,
-                new {  CustomerId = customerId, ServiceId = serviceId });
+                new { CustomerId = customerId, ServiceId = serviceId });
         }
 
         public async Task<IEnumerable<int>?> GetAllAsync(int customerId)
         {
             const string sql = @"
-                                SELECT * FROM get_service_favorites(
+                                SELECT * FROM get_service_carts(
                                     @CustomerId
                                 )";
 

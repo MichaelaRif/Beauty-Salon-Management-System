@@ -5,27 +5,27 @@ using Npgsql;
 
 namespace BSMS.PostgreSQL.Repositories
 {
-    public class ServiceFavoriteRepository : IServiceFavoriteRepository
+    public class ProductCartRepository : IProductCartRepository
     {
         private readonly string _connectionString;
 
-        public ServiceFavoriteRepository(string connectionString)
+        public ProductCartRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<int> AddAsync(ServiceFavorite entity)
+        public async Task<int> AddAsync(ProductCart entity)
         {
             const string sql = @"
-                                SELECT * FROM insert_service_favorite(
+                                SELECT * FROM insert_product_cart(
                                     @CustomerId, 
-                                    @ServiceId
+                                    @ProductId
                                 )";
 
             using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var result = await connection.QuerySingleAsync<int>(
+            var result = await connection.QuerySingleOrDefaultAsync<int>(
                 sql,
                 entity
             );
@@ -33,33 +33,33 @@ namespace BSMS.PostgreSQL.Repositories
             return result;
         }
 
-        public async Task DeleteAsync(int customerId, int serviceId)
+        public async Task DeleteAsync(int customerId, int productId)
         {
             const string sql = @"
-                                SELECT * FROM delete_service_favorite(
-                                    @CustomerId,
-                                    @ServiceId
-                                )";
+                         SELECT * FROM delete_product_cart(
+                             @CustomerId,
+                             @ProductId
+                         )";
 
             using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync();
 
             var result = await connection.QueryFirstAsync<Customer>(
                 sql,
-                new {  CustomerId = customerId, ServiceId = serviceId });
+                new { CustomerId = customerId, ProductId = productId });
         }
 
-        public async Task<IEnumerable<int>?> GetAllAsync(int customerId)
+        public async Task<IEnumerable<ProductCart>?> GetAllAsync(int customerId)
         {
             const string sql = @"
-                                SELECT * FROM get_service_favorites(
-                                    @CustomerId
-                                )";
+                         SELECT * FROM get_product_carts(
+                             @CustomerId
+                         )";
 
             using var connection = new NpgsqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var result = await connection.QueryAsync<int>(
+            var result = await connection.QueryAsync<ProductCart>(
                 sql,
                 new { CustomerId = customerId });
 
